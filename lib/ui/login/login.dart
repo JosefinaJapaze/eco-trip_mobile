@@ -98,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildLeftSide() {
     return SizedBox.expand(
       child: Image.asset(
-        Assets.carBackground,
+        Assets.appLogo,
         fit: BoxFit.cover,
       ),
     );
