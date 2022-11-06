@@ -64,7 +64,7 @@ class AppThemeData {
     primaryContainer: Color(0xFF9e1718),
     secondary: Color(0xFF9EEA61),
     secondaryContainer: Color(0xFFFFFFFF),
-    background: Color(0xFF9EEA61),
+    background: Colors.white,
     surface: Color(0xFF9EEA61),
     onBackground: Color(0xFF9EEA61),
     error: _lightFillColor,
