@@ -19,8 +19,7 @@ abstract class _LanguageStore with Store {
   // supported languages
   List<Language> supportedLanguages = [
     Language(code: 'US', locale: 'en', language: 'English'),
-    Language(code: 'DK', locale: 'da', language: 'Danish'),
-    Language(code: 'ES', locale: 'es', language: 'España'),
+    Language(code: 'ES', locale: 'es', language: 'Español'),
   ];
 
   // constructor:---------------------------------------------------------------
@@ -31,7 +30,7 @@ abstract class _LanguageStore with Store {
 
   // store variables:-----------------------------------------------------------
   @observable
-  String _locale = "en";
+  String _locale = "es";
 
   @computed
   String get locale => _locale;
@@ -51,8 +50,6 @@ abstract class _LanguageStore with Store {
 
     if (_locale == 'en') {
       code = "US";
-    } else if (_locale == 'da') {
-      code = "DK";
     } else if (_locale == 'es') {
       code = "ES";
     }

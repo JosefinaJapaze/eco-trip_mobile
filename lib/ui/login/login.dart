@@ -113,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            AppIconWidget(image: 'assets/icons/ic_appicon.png'),
+            AppIconWidget(image: 'assets/icons/eco-trip_appicon.png'),
             SizedBox(height: 24.0),
             _buildUserIdField(),
             _buildPasswordField(),
@@ -132,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
           hint: AppLocalizations.of(context).translate('login_et_user_email'),
           inputType: TextInputType.emailAddress,
           icon: Icons.person,
-          iconColor: _themeStore.darkMode ? Colors.white70 : Colors.black54,
+          iconColor: _themeStore.darkMode ? Colors.black54 : Colors.black54,
           textController: _userEmailController,
           inputAction: TextInputAction.next,
           autoFocus: false,
@@ -178,7 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
           style: Theme.of(context)
               .textTheme
               .caption
-              ?.copyWith(color: Colors.orangeAccent),
+              ?.copyWith(color: Colors.black),
         ),
         onPressed: () {},
       ),
@@ -188,14 +188,14 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildSignInButton() {
     return RoundedButtonWidget(
       buttonText: AppLocalizations.of(context).translate('login_btn_sign_in'),
-      buttonColor: Colors.orangeAccent,
-      textColor: Colors.white,
+      buttonColor: Colors.white,
+      textColor: Colors.black,
       onPressed: () async {
         if (_store.canLogin) {
           DeviceUtils.hideKeyboard(context);
           _store.login();
         } else {
-          _showErrorMessage('Please fill in all fields');
+          _showErrorMessage('Por favor complete los campos');
         }
       },
     );
