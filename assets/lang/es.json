@@ -8,11 +8,14 @@
   "login_end": "------------------------------------------------------------------------------------",
 
   "home_start": "Below are list of strings for home",
-  "home_tv_posts": "ECO-TRIP",
   "home_tv_error": "Error",
   "home_tv_no_post_found": "No se han encontrado publicaciones",
   "home_tv_choose_language": "Elija lenguaje",
   "home_end": "-------------------------------------------------------------------------------------",
 
-  "my_trips_title" : "Mis viajes"
+  "home_title": "ECO-TRIP",
+  "my_trips_title" : "Mis viajes",
+  "new_trip_title" : "Nuevo viaje",
+  "my_wallet_title" : "Mi billetera",
+  "chats_title" : "Chats"
 }

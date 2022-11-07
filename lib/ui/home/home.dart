@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // app bar methods:-----------------------------------------------------------
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      title: Text(AppLocalizations.of(context).translate('home_tv_posts')),
+      title: Text(AppLocalizations.of(context).translate('home_title')),
       backgroundColor: Theme.of(context).colorScheme.secondaryContainer
     );
   }

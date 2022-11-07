@@ -2,6 +2,7 @@ import 'package:boilerplate/stores/language/language_store.dart';
 import 'package:boilerplate/stores/post/post_store.dart';
 import 'package:boilerplate/stores/theme/theme_store.dart';
 import 'package:boilerplate/utils/locale/app_localization.dart';
+import 'package:boilerplate/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -39,16 +40,9 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(),
+      appBar: BaseAppBar(titleKey: 'my_trips_title'),
       body: _buildBody(),
     );
-  }
-
-  // app bar methods:-----------------------------------------------------------
-  PreferredSizeWidget _buildAppBar() {
-    return AppBar(
-        title: Text(AppLocalizations.of(context).translate('my_trips_title')),
-        backgroundColor: Theme.of(context).colorScheme.secondaryContainer);
   }
 
   // body methods:--------------------------------------------------------------Widget _buildBody() {
@@ -79,7 +73,7 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
               child: Text(
                 'Viajes programados',
                 style: TextStyle(
-                    color: Colors.white,
+                  color: Colors.white,
                 ),
               )),
           TextButton(

@@ -1,5 +1,8 @@
+import 'package:boilerplate/ui/chats/chats.dart';
 import 'package:boilerplate/ui/home/home.dart';
 import 'package:boilerplate/ui/login/login.dart';
+import 'package:boilerplate/ui/my_wallet/my_wallet.dart';
+import 'package:boilerplate/ui/new_trip/new_trip.dart';
 import 'package:boilerplate/ui/splash/splash.dart';
 import 'package:boilerplate/ui/my_trips/my_trips.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +23,10 @@ class Routes {
     splash: (BuildContext context) => SplashScreen(),
     login: (BuildContext context) => LoginScreen(),
     home: (BuildContext context) => HomeScreen(),
-    my_trips: (BuildContext context) => MyTripsScreen()
+    my_trips: (BuildContext context) => MyTripsScreen(),
+    new_trip: (BuildContext context) => NewTripScreen(),
+    my_wallet: (BuildContext context) => MyWalletScreen(),
+    chats: (BuildContext context) => ChatsScreen(),
   };
 }
 
