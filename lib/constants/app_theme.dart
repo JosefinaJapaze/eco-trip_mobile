@@ -73,6 +73,7 @@ class AppThemeData {
     onSecondary: Color(0xFF322942),
     onSurface: Color(0xFF241E30),
     brightness: Brightness.light,
+    tertiary: Color(0xFFEFFBBE),
   );
 
   static const ColorScheme darkColorScheme = ColorScheme(

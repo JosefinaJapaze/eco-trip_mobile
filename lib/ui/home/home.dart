@@ -95,9 +95,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return Center(
       child: Wrap(direction: Axis.horizontal, children: [
         _buildMainMenuButton("Mis viajes", "/my_trips"),
-        _buildMainMenuButton("Nuevo viaje", ""),
-        _buildMainMenuButton("Mi billetera", ""),
-        _buildMainMenuButton("Chats", ""),
+        _buildMainMenuButton("Nuevo viaje", "/new_trip"),
+        _buildMainMenuButton("Mi billetera", "/my_wallet"),
+        _buildMainMenuButton("Chats", "/chats"),
       ],
       ),
     );
@@ -109,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
       padding: const EdgeInsets.all(8.0),
       child: TextButton(
           onPressed: () => {
-            Navigator.of(context).pushReplacementNamed(Routes.my_trips)
+            Navigator.of(context).pushNamed(route)
           },
           style: ButtonStyle(
             shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0))),
