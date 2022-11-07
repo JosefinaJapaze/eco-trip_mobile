@@ -55,56 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
       title: Text(AppLocalizations.of(context).translate('home_tv_posts')),
-      backgroundColor: Theme.of(context).colorScheme.secondary,
-      actions: _buildActions(context),
-    );
-  }
-
-  List<Widget> _buildActions(BuildContext context) {
-    return <Widget>[
-      _buildLanguageButton(),
-      _buildThemeButton(),
-      _buildLogoutButton(),
-    ];
-  }
-
-  Widget _buildThemeButton() {
-    return Observer(
-      builder: (context) {
-        return IconButton(
-          onPressed: () {
-            _themeStore.changeBrightnessToDark(!_themeStore.darkMode);
-          },
-          icon: Icon(
-            _themeStore.darkMode ? Icons.brightness_5 : Icons.brightness_3,
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildLogoutButton() {
-    return IconButton(
-      onPressed: () {
-        SharedPreferences.getInstance().then((preference) {
-          preference.setBool(Preferences.is_logged_in, false);
-          Navigator.of(context).pushReplacementNamed(Routes.login);
-        });
-      },
-      icon: Icon(
-        Icons.power_settings_new,
-      ),
-    );
-  }
-
-  Widget _buildLanguageButton() {
-    return IconButton(
-      onPressed: () {
-        _buildLanguageDialog();
-      },
-      icon: Icon(
-        Icons.language,
-      ),
+      backgroundColor: Theme.of(context).colorScheme.secondaryContainer
     );
   }
 
@@ -117,7 +68,19 @@ class _HomeScreenState extends State<HomeScreen> {
       ],
     );
   }
-
+  Widget _buildLoginField() {
+    return Observer(
+      builder: (context) {
+        return Text(
+          '¡Hola, Usuario!',
+          textAlign: TextAlign.center,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 25
+          ),
+        );
+      },
+    );
+  }
   Widget _buildMainContent() {
     return Observer(
       builder: (context) {
@@ -131,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildListView() {
     return Center(
       child: Wrap(direction: Axis.horizontal, children: [
-        _buildMainMenuButton("Mis viajes", ""),
+        _buildMainMenuButton("Mis viajes", "/my_trips"),
         _buildMainMenuButton("Nuevo viaje", ""),
         _buildMainMenuButton("Mi billetera", ""),
         _buildMainMenuButton("Chats", ""),
@@ -145,8 +108,11 @@ class _HomeScreenState extends State<HomeScreen> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextButton(
-          onPressed: () => {},
+          onPressed: () => {
+            Navigator.of(context).pushReplacementNamed(Routes.my_trips)
+          },
           style: ButtonStyle(
+            shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0))),
             fixedSize: MaterialStateProperty.all(Size.square(vw/2.5)),
             backgroundColor:
                 MaterialStateProperty.resolveWith((states) => Colors.black),

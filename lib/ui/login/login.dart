@@ -6,7 +6,6 @@ import 'package:boilerplate/stores/form/form_store.dart';
 import 'package:boilerplate/stores/theme/theme_store.dart';
 import 'package:boilerplate/utils/device/device_utils.dart';
 import 'package:boilerplate/utils/locale/app_localization.dart';
-import 'package:boilerplate/widgets/app_icon_widget.dart';
 import 'package:boilerplate/widgets/empty_app_bar_widget.dart';
 import 'package:boilerplate/widgets/progress_indicator_widget.dart';
 import 'package:boilerplate/widgets/rounded_button_widget.dart';
@@ -113,18 +112,28 @@ class _LoginScreenState extends State<LoginScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            AppIconWidget(image: 'assets/icons/eco-trip_appicon.png'),
-            SizedBox(height: 24.0),
+            _buildLoginField(),
             _buildUserIdField(),
             _buildPasswordField(),
-            _buildForgotPasswordButton(),
             _buildSignInButton()
           ],
         ),
       ),
     );
   }
-
+  Widget _buildLoginField() {
+    return Observer(
+      builder: (context) {
+        return Text(
+          'Inicio de Sesión',
+          textAlign: TextAlign.center,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 25
+          ),
+        );
+      },
+    );
+  }
   Widget _buildUserIdField() {
     return Observer(
       builder: (context) {
@@ -169,26 +178,10 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildForgotPasswordButton() {
-    return Align(
-      alignment: FractionalOffset.centerRight,
-      child: TextButton(
-        child: Text(
-          AppLocalizations.of(context).translate('login_btn_forgot_password'),
-          style: Theme.of(context)
-              .textTheme
-              .caption
-              ?.copyWith(color: Colors.black),
-        ),
-        onPressed: () {},
-      ),
-    );
-  }
-
   Widget _buildSignInButton() {
     return RoundedButtonWidget(
       buttonText: AppLocalizations.of(context).translate('login_btn_sign_in'),
-      buttonColor: Colors.white,
+      buttonColor: Colors.lime,
       textColor: Colors.black,
       onPressed: () async {
         if (_store.canLogin) {

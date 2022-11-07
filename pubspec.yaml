@@ -53,7 +53,8 @@ dependencies:
 
   # Material Dialog
   material_dialog: ^1.0.0-nullsafety.1
-
+  # Sliding card
+  sliding_card: ^0.1.2
   # This package provides internationalization and localization facilities, including message
   # translation, plurals and genders, date/number formatting and parsing, and bidirectional text.
   intl: ^0.17.0
