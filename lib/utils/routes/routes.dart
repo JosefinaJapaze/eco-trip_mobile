@@ -2,7 +2,9 @@ import 'package:boilerplate/ui/chats/chats.dart';
 import 'package:boilerplate/ui/home/home.dart';
 import 'package:boilerplate/ui/login/login.dart';
 import 'package:boilerplate/ui/my_wallet/my_wallet.dart';
+import 'package:boilerplate/ui/new_trip/create_frecuent_calendar.dart';
 import 'package:boilerplate/ui/new_trip/create_frecuent_map.dart';
+import 'package:boilerplate/ui/new_trip/create_request.dart';
 import 'package:boilerplate/ui/new_trip/join_frecuent_calendar.dart';
 import 'package:boilerplate/ui/new_trip/join_frecuent_map.dart';
 import 'package:boilerplate/ui/new_trip/join_request.dart';
@@ -32,7 +34,9 @@ class Routes {
   static const String join_frecuent_trip_calendar = '/join_frecuent_trip_calendar';
   static const String join_frecuent_trip_matchs = '/join_frecuent_trip_matchs';
   static const String create_frecuent_trip_map = '/create_frecuent_trip_map';
+  static const String create_frecuent_trip_calendar = '/create_frecuent_trip_calendar';
   static const String join_request = '/join_request';
+  static const String create_request = '/create_request';
   static const String new_programmed = '/new_programmed';
 
   static final routes = <String, WidgetBuilder>{
@@ -49,8 +53,11 @@ class Routes {
     join_frecuent_trip_calendar: (BuildContext context) => JoinFrecuentCalendarScreen(),
     join_frecuent_trip_matchs: (BuildContext context) => JoinFrecuentMatchsScreen(),
     create_frecuent_trip_map: (BuildContext context) => CreateFrecuentMapScreen(),
+    create_frecuent_trip_calendar: (BuildContext context) => CreateFrecuentCalendarScreen(),
     new_programmed: (BuildContext context) => NewProgrammedScreen(),
-    join_request: (BuildContext context) => JoinRequestScreen()
+    join_request: (BuildContext context) => JoinRequestScreen(),
+    create_request: (BuildContext context) => CreateRequestScreen()
+
   };
 }
 

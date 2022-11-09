@@ -20,14 +20,14 @@ class _NewProgrammedScreenState extends State<NewProgrammedScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          _buildTripCreateProgrammed(),
-          _buildTripJoinProgrammed("/join_frecuent_trip")
+          _buildTripJoinProgrammed("/join_frecuent_trip"),
+          _buildTripCreateProgrammed("/create_frecuent_trip_map")
         ],
       ),
     );
   }
 
-  Widget _buildTripCreateProgrammed() {
+  Widget _buildTripJoinProgrammed(route) {
     return Padding(
         padding: const EdgeInsets.only(top: 50),
         child: Container(
@@ -39,7 +39,9 @@ class _NewProgrammedScreenState extends State<NewProgrammedScreen> {
             ),
             child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               TextButton(
-                  onPressed: () => {},
+                  onPressed: () => {
+                    Navigator.of(context).pushNamed(route)
+                  },
                   child:
 
                   Wrap(
@@ -60,7 +62,7 @@ class _NewProgrammedScreenState extends State<NewProgrammedScreen> {
             )
         ));
   }
-  Widget _buildTripJoinProgrammed(route) {
+  Widget _buildTripCreateProgrammed(route) {
     return Padding(
         padding: const EdgeInsets.only(top: 50),
         child: Container(
