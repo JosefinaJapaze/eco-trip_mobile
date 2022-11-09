@@ -21,7 +21,7 @@ class _NewFrecuentScreenState extends State<NewFrecuentScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           _buildTripJoinFrecuent("/join_frecuent_trip"),
-          _buildTripCreateFrecuent("/join_frecuent_trip")
+          _buildTripCreateFrecuent("/create_frecuent_trip_map")
         ],
       ),
     );

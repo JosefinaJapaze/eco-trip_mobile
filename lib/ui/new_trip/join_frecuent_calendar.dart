@@ -78,8 +78,7 @@ class _JoinFrecuentCalendarScreenState extends State<JoinFrecuentCalendarScreen>
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           _buildDropDownButton(),
-          _buildTextButtonFindTrips(),
-          
+          _buildTextButtonFindTrips("/join_frecuent_trip_matchs"),
         ],
       ),
     );
@@ -133,7 +132,7 @@ class _JoinFrecuentCalendarScreenState extends State<JoinFrecuentCalendarScreen>
     );
   }
 
-  Widget _buildTextButtonFindTrips() {
+  Widget _buildTextButtonFindTrips(route) {
     return Padding(
         padding: const EdgeInsets.only(top: 30),
         child: Container(
@@ -145,6 +144,7 @@ class _JoinFrecuentCalendarScreenState extends State<JoinFrecuentCalendarScreen>
             child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               TextButton(
                   onPressed: () => {
+                    Navigator.of(context).pushNamed(route)
                   },
                   child: Text(
                     'BUSCAR',

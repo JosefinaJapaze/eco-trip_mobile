@@ -6,12 +6,12 @@ import 'package:boilerplate/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class JoinFrecuentScreen extends StatefulWidget {
+class JoinFrecuentMatchsScreen extends StatefulWidget {
   @override
-  _JoinFrecuentScreenState createState() => _JoinFrecuentScreenState();
+  _JoinFrecuentMatchsScreenState createState() => _JoinFrecuentMatchsScreenState();
 }
 
-class _JoinFrecuentScreenState extends State<JoinFrecuentScreen> {
+class _JoinFrecuentMatchsScreenState extends State<JoinFrecuentMatchsScreen> {
   //stores:---------------------------------------------------------------------
   late PostStore _postStore;
   late ThemeStore _themeStore;
@@ -51,10 +51,10 @@ class _JoinFrecuentScreenState extends State<JoinFrecuentScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text("Viajes disponibles actualmente:"),
+          Text("Posibles coincidencias:"),
+          _buildTripHistoryCard("/join_Request"),
           _buildTripHistoryCard("/join_request"),
-          _buildTripHistoryCard("/join_request"),
-          _buildTextButton("/join_frecuent_trip_map")
+          _buildTextButton("/home")
         ],
       ),
     );
@@ -75,7 +75,7 @@ class _JoinFrecuentScreenState extends State<JoinFrecuentScreen> {
                     Navigator.of(context).pushNamed(route)
                   },
                   child: Text(
-                    'VER MAPA',
+                    'CANCELAR',
                     style:
                     TextStyle(
                       color: Colors.black,
@@ -91,7 +91,7 @@ class _JoinFrecuentScreenState extends State<JoinFrecuentScreen> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       margin: EdgeInsets.all(15),
       elevation: 10,
-      color: Colors.black87,
+      color: Colors.grey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -101,13 +101,13 @@ class _JoinFrecuentScreenState extends State<JoinFrecuentScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  '1 asiento disponible',
+                  '3 asientos disponibles',
                   style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.bold),
+                      color: Colors.lime, fontWeight: FontWeight.bold),
                 ),
               ),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Colors.black,
                 borderRadius: BorderRadius.circular(15),
               ),
             ),
@@ -141,7 +141,7 @@ class _JoinFrecuentScreenState extends State<JoinFrecuentScreen> {
                         children: [
                           Icon(
                             Icons.location_on_rounded,
-                            color: Colors.grey,
+                            color: Colors.white,
                           ),
                           Text(
                             'Calle 7, Barrio 2, Localidad 1',
@@ -163,7 +163,7 @@ class _JoinFrecuentScreenState extends State<JoinFrecuentScreen> {
                 Text(
                   '\$982',
                   style: TextStyle(
-                      color: Colors.lime, fontWeight: FontWeight.bold),
+                      color: Colors.white, fontWeight: FontWeight.bold),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
@@ -176,19 +176,19 @@ class _JoinFrecuentScreenState extends State<JoinFrecuentScreen> {
                           style: ButtonStyle(
                               backgroundColor:
                               MaterialStateProperty.resolveWith(
-                                      (states) => Colors.white),
+                                      (states) => Colors.black),
                               shape:
                               MaterialStateProperty.all(StadiumBorder())),
                           child: Text(
                             'Unirme',
                             style: TextStyle(
-                              color: Colors.black,
+                              color: Colors.white,
                             ),
                           )),
                       Text(
                         '02/05/2022',
                         style: TextStyle(
-                            color: Colors.grey, fontWeight: FontWeight.bold),
+                            color: Colors.white, fontWeight: FontWeight.bold),
                       )
                     ],
                   ),
