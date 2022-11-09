@@ -1,4 +1,4 @@
-package com.iotecksolutions.todoapp;
+package com.josefinajapaze.ecotrip;
 
 import io.flutter.embedding.android.FlutterActivity;
 

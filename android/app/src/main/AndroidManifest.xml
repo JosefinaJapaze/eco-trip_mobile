@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.iotecksolutions.todoapp">
+    package="com.josefinajapaze.ecotrip">
 
     <!-- The INTERNET permission is required for development. Specifically,
          flutter needs it to communicate with the running application
@@ -15,7 +15,8 @@
     <application
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true"
-        android:label="Boilerplate Project">
+        android:name="${applicationName}"
+        android:label="ECO-TRIP">
         <activity
             android:name=".MainActivity"
             android:exported="true"

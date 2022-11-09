@@ -1,10 +1,6 @@
-import 'package:boilerplate/stores/language/language_store.dart';
-import 'package:boilerplate/stores/post/post_store.dart';
-import 'package:boilerplate/stores/theme/theme_store.dart';
-import 'package:boilerplate/utils/locale/app_localization.dart';
 import 'package:boilerplate/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 
 class JoinFrecuentMapScreen extends StatefulWidget {
   @override
@@ -13,28 +9,20 @@ class JoinFrecuentMapScreen extends StatefulWidget {
 
 class _JoinFrecuentMapScreenState extends State<JoinFrecuentMapScreen> {
   //stores:---------------------------------------------------------------------
-  late PostStore _postStore;
-  late ThemeStore _themeStore;
-  late LanguageStore _languageStore;
+  late MapController controller;
 
   @override
   void initState() {
     super.initState();
+    controller = MapController(
+      initMapWithUserPosition: false,
+      initPosition: GeoPoint(latitude: -26.8274, longitude: -65.2078)
+    );
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
-    // initializing stores
-    _languageStore = Provider.of<LanguageStore>(context);
-    _themeStore = Provider.of<ThemeStore>(context);
-    _postStore = Provider.of<PostStore>(context);
-
-    // check to see if already called api
-    if (!_postStore.loading) {
-      _postStore.getPosts();
-    }
   }
 
   @override
@@ -47,27 +35,41 @@ class _JoinFrecuentMapScreenState extends State<JoinFrecuentMapScreen> {
 
   // body methods:--------------------------------------------------------------Widget _buildBody() {
   Widget _buildBody() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          _buildTextButtonFind(),
-          _buildMap(),
-          _buildTextButtonNext("/join_frecuent_trip_calendar")
-        ],
-      ),
-    );
+    return Stack(children: [
+        _buildMap(),
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 25),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                _buildTextButtonFind(),
+                _buildTextButtonNext("/join_frecuent_trip_calendar")
+              ],
+            ),
+          ),
+        ),
+      ]);
   }
 
   Widget _buildMap() {
-    return Container(
-      height: 200,
-      width: double.infinity,
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-            image: AssetImage("android/app/src/main/res/drawable/map.jpg"),
-            fit: BoxFit.cover),
-      ),
+      return Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: OSMFlutter(
+          initZoom: 14,
+          controller: controller,
+          markerOption: MarkerOption(
+            defaultMarker: MarkerIcon(
+              icon: Icon(
+                Icons.person_pin_circle,
+                color: Colors.blue,
+                size: 56,
+              ),
+            ),
+          ),
+          trackMyPosition: false,
+        ),
     );
   }
 
