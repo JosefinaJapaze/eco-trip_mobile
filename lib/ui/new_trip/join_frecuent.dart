@@ -53,10 +53,37 @@ class _JoinFrecuentScreenState extends State<JoinFrecuentScreen> {
         children: <Widget>[
           Text("Viajes disponibles actualmente:"),
           _buildTripHistoryCard(),
-          _buildTripHistoryCard()
+          _buildTripHistoryCard(),
+          _buildTextButton("/join_frecuent_trip_map")
         ],
       ),
     );
+  }
+
+  Widget _buildTextButton(route) {
+    return Padding(
+        padding: const EdgeInsets.only(top: 30),
+        child: Container(
+            width: 150,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.lime,
+            ),
+            child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              TextButton(
+                  onPressed: () => {
+                    Navigator.of(context).pushNamed(route)
+                  },
+                  child: Text(
+                    'VER MAPA',
+                    style:
+                    TextStyle(
+                      color: Colors.black,
+                    ),
+                  )),
+            ]
+            )
+        ));
   }
 
   Card _buildTripHistoryCard() {
@@ -64,7 +91,7 @@ class _JoinFrecuentScreenState extends State<JoinFrecuentScreen> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       margin: EdgeInsets.all(15),
       elevation: 10,
-      color: Theme.of(context).colorScheme.tertiary,
+      color: Colors.black87,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -98,12 +125,12 @@ class _JoinFrecuentScreenState extends State<JoinFrecuentScreen> {
                       child: Row(
                         children: [
                           Icon(
-                            Icons.call_made,
-                            color: Colors.black,
+                            Icons.location_on_rounded,
+                            color: Colors.lime,
                           ),
                           Text(
                             'Calle 13, barrio B, Localidad 1',
-                            style: TextStyle(color: Colors.black),
+                            style: TextStyle(color: Colors.white),
                           ),
                         ],
                       ),
@@ -113,12 +140,12 @@ class _JoinFrecuentScreenState extends State<JoinFrecuentScreen> {
                       child: Row(
                         children: [
                           Icon(
-                            Icons.call_received,
-                            color: Colors.black,
+                            Icons.location_on_rounded,
+                            color: Colors.grey,
                           ),
                           Text(
                             'Calle 7, Barrio 2, Localidad 1',
-                            style: TextStyle(color: Colors.black),
+                            style: TextStyle(color: Colors.white),
                           ),
                         ],
                       ),
@@ -134,9 +161,9 @@ class _JoinFrecuentScreenState extends State<JoinFrecuentScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  '\$1500',
+                  '\$982',
                   style: TextStyle(
-                      color: Colors.indigo, fontWeight: FontWeight.bold),
+                      color: Colors.lime, fontWeight: FontWeight.bold),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
@@ -147,19 +174,19 @@ class _JoinFrecuentScreenState extends State<JoinFrecuentScreen> {
                           style: ButtonStyle(
                               backgroundColor:
                               MaterialStateProperty.resolveWith(
-                                      (states) => Colors.black),
+                                      (states) => Colors.white),
                               shape:
                               MaterialStateProperty.all(StadiumBorder())),
                           child: Text(
                             'Unirme',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.black,
                             ),
                           )),
                       Text(
                         '02/05/2022',
                         style: TextStyle(
-                            color: Colors.black45, fontWeight: FontWeight.bold),
+                            color: Colors.grey, fontWeight: FontWeight.bold),
                       )
                     ],
                   ),
