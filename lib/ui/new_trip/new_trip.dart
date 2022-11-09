@@ -32,14 +32,14 @@ class _NewTripScreenState extends State<NewTripScreen> {
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          _buildTripTypeProgrammed(),
-          _buildTripTypeFrecuent()
+          _buildTripTypeProgrammed("/new_programmed"),
+          _buildTripTypeFrecuent("/new_frecuent")
         ],
       ),
     );
   }
 
-  Widget _buildTripTypeProgrammed() {
+  Widget _buildTripTypeProgrammed(route) {
     return Padding(
       padding: const EdgeInsets.only(top: 50),
       child: Container(
@@ -51,7 +51,9 @@ class _NewTripScreenState extends State<NewTripScreen> {
         ),
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           TextButton(
-              onPressed: () => {},
+              onPressed: () => {
+                Navigator.of(context).pushNamed(route)
+              },
               child: Text(
                 'Viajes programados',
                 style:
@@ -63,7 +65,7 @@ class _NewTripScreenState extends State<NewTripScreen> {
     )
     ));
   }
-  Widget _buildTripTypeFrecuent() {
+  Widget _buildTripTypeFrecuent(route) {
     return Padding(
         padding: const EdgeInsets.only(top: 50),
         child: Container(
@@ -75,7 +77,9 @@ class _NewTripScreenState extends State<NewTripScreen> {
             ),
             child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               TextButton(
-                  onPressed: () => {},
+                  onPressed: () => {
+                    Navigator.of(context).pushNamed(route)
+                  },
                   child: Text(
                     'Viajes frecuentes',
                     style: TextStyle(

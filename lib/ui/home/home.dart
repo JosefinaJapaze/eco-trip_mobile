@@ -1,6 +1,4 @@
 import 'package:another_flushbar/flushbar_helper.dart';
-import 'package:boilerplate/data/sharedpref/constants/preferences.dart';
-import 'package:boilerplate/utils/routes/routes.dart';
 import 'package:boilerplate/stores/language/language_store.dart';
 import 'package:boilerplate/stores/post/post_store.dart';
 import 'package:boilerplate/stores/theme/theme_store.dart';
@@ -10,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:material_dialog/material_dialog.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -19,7 +16,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   //stores:---------------------------------------------------------------------
-  late PostStore _postStore;
   late ThemeStore _themeStore;
   late LanguageStore _languageStore;
 
@@ -35,12 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // initializing stores
     _languageStore = Provider.of<LanguageStore>(context);
     _themeStore = Provider.of<ThemeStore>(context);
-    _postStore = Provider.of<PostStore>(context);
 
-    // check to see if already called api
-    if (!_postStore.loading) {
-      _postStore.getPosts();
-    }
   }
 
   @override
@@ -48,6 +39,17 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: _buildAppBar(),
       body: _buildBody(),
+      bottomNavigationBar:
+      BottomNavigationBar(
+        backgroundColor: Colors.black,
+          unselectedItemColor: Colors.black,
+        fixedColor: Colors.black,
+          items: [
+        BottomNavigationBarItem(icon: Icon(Icons.home), label: "Inicio"),
+        BottomNavigationBarItem(icon: Icon(Icons.currency_exchange), label: "Solicitudes de pago"),
+        BottomNavigationBarItem(icon: Icon(Icons.notifications_none), label: "Notificaciones"),
+        BottomNavigationBarItem(icon: Icon(Icons.account_circle), label: "Mi cuenta"),
+      ]),
     );
   }
 
@@ -84,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildMainContent() {
     return Observer(
       builder: (context) {
-        return _postStore.loading
+        return false //TODO set when api is ready
             ? CustomProgressIndicatorWidget()
             : Material(child: _buildListView());
       },
@@ -93,12 +95,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildListView() {
     return Center(
-      child: Wrap(direction: Axis.horizontal, children: [
-        _buildMainMenuButton("Mis viajes", "/my_trips"),
-        _buildMainMenuButton("Nuevo viaje", "/new_trip"),
-        _buildMainMenuButton("Mi billetera", "/my_wallet"),
-        _buildMainMenuButton("Chats", "/chats"),
-      ],
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
+            child: Text("¡Hola, Usuario!"),
+          ),
+          Wrap(direction: Axis.horizontal, children: [
+            _buildMainMenuButton("Mis viajes", "/my_trips"),
+            _buildMainMenuButton("Nuevo viaje", "/new_trip"),
+            _buildMainMenuButton("Mi billetera", "/my_wallet"),
+            _buildMainMenuButton("Chats", "/chats"),
+          ],
+          ),
+        ],
       ),
     );
   }
@@ -124,33 +135,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildListItem(int position) {
-    return ListTile(
-      dense: true,
-      leading: Icon(Icons.cloud_circle),
-      title: Text(
-        '${_postStore.postList?.posts?[position].title}',
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        softWrap: false,
-        style: Theme.of(context).textTheme.subtitle1,
-      ),
-      subtitle: Text(
-        '${_postStore.postList?.posts?[position].body}',
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        softWrap: false,
-      ),
-    );
-  }
-
   Widget _handleErrorMessage() {
     return Observer(
       builder: (context) {
-        if (_postStore.errorStore.errorMessage.isNotEmpty) {
-          return _showErrorMessage(_postStore.errorStore.errorMessage);
-        }
-
         return SizedBox.shrink();
       },
     );

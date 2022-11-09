@@ -17,7 +17,7 @@ Download or clone this repo by using the link below:
 
 ```
 https://github.com/zubairehman/flutter-boilerplate-project.git
-```
+`
 
 **Step 2:**
 

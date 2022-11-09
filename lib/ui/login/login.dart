@@ -113,6 +113,8 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             _buildLoginField(),
+            SizedBox(width: 20.0,
+              height: 30.0),
             _buildUserIdField(),
             _buildPasswordField(),
             _buildSignInButton()
@@ -128,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
           'Inicio de Sesión',
           textAlign: TextAlign.center,
           overflow: TextOverflow.ellipsis,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 25
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 37
           ),
         );
       },
@@ -140,8 +142,6 @@ class _LoginScreenState extends State<LoginScreen> {
         return TextFieldWidget(
           hint: AppLocalizations.of(context).translate('login_et_user_email'),
           inputType: TextInputType.emailAddress,
-          icon: Icons.person,
-          iconColor: _themeStore.darkMode ? Colors.black54 : Colors.black54,
           textController: _userEmailController,
           inputAction: TextInputAction.next,
           autoFocus: false,
@@ -165,8 +165,6 @@ class _LoginScreenState extends State<LoginScreen> {
               AppLocalizations.of(context).translate('login_et_user_password'),
           isObscure: true,
           padding: EdgeInsets.only(top: 16.0),
-          icon: Icons.lock,
-          iconColor: _themeStore.darkMode ? Colors.white70 : Colors.black54,
           textController: _passwordController,
           focusNode: _passwordFocusNode,
           errorText: _store.formErrorStore.password,
