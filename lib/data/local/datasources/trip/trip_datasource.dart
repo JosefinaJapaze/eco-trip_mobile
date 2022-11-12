@@ -1,12 +1,12 @@
 import 'package:boilerplate/data/local/constants/db_constants.dart';
-import 'package:boilerplate/models/post/post.dart';
-import 'package:boilerplate/models/post/post_list.dart';
+import 'package:boilerplate/models/trip/trip.dart';
+import 'package:boilerplate/models/trip/trip_list.dart';
 import 'package:sembast/sembast.dart';
 
-class PostDataSource {
+class TripDataSource {
   // A Store with int keys and Map<String, dynamic> values.
   // This Store acts like a persistent map, values of which are Flogs objects converted to Map
-  final _postsStore = intMapStoreFactory.store(DBConstants.STORE_NAME);
+  final _tripsStore = intMapStoreFactory.store(DBConstants.STORE_NAME);
 
   // Private getter to shorten the amount of code needed to get the
   // singleton instance of an opened database.
@@ -16,84 +16,84 @@ class PostDataSource {
   final Database _db;
 
   // Constructor
-  PostDataSource(this._db);
+  TripDataSource(this._db);
 
   // DB functions:--------------------------------------------------------------
-  Future<int> insert(Post post) async {
-    return await _postsStore.add(_db, post.toMap());
+  Future<int> insert(Trip trip) async {
+    return await _tripsStore.add(_db, trip.toMap());
   }
 
   Future<int> count() async {
-    return await _postsStore.count(_db);
+    return await _tripsStore.count(_db);
   }
 
-  Future<List<Post>> getAllSortedByFilter({List<Filter>? filters}) async {
+  Future<List<Trip>> getAllSortedByFilter({List<Filter>? filters}) async {
     //creating finder
     final finder = Finder(
         filter: filters != null ? Filter.and(filters) : null,
         sortOrders: [SortOrder(DBConstants.FIELD_ID)]);
 
-    final recordSnapshots = await _postsStore.find(
+    final recordSnapshots = await _tripsStore.find(
       _db,
       finder: finder,
     );
 
-    // Making a List<Post> out of List<RecordSnapshot>
+    // Making a List<Trip> out of List<RecordSnapshot>
     return recordSnapshots.map((snapshot) {
-      final post = Post.fromMap(snapshot.value);
+      final trip = Trip.fromMap(snapshot.value);
       // An ID is a key of a record from the database.
-      post.id = snapshot.key;
-      return post;
+      trip.id = snapshot.key;
+      return trip;
     }).toList();
   }
 
-  Future<PostList> getPostsFromDb() async {
+  Future<TripList> getTripsFromDb() async {
 
     print('Loading from database');
 
-    // post list
-    var postsList;
+    // trip list
+    var tripsList;
 
     // fetching data
-    final recordSnapshots = await _postsStore.find(
+    final recordSnapshots = await _tripsStore.find(
       _db,
     );
 
-    // Making a List<Post> out of List<RecordSnapshot>
+    // Making a List<Trip> out of List<RecordSnapshot>
     if(recordSnapshots.length > 0) {
-      postsList = PostList(
-          posts: recordSnapshots.map((snapshot) {
-            final post = Post.fromMap(snapshot.value);
+      tripsList = TripList(
+          trips: recordSnapshots.map((snapshot) {
+            final trip = Trip.fromMap(snapshot.value);
             // An ID is a key of a record from the database.
-            post.id = snapshot.key;
-            return post;
+            trip.id = snapshot.key;
+            return trip;
           }).toList());
     }
 
-    return postsList;
+    return tripsList;
   }
 
-  Future<int> update(Post post) async {
+  Future<int> update(Trip trip) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.byKey(post.id));
-    return await _postsStore.update(
+    final finder = Finder(filter: Filter.byKey(trip.id));
+    return await _tripsStore.update(
       _db,
-      post.toMap(),
+      trip.toMap(),
       finder: finder,
     );
   }
 
-  Future<int> delete(Post post) async {
-    final finder = Finder(filter: Filter.byKey(post.id));
-    return await _postsStore.delete(
+  Future<int> delete(Trip trip) async {
+    final finder = Finder(filter: Filter.byKey(trip.id));
+    return await _tripsStore.delete(
       _db,
       finder: finder,
     );
   }
 
   Future deleteAll() async {
-    await _postsStore.drop(
+    await _tripsStore.drop(
       _db,
     );
   }

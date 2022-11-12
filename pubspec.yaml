@@ -30,9 +30,6 @@ dependencies:
   # A composable, Future-based library for making HTTP requests.
   http: ^0.13.3
 
-  # Flogs, a powerful logging framework
-#  f_logs: ^1.2.2
-
   # MobX is a library for reactively managing the state of your applications. Use the power of
   # observables, actions, and reactions to supercharge your Dart and Flutter apps.
   mobx: ^2.0.1

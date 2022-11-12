@@ -1,42 +1,39 @@
 import 'dart:async';
 
-import 'package:boilerplate/data/local/datasources/post/post_datasource.dart';
 import 'package:boilerplate/data/sharedpref/shared_preference_helper.dart';
-import 'package:boilerplate/models/post/post.dart';
-import 'package:boilerplate/models/post/post_list.dart';
 import 'package:sembast/sembast.dart';
 
+import '../models/trip/trip.dart';
+import '../models/trip/trip_list.dart';
 import 'local/constants/db_constants.dart';
-import 'network/apis/posts/post_api.dart';
+import 'local/datasources/trip/trip_datasource.dart';
+import 'network/apis/trip/trip_api.dart';
 
 class Repository {
   // data source object
-  final PostDataSource _postDataSource;
+  final TripDataSource _tripDataSource;
 
   // api objects
-  final PostApi _postApi;
+  final TripApi _tripApi;
 
   // shared pref object
   final SharedPreferenceHelper _sharedPrefsHelper;
 
   // constructor
-  Repository(this._postApi, this._sharedPrefsHelper, this._postDataSource);
+  Repository(this._tripApi, this._sharedPrefsHelper, this._tripDataSource);
 
-  // Post: ---------------------------------------------------------------------
-  Future<PostList> getPosts() async {
-    // check to see if posts are present in database, then fetch from database
-    // else make a network call to get all posts, store them into database for
-    // later use
-    return await _postApi.getPosts().then((postsList) {
-      postsList.posts?.forEach((post) {
-        _postDataSource.insert(post);
+  // Trip: ---------------------------------------------------------------------
+  Future<TripList> getTrips() async {
+    return await _tripApi.getTrips().then((tripsList) {
+      tripsList.trips?.forEach((trip) {
+        _tripDataSource.insert(trip);
       });
 
-      return postsList;
+      return tripsList;
     }).catchError((error) => throw error);
   }
 
-  Future<List<Post>> findPostById(int id) {
+  Future<List<Trip>> findTripById(int id) {
     //creating filter
     List<Filter> filters = [];
 
@@ -45,24 +42,24 @@ class Repository {
     filters.add(dataLogTypeFilter);
 
     //making db call
-    return _postDataSource
+    return _tripDataSource
         .getAllSortedByFilter(filters: filters)
-        .then((posts) => posts)
+        .then((trips) => trips)
         .catchError((error) => throw error);
   }
 
-  Future<int> insert(Post post) => _postDataSource
-      .insert(post)
+  Future<int> insert(Trip trip) => _tripDataSource
+      .insert(trip)
       .then((id) => id)
       .catchError((error) => throw error);
 
-  Future<int> update(Post post) => _postDataSource
-      .update(post)
+  Future<int> update(Trip trip) => _tripDataSource
+      .update(trip)
       .then((id) => id)
       .catchError((error) => throw error);
 
-  Future<int> delete(Post post) => _postDataSource
-      .update(post)
+  Future<int> delete(Trip trip) => _tripDataSource
+      .update(trip)
       .then((id) => id)
       .catchError((error) => throw error);
 

@@ -1,10 +1,5 @@
-import 'package:boilerplate/stores/language/language_store.dart';
-import 'package:boilerplate/stores/post/post_store.dart';
-import 'package:boilerplate/stores/theme/theme_store.dart';
-import 'package:boilerplate/utils/locale/app_localization.dart';
 import 'package:boilerplate/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class CreateFrecuentCalendarScreen extends StatefulWidget {
   @override
@@ -12,10 +7,6 @@ class CreateFrecuentCalendarScreen extends StatefulWidget {
 }
 
 class _CreateFrecuentCalendarScreenState extends State<CreateFrecuentCalendarScreen> {
-  //stores:---------------------------------------------------------------------
-  late PostStore _postStore;
-  late ThemeStore _themeStore;
-  late LanguageStore _languageStore;
 
   final List<String> items = [
     '06:00hs',
@@ -33,16 +24,6 @@ class _CreateFrecuentCalendarScreenState extends State<CreateFrecuentCalendarScr
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
-    // initializing stores
-    _languageStore = Provider.of<LanguageStore>(context);
-    _themeStore = Provider.of<ThemeStore>(context);
-    _postStore = Provider.of<PostStore>(context);
-
-    // check to see if already called api
-    if (!_postStore.loading) {
-      _postStore.getPosts();
-    }
   }
 
   @override

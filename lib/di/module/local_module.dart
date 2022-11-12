@@ -9,8 +9,6 @@ import 'package:sembast/sembast_io.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class LocalModule {
-
-
   /// A singleton preference provider.
   ///
   /// Calling it multiple times will return the same instance.

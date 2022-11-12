@@ -1,14 +1,15 @@
 import 'package:boilerplate/data/repository.dart';
-import 'package:boilerplate/models/post/post_list.dart';
 import 'package:boilerplate/stores/error/error_store.dart';
 import 'package:boilerplate/utils/dio/dio_error_util.dart';
 import 'package:mobx/mobx.dart';
 
-part 'post_store.g.dart';
+import '../../models/trip/trip_list.dart';
 
-class PostStore = _PostStore with _$PostStore;
+part 'trip_store.g.dart';
 
-abstract class _PostStore with Store {
+class TripStore = _TripStore with _$TripStore;
+
+abstract class _TripStore with Store {
   // repository instance
   late Repository _repository;
 
@@ -16,33 +17,33 @@ abstract class _PostStore with Store {
   final ErrorStore errorStore = ErrorStore();
 
   // constructor:---------------------------------------------------------------
-  _PostStore(Repository repository) : this._repository = repository;
+  _TripStore(Repository repository) : this._repository = repository;
 
   // store variables:-----------------------------------------------------------
-  static ObservableFuture<PostList?> emptyPostResponse =
-      ObservableFuture.value(null);
+  static ObservableFuture<TripList?> emptyTripResponse =
+  ObservableFuture.value(null);
 
   @observable
-  ObservableFuture<PostList?> fetchPostsFuture =
-      ObservableFuture<PostList?>(emptyPostResponse);
+  ObservableFuture<TripList?> fetchTripsFuture =
+  ObservableFuture<TripList?>(emptyTripResponse);
 
   @observable
-  PostList? postList;
+  TripList? tripList;
 
   @observable
   bool success = false;
 
   @computed
-  bool get loading => fetchPostsFuture.status == FutureStatus.pending;
+  bool get loading => fetchTripsFuture.status == FutureStatus.pending;
 
   // actions:-------------------------------------------------------------------
   @action
-  Future getPosts() async {
-    final future = _repository.getPosts();
-    fetchPostsFuture = ObservableFuture(future);
+  Future getTrips() async {
+    final future = _repository.getTrips();
+    fetchTripsFuture = ObservableFuture(future);
 
-    future.then((postList) {
-      this.postList = postList;
+    future.then((tripList) {
+      this.tripList = tripList;
     }).catchError((error) {
       errorStore.errorMessage = DioErrorUtil.handleError(error);
     });
