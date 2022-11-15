@@ -1,12 +1,20 @@
 import 'package:boilerplate/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../models/trip/trip.dart';
+import '../../stores/trip/trip_store.dart';
 
 class CreateFrecuentCalendarScreen extends StatefulWidget {
   @override
-  _CreateFrecuentCalendarScreenState createState() => _CreateFrecuentCalendarScreenState();
+  _CreateFrecuentCalendarScreenState createState() =>
+      _CreateFrecuentCalendarScreenState();
 }
 
-class _CreateFrecuentCalendarScreenState extends State<CreateFrecuentCalendarScreen> {
+class _CreateFrecuentCalendarScreenState
+    extends State<CreateFrecuentCalendarScreen> {
+  //stores:---------------------------------------------------------------------
+  late TripStore _tripStore;
 
   final List<String> items = [
     '06:00hs',
@@ -14,7 +22,12 @@ class _CreateFrecuentCalendarScreenState extends State<CreateFrecuentCalendarScr
     '18:00hs',
     '00:00hs',
   ];
-  String? selectedValue;
+  String? selectedHour;
+
+  final TextEditingController _asController = TextEditingController();
+  int? availableSeats;
+  final TextEditingController _costController = TextEditingController();
+  double? cost;
 
   @override
   void initState() {
@@ -24,6 +37,36 @@ class _CreateFrecuentCalendarScreenState extends State<CreateFrecuentCalendarScr
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+
+    // initializing stores
+    _tripStore = Provider.of<TripStore>(context);
+
+    // check to see if already called api
+    if (!_tripStore.loading) {
+      _tripStore.getTrips();
+    }
+  }
+
+  void insertTrip() {
+    try {
+      this.cost = double.parse(_costController.value.text);
+      this.availableSeats = int.parse(_asController.value.text);
+    } catch (e) {
+      print(e);
+      return;
+    }
+
+    _tripStore.insertTrip(
+        Trip(
+            hasStarted: false,
+            isFinished: false,
+            seatsLeft: this.availableSeats, // sacar
+            cost: this.cost, // sacar
+            type: 'frequent',
+            userId: '' // sacar del auth,
+        )).then((value) => {
+          Navigator.of(context).pushNamed("/create_request")
+    });
   }
 
   @override
@@ -60,6 +103,7 @@ class _CreateFrecuentCalendarScreenState extends State<CreateFrecuentCalendarScr
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           TextField(
+            controller: _asController,
             decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(
@@ -74,6 +118,7 @@ class _CreateFrecuentCalendarScreenState extends State<CreateFrecuentCalendarScr
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           TextField(
+            controller: _costController,
             decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(
@@ -90,8 +135,10 @@ class _CreateFrecuentCalendarScreenState extends State<CreateFrecuentCalendarScr
   Widget _buildDropDownButton() {
     return DecoratedBox(
       decoration: BoxDecoration(
-          color:Colors.white, //background color of dropdown button
-          border: Border.all(color: Colors.black, width:3), //border of dropdown button
+          color: Colors.white,
+          //background color of dropdown button
+          border: Border.all(color: Colors.black, width: 3),
+          //border of dropdown button
           boxShadow: <BoxShadow>[ //apply shadow on Dropdown button
             BoxShadow(
                 color: Color.fromRGBO(0, 0, 0, 0.57), //shadow for button
@@ -99,7 +146,7 @@ class _CreateFrecuentCalendarScreenState extends State<CreateFrecuentCalendarScr
           ]
       ),
       child: Padding(
-        padding: EdgeInsets.only(left:30, right:30),
+        padding: EdgeInsets.only(left: 30, right: 30),
         child: DropdownButton(
           hint: Text(
             'Select Item',
@@ -122,11 +169,11 @@ class _CreateFrecuentCalendarScreenState extends State<CreateFrecuentCalendarScr
                 ),
               ))
               .toList(),
-          value: selectedValue,
+          value: selectedHour,
 
           onChanged: (value) {
             setState(() {
-              selectedValue = value as String;
+              selectedHour = value as String;
             });
           },
 
@@ -144,10 +191,12 @@ class _CreateFrecuentCalendarScreenState extends State<CreateFrecuentCalendarScr
               borderRadius: BorderRadius.circular(20),
               color: Colors.lime,
             ),
-            child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center, children: [
               TextButton(
-                  onPressed: () => {
-                    Navigator.of(context).pushNamed(route)
+                  onPressed: () =>
+                  {
+                    insertTrip()
                   },
                   child: Text(
                     'CONFIRMAR',
@@ -157,7 +206,6 @@ class _CreateFrecuentCalendarScreenState extends State<CreateFrecuentCalendarScr
                     ),
                   )),
             ]
-            )
-        ));
+            )));
   }
 }

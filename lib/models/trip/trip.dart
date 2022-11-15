@@ -8,6 +8,7 @@ class Trip {
   bool? hasStarted;
   int? seatsLeft;
   String? type;
+  double? cost;
   Address? addressFrom;
   Address? addressTo;
   String? userId;
@@ -20,6 +21,7 @@ class Trip {
     this.hasStarted,
     this.seatsLeft,
     this.type,
+    this.cost,
     this.addressFrom,
     this.addressTo,
     this.userId,
@@ -33,6 +35,7 @@ class Trip {
     hasStarted: json["hasStarted"],
     seatsLeft: json["seatsLeft"],
     type: json["type"],
+    cost: json["cost"],
     addressFrom: Address(
       address: json["address_from_address"],
       city: json["address_from_city"],
@@ -52,6 +55,7 @@ class Trip {
     "hasStarted": hasStarted,
     "seatsLeft": seatsLeft,
     "type": type,
+    "cost": cost,
     "address_from_address": addressFrom == null ? addressFrom?.address : "",
     "address_from_city": addressFrom == null ? addressFrom?.city : "",
     "address_to_address": addressTo == null ? addressTo?.address : "",

@@ -3,6 +3,7 @@ import 'package:boilerplate/stores/error/error_store.dart';
 import 'package:boilerplate/utils/dio/dio_error_util.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../models/trip/trip.dart';
 import '../../models/trip/trip_list.dart';
 
 part 'trip_store.g.dart';
@@ -39,6 +40,20 @@ abstract class _TripStore with Store {
   // actions:-------------------------------------------------------------------
   @action
   Future getTrips() async {
+    final future = _repository.getTrips();
+    fetchTripsFuture = ObservableFuture(future);
+
+    future.then((tripList) {
+      this.tripList = tripList;
+    }).catchError((error) {
+      errorStore.errorMessage = DioErrorUtil.handleError(error);
+    });
+  }
+
+  @action
+  Future insertTrip(Trip trip) async {
+    _repository.insert(trip);
+
     final future = _repository.getTrips();
     fetchTripsFuture = ObservableFuture(future);
 

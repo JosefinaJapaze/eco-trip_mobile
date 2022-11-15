@@ -3,6 +3,8 @@ import 'package:boilerplate/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/trip/trip.dart';
+
 class MyTripsScreen extends StatefulWidget {
   @override
   _MyTripsScreenState createState() => _MyTripsScreenState();
@@ -11,6 +13,8 @@ class MyTripsScreen extends StatefulWidget {
 class _MyTripsScreenState extends State<MyTripsScreen> {
   //stores:---------------------------------------------------------------------
   late TripStore _tripStore;
+
+  late List<Widget> cards;
 
   @override
   void initState() {
@@ -40,14 +44,15 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
 
   // body methods:--------------------------------------------------------------Widget _buildBody() {
   Widget _buildBody() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          _buildTripOptions(),
-          _buildTripHistoryCard(),
-          _buildTripHistoryCard()
-        ],
+    return SingleChildScrollView(
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            _buildTripOptions(),
+            ..._buildTripHistory(),
+          ],
+        ),
       ),
     );
   }
@@ -80,7 +85,15 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
     );
   }
 
-  Card _buildTripHistoryCard() {
+  List<Widget> _buildTripHistory() {
+    cards = <Widget>[];
+      _tripStore.tripList!.trips!.forEach((element) {
+        cards.add(_buildTripHistoryCard(element));
+      });
+    return cards;
+  }
+
+  Card _buildTripHistoryCard(Trip trip) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       margin: EdgeInsets.all(15),
@@ -95,7 +108,7 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  'Completado',
+                  'Sin iniciar',
                   style: TextStyle(
                       color: Colors.green, fontWeight: FontWeight.bold),
                 ),
@@ -155,7 +168,7 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  '\$1500',
+                  '\$${trip.cost}',
                   style: TextStyle(
                       color: Colors.indigo, fontWeight: FontWeight.bold),
                 ),

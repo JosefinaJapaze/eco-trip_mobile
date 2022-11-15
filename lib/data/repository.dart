@@ -24,11 +24,7 @@ class Repository {
 
   // Trip: ---------------------------------------------------------------------
   Future<TripList> getTrips() async {
-    return await _tripApi.getTrips().then((tripsList) {
-      tripsList.trips?.forEach((trip) {
-        _tripDataSource.insert(trip);
-      });
-
+    return await _tripDataSource.getTripsFromDb().then((tripsList) {
       return tripsList;
     }).catchError((error) => throw error);
   }
