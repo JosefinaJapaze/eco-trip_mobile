@@ -70,6 +70,8 @@ dependencies:
 
   flutter_osm_plugin: ^0.40.3
 
+  geolocator: ^9.0.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

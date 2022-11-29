@@ -1,7 +1,10 @@
 import 'package:boilerplate/ui/chats/chats.dart';
 import 'package:boilerplate/ui/home/home.dart';
 import 'package:boilerplate/ui/login/login.dart';
+import 'package:boilerplate/ui/my_trips/trip_route.dart';
 import 'package:boilerplate/ui/my_wallet/my_wallet.dart';
+import 'package:boilerplate/ui/my_wallet/pay_request.dart';
+import 'package:boilerplate/ui/my_wallet/pay_trips.dart';
 import 'package:boilerplate/ui/new_trip/create_frecuent_calendar.dart';
 import 'package:boilerplate/ui/new_trip/create_frecuent_map.dart';
 import 'package:boilerplate/ui/new_trip/create_request.dart';
@@ -38,6 +41,9 @@ class Routes {
   static const String join_request = '/join_request';
   static const String create_request = '/create_request';
   static const String new_programmed = '/new_programmed';
+  static const String pay_request = '/pay_request';
+  static const String pay_trip = '/pay_trip';
+  static const String trip_route = '/trip_route';
 
   static final routes = <String, WidgetBuilder>{
     splash: (BuildContext context) => SplashScreen(),
@@ -56,8 +62,10 @@ class Routes {
     create_frecuent_trip_calendar: (BuildContext context) => CreateFrecuentCalendarScreen(),
     new_programmed: (BuildContext context) => NewProgrammedScreen(),
     join_request: (BuildContext context) => JoinRequestScreen(),
-    create_request: (BuildContext context) => CreateRequestScreen()
-
+    pay_request: (BuildContext context) => PayRequestScreen(),
+    create_request: (BuildContext context) => CreateRequestScreen(),
+    pay_trip: (BuildContext context) => PayTripScreen(),
+    trip_route: (BuildContext context) => TripRouteScreen()
   };
 }
 

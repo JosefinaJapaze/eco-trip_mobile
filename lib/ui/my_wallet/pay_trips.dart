@@ -1,20 +1,18 @@
-import 'package:boilerplate/stores/trip/trip_store.dart';
+import 'package:boilerplate/stores/language/language_store.dart';
+import 'package:boilerplate/stores/theme/theme_store.dart';
 import 'package:boilerplate/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/trip/trip.dart';
-
-class MyTripsScreen extends StatefulWidget {
+class PayTripScreen extends StatefulWidget {
   @override
-  _MyTripsScreenState createState() => _MyTripsScreenState();
+  _PayTripScreenState createState() => _PayTripScreenState();
 }
 
-class _MyTripsScreenState extends State<MyTripsScreen> {
+class _PayTripScreenState extends State<PayTripScreen> {
   //stores:---------------------------------------------------------------------
-  late TripStore _tripStore;
-
-  late List<Widget> cards;
+  late ThemeStore _themeStore;
+  late LanguageStore _languageStore;
 
   @override
   void initState() {
@@ -26,84 +24,67 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
     super.didChangeDependencies();
 
     // initializing stores
-    _tripStore = Provider.of<TripStore>(context);
+    _languageStore = Provider.of<LanguageStore>(context);
+    _themeStore = Provider.of<ThemeStore>(context);
 
     // check to see if already called api
-    if (!_tripStore.loading) {
-      _tripStore.getTrips();
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(titleKey: 'my_trips_title'),
+      appBar: BaseAppBar(titleKey: 'join_frecuent_trip_title'),
       body: _buildBody(),
     );
   }
 
   // body methods:--------------------------------------------------------------Widget _buildBody() {
   Widget _buildBody() {
-    return SingleChildScrollView(
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            _buildTripOptions(),
-            ..._buildTripHistory(),
-          ],
-        ),
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text("Posibles coincidencias:"),
+          _buildTripHistoryCard("/my_wallet"),
+          _buildTripHistoryCard("/my_wallet"),
+          _buildTextButton("/home")
+        ],
       ),
     );
   }
 
-  Widget _buildTripOptions() {
+  Widget _buildTextButton(route) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: Colors.black,
-        ),
-        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          TextButton(
-              onPressed: () => {},
-              child: Text(
-                'Viajes programados',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              )),
-          TextButton(
-              onPressed: () => {},
-              child: Text(
-                'Viajes frecuentes',
-                style: TextStyle(color: Colors.white),
-              ))
-        ]),
-      ),
-    );
+        padding: const EdgeInsets.only(top: 30),
+        child: Container(
+            width: 150,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.lime,
+            ),
+            child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              TextButton(
+                  onPressed: () => {
+                    Navigator.of(context).pushNamed(route)
+                  },
+                  child: Text(
+                    'CANCELAR',
+                    style:
+                    TextStyle(
+                      color: Colors.black,
+                    ),
+                  )),
+            ]
+            )
+        ));
   }
 
-  List<Widget> _buildTripHistory() {
-
-    if(_tripStore.tripList == null || _tripStore.tripList!.trips == null) {
-      return <Widget>[ Text("No se poseen viajes programados actualmente."
-          "Puedes crear o unirte a un viaje desde la pestaña Nuevo Viaje")];
-    }
-      cards = <Widget>[];
-      _tripStore.tripList!.trips!.forEach((element) {
-        cards.add(_buildTripHistoryCard(element));
-      });
-    return cards;
-  }
-
-  Card _buildTripHistoryCard(Trip trip) {
+  Card _buildTripHistoryCard(route) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       margin: EdgeInsets.all(15),
       elevation: 10,
-      color: Theme.of(context).colorScheme.tertiary,
+      color: Colors.grey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -113,13 +94,13 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  'Sin iniciar',
+                  'Viaje xxxx-xxxxx',
                   style: TextStyle(
-                      color: Colors.green, fontWeight: FontWeight.bold),
+                      color: Colors.white, fontWeight: FontWeight.bold),
                 ),
               ),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Colors.black,
                 borderRadius: BorderRadius.circular(15),
               ),
             ),
@@ -137,11 +118,11 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
                       child: Row(
                         children: [
                           Icon(
-                            Icons.call_made,
-                            color: Colors.black,
+                            Icons.location_on_rounded,
+                            color: Colors.lime,
                           ),
                           Text(
-                            'Calle 13, Barrio B, Localidad 1',
+                            'Calle 13, barrio B, Localidad 1',
                             style: TextStyle(color: Colors.black),
                           ),
                         ],
@@ -152,8 +133,8 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
                       child: Row(
                         children: [
                           Icon(
-                            Icons.call_received,
-                            color: Colors.black,
+                            Icons.location_on_rounded,
+                            color: Colors.white,
                           ),
                           Text(
                             'Calle 7, Barrio 2, Localidad 1',
@@ -173,9 +154,9 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  '\$${trip.cost}',
+                  '\$982',
                   style: TextStyle(
-                      color: Colors.indigo, fontWeight: FontWeight.bold),
+                      color: Colors.black, fontWeight: FontWeight.bold),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
@@ -183,25 +164,21 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
                     children: [
                       TextButton(
                           onPressed: () => {
-                            Navigator.of(context).pushNamed("/trip_route")
+                            Navigator.of(context).pushNamed(route)
                           },
                           style: ButtonStyle(
                               backgroundColor:
-                                  MaterialStateProperty.resolveWith(
+                              MaterialStateProperty.resolveWith(
                                       (states) => Colors.black),
                               shape:
-                                  MaterialStateProperty.all(StadiumBorder())),
+                              MaterialStateProperty.all(StadiumBorder())),
                           child: Text(
-                            'Recorrido',
+                            'PAGAR',
                             style: TextStyle(
                               color: Colors.white,
                             ),
                           )),
-                      Text(
-                        '02/05/2022',
-                        style: TextStyle(
-                            color: Colors.black45, fontWeight: FontWeight.bold),
-                      )
+
                     ],
                   ),
                 )

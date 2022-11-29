@@ -1,12 +1,19 @@
 import 'package:boilerplate/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../models/trip/trip.dart';
+import '../../stores/trip/trip_store.dart';
 
 class JoinFrecuentScreen extends StatefulWidget {
   @override
   _JoinFrecuentScreenState createState() => _JoinFrecuentScreenState();
 }
 
-class _JoinFrecuentScreenState extends State<JoinFrecuentScreen> {
+class _JoinFrecuentScreenState
+    extends State<JoinFrecuentScreen> {
+  //stores:---------------------------------------------------------------------
+  late TripStore _tripStore;
 
   @override
   void initState() {
@@ -16,6 +23,29 @@ class _JoinFrecuentScreenState extends State<JoinFrecuentScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+
+    // initializing stores
+    _tripStore = Provider.of<TripStore>(context);
+
+    // check to see if already called api
+    if (!_tripStore.loading) {
+      _tripStore.getTrips();
+    }
+  }
+
+  void insertTrip() {
+
+    _tripStore.insertTrip(
+        Trip(
+            hasStarted: false,
+            isFinished: false,
+            seatsLeft: 1, // sacar
+            cost: 982, // sacar
+            type: 'frequent',
+            userId: '' // sacar del auth,
+        )).then((value) => {
+      Navigator.of(context).pushNamed("/join_request")
+    });
   }
 
   @override
@@ -152,7 +182,7 @@ class _JoinFrecuentScreenState extends State<JoinFrecuentScreen> {
                     children: [
                       TextButton(
                           onPressed: () => {
-                            Navigator.of(context).pushNamed(route)
+                            insertTrip()
                           },
                           style: ButtonStyle(
                               backgroundColor:

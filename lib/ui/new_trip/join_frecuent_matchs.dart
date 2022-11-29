@@ -1,5 +1,9 @@
 import 'package:boilerplate/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../models/trip/trip.dart';
+import '../../stores/trip/trip_store.dart';
 
 class JoinFrecuentMatchsScreen extends StatefulWidget {
   @override
@@ -7,6 +11,9 @@ class JoinFrecuentMatchsScreen extends StatefulWidget {
 }
 
 class _JoinFrecuentMatchsScreenState extends State<JoinFrecuentMatchsScreen> {
+  //stores:---------------------------------------------------------------------
+  late TripStore _tripStore;
+
   @override
   void initState() {
     super.initState();
@@ -15,6 +22,29 @@ class _JoinFrecuentMatchsScreenState extends State<JoinFrecuentMatchsScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+
+    // initializing stores
+    _tripStore = Provider.of<TripStore>(context);
+
+    // check to see if already called api
+    if (!_tripStore.loading) {
+      _tripStore.getTrips();
+    }
+  }
+
+  void insertTrip() {
+
+    _tripStore.insertTrip(
+        Trip(
+            hasStarted: false,
+            isFinished: false,
+            seatsLeft: 3, // sacar
+            cost: 982, // sacar
+            type: 'frequent',
+            userId: '' // sacar del auth,
+        )).then((value) => {
+      Navigator.of(context).pushNamed("/join_request")
+    });
   }
 
   @override
@@ -32,7 +62,7 @@ class _JoinFrecuentMatchsScreenState extends State<JoinFrecuentMatchsScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text("Posibles coincidencias:"),
-          _buildTripHistoryCard("/join_Request"),
+          _buildTripHistoryCard("/join_request"),
           _buildTripHistoryCard("/join_request"),
           _buildTextButton("/home")
         ],
@@ -151,7 +181,7 @@ class _JoinFrecuentMatchsScreenState extends State<JoinFrecuentMatchsScreen> {
                     children: [
                       TextButton(
                           onPressed: () => {
-                            Navigator.of(context).pushNamed(route)
+                            insertTrip()
                           },
                           style: ButtonStyle(
                               backgroundColor:

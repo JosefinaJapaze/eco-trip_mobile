@@ -96,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Wrap(direction: Axis.horizontal, children: [
             _buildMainMenuButton("Mis viajes", "/my_trips"),
             _buildMainMenuButton("Nuevo viaje", "/new_trip"),
-            _buildMainMenuButton("Mi billetera", "/my_wallet"),
+            _buildMainMenuButton("Mi billetera", "/pay_trip"),
             _buildMainMenuButton("Chats", "/chats"),
           ],
           ),
