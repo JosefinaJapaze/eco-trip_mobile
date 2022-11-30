@@ -16,6 +16,8 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
 
   late List<Widget> cards;
 
+  bool displayFrequent = false;
+
   @override
   void initState() {
     super.initState();
@@ -67,18 +69,29 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
         ),
         child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           TextButton(
-              onPressed: () => {},
+              onPressed: () => {
+                setState(() {
+                  displayFrequent = false;
+                })
+              },
               child: Text(
                 'Viajes programados',
                 style: TextStyle(
                   color: Colors.white,
+                  fontSize: displayFrequent ? 14 : 16,
                 ),
               )),
           TextButton(
-              onPressed: () => {},
+              onPressed: () => {
+                setState(() {
+                  displayFrequent = true;
+                })
+              },
               child: Text(
                 'Viajes frecuentes',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.white,
+                  fontSize: displayFrequent ? 16 : 14,
+                ),
               ))
         ]),
       ),
@@ -91,10 +104,18 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
       return <Widget>[ Text("No se poseen viajes programados actualmente."
           "Puedes crear o unirte a un viaje desde la pestaña Nuevo Viaje")];
     }
+
       cards = <Widget>[];
       _tripStore.tripList!.trips!.forEach((element) {
-        cards.add(_buildTripHistoryCard(element));
+        if (element.type == "frequent" && displayFrequent) {
+          cards.add(_buildTripHistoryCard(element));
+        }
+
+        if (element.type == "programmed" && !displayFrequent) {
+          cards.add(_buildTripHistoryCard(element));
+        }
       });
+
     return cards;
   }
 

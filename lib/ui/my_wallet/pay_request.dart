@@ -36,7 +36,7 @@ class _PayRequestScreenState extends State<PayRequestScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(titleKey: 'join_frecuent_trip_title'),
+      appBar: BaseAppBar(titleKey: 'my_wallet_title'),
       body: _buildBody(),
     );
   }

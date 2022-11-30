@@ -62,7 +62,7 @@ class _CreateFrecuentCalendarScreenState
             isFinished: false,
             seatsLeft: this.availableSeats, // sacar
             cost: this.cost, // sacar
-            type: 'frequent',
+            type: "frequent",
             userId: '' // sacar del auth,
         )).then((value) => {
           Navigator.of(context).pushNamed("/create_request")

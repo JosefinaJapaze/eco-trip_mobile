@@ -33,7 +33,7 @@ class _PayTripScreenState extends State<PayTripScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(titleKey: 'join_frecuent_trip_title'),
+      appBar: BaseAppBar(titleKey: 'my_wallet_title'),
       body: _buildBody(),
     );
   }
@@ -44,7 +44,6 @@ class _PayTripScreenState extends State<PayTripScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text("Posibles coincidencias:"),
           _buildTripHistoryCard("/my_wallet"),
           _buildTripHistoryCard("/my_wallet"),
           _buildTextButton("/home")

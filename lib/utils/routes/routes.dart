@@ -7,9 +7,15 @@ import 'package:boilerplate/ui/my_wallet/pay_request.dart';
 import 'package:boilerplate/ui/my_wallet/pay_trips.dart';
 import 'package:boilerplate/ui/new_trip/create_frecuent_calendar.dart';
 import 'package:boilerplate/ui/new_trip/create_frecuent_map.dart';
+import 'package:boilerplate/ui/new_trip/create_programmed_calendar.dart';
+import 'package:boilerplate/ui/new_trip/create_programmed_map.dart';
 import 'package:boilerplate/ui/new_trip/create_request.dart';
 import 'package:boilerplate/ui/new_trip/join_frecuent_calendar.dart';
 import 'package:boilerplate/ui/new_trip/join_frecuent_map.dart';
+import 'package:boilerplate/ui/new_trip/join_programmed.dart';
+import 'package:boilerplate/ui/new_trip/join_programmed_calendar.dart';
+import 'package:boilerplate/ui/new_trip/join_programmed_map.dart';
+import 'package:boilerplate/ui/new_trip/join_programmed_matchs.dart';
 import 'package:boilerplate/ui/new_trip/join_request.dart';
 import 'package:boilerplate/ui/new_trip/new_trip.dart';
 import 'package:boilerplate/ui/new_trip/new_frecuent.dart';
@@ -41,6 +47,12 @@ class Routes {
   static const String join_request = '/join_request';
   static const String create_request = '/create_request';
   static const String new_programmed = '/new_programmed';
+  static const String join_programmed_trip = '/join_programmed_trip';
+  static const String join_programmed_trip_map = '/join_programmed_trip_map';
+  static const String join_programmed_trip_calendar = '/join_programmed_trip_calendar';
+  static const String join_programmed_trip_matchs = '/join_programmed_trip_matchs';
+  static const String create_programmed_trip_map = '/create_programmed_trip_map';
+  static const String create_programmed_trip_calendar = '/create_programmed_trip_calendar';
   static const String pay_request = '/pay_request';
   static const String pay_trip = '/pay_trip';
   static const String trip_route = '/trip_route';
@@ -61,6 +73,12 @@ class Routes {
     create_frecuent_trip_map: (BuildContext context) => CreateFrecuentMapScreen(),
     create_frecuent_trip_calendar: (BuildContext context) => CreateFrecuentCalendarScreen(),
     new_programmed: (BuildContext context) => NewProgrammedScreen(),
+    join_programmed_trip: (BuildContext context) => JoinProgrammedScreen(),
+    join_programmed_trip_map: (BuildContext context) => JoinProgrammedMapScreen(),
+    join_programmed_trip_calendar: (BuildContext context) => JoinProgrammedCalendarScreen(),
+    join_programmed_trip_matchs: (BuildContext context) => JoinProgrammedMatchsScreen(),
+    create_programmed_trip_map: (BuildContext context) => CreateProgrammedMapScreen(),
+    create_programmed_trip_calendar: (BuildContext context) => CreateProgrammedCalendarScreen(),
     join_request: (BuildContext context) => JoinRequestScreen(),
     pay_request: (BuildContext context) => PayRequestScreen(),
     create_request: (BuildContext context) => CreateRequestScreen(),

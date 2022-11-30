@@ -41,7 +41,7 @@ class _JoinFrecuentScreenState
             isFinished: false,
             seatsLeft: 1, // sacar
             cost: 982, // sacar
-            type: 'frequent',
+            type: "frequent",
             userId: '' // sacar del auth,
         )).then((value) => {
       Navigator.of(context).pushNamed("/join_request")

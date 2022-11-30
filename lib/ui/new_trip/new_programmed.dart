@@ -20,8 +20,8 @@ class _NewProgrammedScreenState extends State<NewProgrammedScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          _buildTripJoinProgrammed("/join_frecuent_trip"),
-          _buildTripCreateProgrammed("/create_frecuent_trip_map")
+          _buildTripJoinProgrammed("/join_programmed_trip"),
+          _buildTripCreateProgrammed("/create_programmed_trip_map")
         ],
       ),
     );
