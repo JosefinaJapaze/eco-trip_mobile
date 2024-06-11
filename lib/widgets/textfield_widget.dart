@@ -31,7 +31,7 @@ class TextFieldWidget extends StatelessWidget {
         obscureText: this.isObscure,
         maxLength: 25,
         keyboardType: this.inputType,
-        style: Theme.of(context).textTheme.bodyText1,
+        style: Theme.of(context).textTheme.bodyLarge,
         decoration:
         InputDecoration(
           enabledBorder: OutlineInputBorder(
@@ -41,7 +41,7 @@ class TextFieldWidget extends StatelessWidget {
 
             hintText: this.hint,
             hintStyle:
-                Theme.of(context).textTheme.bodyText1!.copyWith(color: hintColor),
+                Theme.of(context).textTheme.bodyLarge!.copyWith(color: hintColor),
             errorText: errorText,
             counterText: '',
         )

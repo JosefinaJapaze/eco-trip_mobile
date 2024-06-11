@@ -54,7 +54,7 @@ class AppThemeData {
           _lightFillColor.withOpacity(0.80),
           _darkFillColor,
         ),
-        contentTextStyle: _textTheme.subtitle1!.apply(color: _darkFillColor),
+        contentTextStyle: _textTheme.titleMedium!.apply(color: _darkFillColor),
       ),
     );
   }
@@ -99,15 +99,15 @@ class AppThemeData {
   static const _bold = FontWeight.w700;
 
   static final TextTheme _textTheme = TextTheme(
-    headline4: GoogleFonts.poppins(fontWeight: _bold, fontSize: 20.0),
-    caption: GoogleFonts.poppins(fontWeight: _semiBold, fontSize: 16.0),
-    headline5: GoogleFonts.oswald(fontWeight: _medium, fontSize: 16.0),
-    subtitle1: GoogleFonts.poppins(fontWeight: _medium, fontSize: 16.0),
-    overline: GoogleFonts.poppins(fontWeight: _medium, fontSize: 12.0),
-    bodyText1: GoogleFonts.poppins(fontWeight: _regular, fontSize: 14.0),
-    subtitle2: GoogleFonts.poppins(fontWeight: _medium, fontSize: 14.0),
-    bodyText2: GoogleFonts.poppins(fontWeight: _regular, fontSize: 16.0),
-    headline6: GoogleFonts.poppins(fontWeight: _bold, fontSize: 16.0),
-    button: GoogleFonts.poppins(fontWeight: _semiBold, fontSize: 14.0),
+    headlineMedium: GoogleFonts.poppins(fontWeight: _bold, fontSize: 20.0),
+    bodySmall: GoogleFonts.poppins(fontWeight: _semiBold, fontSize: 16.0),
+    headlineSmall: GoogleFonts.oswald(fontWeight: _medium, fontSize: 16.0),
+    titleMedium: GoogleFonts.poppins(fontWeight: _medium, fontSize: 16.0),
+    labelSmall: GoogleFonts.poppins(fontWeight: _medium, fontSize: 12.0),
+    bodyLarge: GoogleFonts.poppins(fontWeight: _regular, fontSize: 14.0),
+    titleSmall: GoogleFonts.poppins(fontWeight: _medium, fontSize: 14.0),
+    bodyMedium: GoogleFonts.poppins(fontWeight: _regular, fontSize: 16.0),
+    titleLarge: GoogleFonts.poppins(fontWeight: _bold, fontSize: 16.0),
+    labelLarge: GoogleFonts.poppins(fontWeight: _semiBold, fontSize: 14.0),
   );
 }

@@ -20,7 +20,7 @@ class RoundedButtonWidget extends StatelessWidget {
       onPressed: onPressed,
       child: Text(
         buttonText,
-        style: Theme.of(context).textTheme.button!.copyWith(color: textColor),
+        style: Theme.of(context).textTheme.labelLarge!.copyWith(color: textColor),
       ),
     );
   }
