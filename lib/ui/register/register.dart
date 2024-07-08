@@ -13,16 +13,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginScreen extends StatefulWidget {
+class RegisterScreen extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController _userEmailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  TextEditingController _confirmPasswordController = TextEditingController();
 
   late FocusNode _passwordFocusNode;
+  late FocusNode _confirmPasswordFocusNode;
 
   final _store = FormStore();
 
@@ -30,6 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     _passwordFocusNode = FocusNode();
+    _confirmPasswordFocusNode = FocusNode();
   }
 
   @override
@@ -102,36 +105,146 @@ class _LoginScreenState extends State<LoginScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            _buildLoginField(),
-            SizedBox(width: 20.0,
-              height: 30.0),
-            _buildUserIdField(),
+            _buildRegisterField(),
+            SizedBox(width: 20.0, height: 30.0),
+            _buildNameField(),
+            _buildLastNameField(),
+            _buildGenderField(),
+            _buildAgeField(),
+            _buildPhoneNumberField(),
+            _buildEmailField(),
             _buildPasswordField(),
-            _buildSignInButton(),
-            _buildRegisterLink()
+            _buildConfirmPasswordField(),
+            _buildRegisterButton()
           ],
         ),
       ),
     );
   }
-  Widget _buildLoginField() {
+
+  Widget _buildRegisterField() {
     return Observer(
       builder: (context) {
         return Text(
-          'Inicio de Sesión',
+          'Registro',
           textAlign: TextAlign.center,
           overflow: TextOverflow.ellipsis,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 37
-          ),
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 37),
         );
       },
     );
   }
-  Widget _buildUserIdField() {
+
+  Widget _buildGenderField() {
     return Observer(
       builder: (context) {
         return TextFieldWidget(
-          hint: AppLocalizations.of(context).translate('login_et_user_email'),
+          hint: "Sexo",
+          inputType: TextInputType.emailAddress,
+          textController: _userEmailController,
+          inputAction: TextInputAction.next,
+          autoFocus: false,
+          onChanged: (value) {
+            _store.setUserId(_userEmailController.text);
+          },
+          onFieldSubmitted: (value) {
+            FocusScope.of(context).requestFocus(_passwordFocusNode);
+          },
+          errorText: _store.formErrorStore.userEmail,
+        );
+      },
+    );
+  }
+
+  Widget _buildNameField() {
+    return Observer(
+      builder: (context) {
+        return TextFieldWidget(
+          hint: "Nombre",
+          inputType: TextInputType.emailAddress,
+          textController: _userEmailController,
+          inputAction: TextInputAction.next,
+          autoFocus: false,
+          onChanged: (value) {
+            _store.setUserId(_userEmailController.text);
+          },
+          onFieldSubmitted: (value) {
+            FocusScope.of(context).requestFocus(_passwordFocusNode);
+          },
+          errorText: _store.formErrorStore.userEmail,
+        );
+      },
+    );
+  }
+
+  Widget _buildLastNameField() {
+    return Observer(
+      builder: (context) {
+        return TextFieldWidget(
+          hint: "Apellido",
+          inputType: TextInputType.emailAddress,
+          textController: _userEmailController,
+          inputAction: TextInputAction.next,
+          autoFocus: false,
+          onChanged: (value) {
+            _store.setUserId(_userEmailController.text);
+          },
+          onFieldSubmitted: (value) {
+            FocusScope.of(context).requestFocus(_passwordFocusNode);
+          },
+          errorText: _store.formErrorStore.userEmail,
+        );
+      },
+    );
+  }
+
+  Widget _buildAgeField() {
+    return Observer(
+      builder: (context) {
+        return TextFieldWidget(
+          hint: "Edad",
+          inputType: TextInputType.emailAddress,
+          textController: _userEmailController,
+          inputAction: TextInputAction.next,
+          autoFocus: false,
+          onChanged: (value) {
+            _store.setUserId(_userEmailController.text);
+          },
+          onFieldSubmitted: (value) {
+            FocusScope.of(context).requestFocus(_passwordFocusNode);
+          },
+          errorText: _store.formErrorStore.userEmail,
+        );
+      },
+    );
+  }
+
+  Widget _buildPhoneNumberField() {
+    return Observer(
+      builder: (context) {
+        return TextFieldWidget(
+          hint: "Numero de celular",
+          inputType: TextInputType.emailAddress,
+          textController: _userEmailController,
+          inputAction: TextInputAction.next,
+          autoFocus: false,
+          onChanged: (value) {
+            _store.setUserId(_userEmailController.text);
+          },
+          onFieldSubmitted: (value) {
+            FocusScope.of(context).requestFocus(_passwordFocusNode);
+          },
+          errorText: _store.formErrorStore.userEmail,
+        );
+      },
+    );
+  }
+
+  Widget _buildEmailField() {
+    return Observer(
+      builder: (context) {
+        return TextFieldWidget(
+          hint: "Correo electronico",
           inputType: TextInputType.emailAddress,
           textController: _userEmailController,
           inputAction: TextInputAction.next,
@@ -152,8 +265,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Observer(
       builder: (context) {
         return TextFieldWidget(
-          hint:
-              AppLocalizations.of(context).translate('login_et_user_password'),
+          hint: "Contraseña",
           isObscure: true,
           padding: EdgeInsets.only(top: 16.0),
           textController: _passwordController,
@@ -162,46 +274,50 @@ class _LoginScreenState extends State<LoginScreen> {
           onChanged: (value) {
             _store.setPassword(_passwordController.text);
           },
+          onFieldSubmitted: (value) {
+            FocusScope.of(context).requestFocus(_confirmPasswordFocusNode);
+          },
         );
       },
     );
   }
 
-  Widget _buildSignInButton() {
+  Widget _buildConfirmPasswordField() {
+    return Observer(
+      builder: (context) {
+        return TextFieldWidget(
+          hint: "Repetir contraseña",
+          isObscure: true,
+          padding: EdgeInsets.only(top: 16.0),
+          textController: _passwordController,
+          focusNode: _passwordFocusNode,
+          errorText: _store.formErrorStore.password,
+          onChanged: (value) {
+            _store.setPassword(_passwordController.text);
+          },
+          onFieldSubmitted: (value) {
+            FocusScope.of(context).requestFocus(_confirmPasswordFocusNode);
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildRegisterButton() {
     return RoundedButtonWidget(
-      buttonText: AppLocalizations.of(context).translate('login_btn_sign_in'),
+      buttonText: "Confirmar",
       buttonColor: Colors.lime,
       textColor: Colors.black,
       onPressed: () async {
-        if (_store.canLogin) {
+        if (_store.canRegister) {
           DeviceUtils.hideKeyboard(context);
-          _store.login();
+          _store.register();
         } else {
           _showErrorMessage('Por favor complete los campos');
         }
       },
     );
   }
-
-  Widget _buildRegisterLink() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: GestureDetector(
-        onTap: () {
-          Navigator.of(context).pushNamed(Routes.register);
-        },
-        child: Text(
-          AppLocalizations.of(context).translate('login_register_link'),
-          style: TextStyle(
-            color: Colors.blue,
-            decoration: TextDecoration.none,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );
-  }
-  
 
   Widget navigate(BuildContext context) {
     SharedPreferences.getInstance().then((prefs) {
@@ -239,7 +355,9 @@ class _LoginScreenState extends State<LoginScreen> {
     // Clean up the controller when the Widget is removed from the Widget tree
     _userEmailController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     _passwordFocusNode.dispose();
+    _confirmPasswordFocusNode.dispose();
     super.dispose();
   }
 }

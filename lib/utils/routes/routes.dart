@@ -1,6 +1,7 @@
 import 'package:boilerplate/ui/chats/chats.dart';
 import 'package:boilerplate/ui/home/home.dart';
 import 'package:boilerplate/ui/login/login.dart';
+import 'package:boilerplate/ui/register/register.dart';
 import 'package:boilerplate/ui/my_trips/trip_route.dart';
 import 'package:boilerplate/ui/my_wallet/my_wallet.dart';
 import 'package:boilerplate/ui/my_wallet/pay_request.dart';
@@ -32,6 +33,7 @@ class Routes {
   //static variables
   static const String splash = '/splash';
   static const String login = '/login';
+  static const String register = '/register';
   static const String home = '/home';
   static const String my_trips = '/my_trips';
   static const String new_trip = '/new_trip';
@@ -60,6 +62,7 @@ class Routes {
   static final routes = <String, WidgetBuilder>{
     splash: (BuildContext context) => SplashScreen(),
     login: (BuildContext context) => LoginScreen(),
+    register: (BuildContext context) => RegisterScreen(),
     home: (BuildContext context) => HomeScreen(),
     my_trips: (BuildContext context) => MyTripsScreen(),
     new_trip: (BuildContext context) => NewTripScreen(),

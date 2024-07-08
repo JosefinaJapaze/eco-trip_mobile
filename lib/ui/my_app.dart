@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
         Provider<ThemeStore>(create: (_) => _themeStore),
         Provider<TripStore>(create: (_) => _tripStore),
         Provider<LanguageStore>(create: (_) => _languageStore),
+        Provider<UserStore>(create: (_) => _userStore),
       ],
       child: Observer(
         name: 'global-observer',
