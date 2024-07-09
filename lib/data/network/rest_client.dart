@@ -59,6 +59,16 @@ class RestClient {
     final String res = response.body;
     final int statusCode = response.statusCode;
 
+    if (statusCode == 401) {
+      throw AuthException(
+          message: 'Unauthorized', statusCode: statusCode);
+    }
+
+    if (statusCode == 403) {
+      throw AuthException(
+          message: 'Forbidden', statusCode: statusCode);
+    }
+
     if (statusCode < 200 || statusCode > 400) {
       throw NetworkException(
           message: 'Error fetching data from server', statusCode: statusCode);

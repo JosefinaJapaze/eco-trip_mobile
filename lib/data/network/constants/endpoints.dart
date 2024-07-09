@@ -6,10 +6,11 @@ class Endpoints {
 
   // receiveTimeout
   static const int receiveTimeout = 15000;
-
   // connectTimeout
   static const int connectionTimeout = 30000;
 
-  // trip endpoints
+  static const String login = baseUrl + "/login";
+  static const String register = baseUrl + "/register";
+
   static const String getTrips = baseUrl + "/trips";
 }
