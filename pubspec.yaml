@@ -27,7 +27,7 @@ dependencies:
   shared_preferences: ^2.1.0
 
   # A composable, Future-based library for making HTTP requests.
-  http: ^0.13.5
+  http: ^1.2.1
 
   # MobX is a library for reactively managing the state of your applications. Use the power of
   # observables, actions, and reactions to supercharge your Dart and Flutter apps.
