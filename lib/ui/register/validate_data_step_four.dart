@@ -153,7 +153,7 @@ class _ValidateDataStepFourState extends State<ValidateDataStepFour> {
         ),
       ),
       onPressed: () {
-        // Add your logic here for the "Siguiente" action
+        Navigator.of(context).pushNamed("/register_success");
       },
       child: Center(
         child: Text(

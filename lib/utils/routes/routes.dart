@@ -23,6 +23,7 @@ import 'package:boilerplate/ui/new_trip/new_frecuent.dart';
 import 'package:boilerplate/ui/new_trip/new_programmed.dart';
 import 'package:boilerplate/ui/new_trip/join_frecuent.dart';
 import 'package:boilerplate/ui/new_trip/join_frecuent_matchs.dart';
+import 'package:boilerplate/ui/register/register_success.dart';
 import 'package:boilerplate/ui/register/validate_data_step_four.dart';
 import 'package:boilerplate/ui/register/validate_data_step_one.dart';
 import 'package:boilerplate/ui/register/validate_data_step_three.dart';
@@ -42,6 +43,7 @@ class Routes {
   static const String validate_data_step_two = '/validate_data_step_two';
   static const String validate_data_step_three = '/validate_data_step_three';
   static const String validate_data_step_four = '/validate_data_step_four';
+  static const String register_success = '/register_success';
   static const String home = '/home';
   static const String my_trips = '/my_trips';
   static const String new_trip = '/new_trip';
@@ -75,6 +77,7 @@ class Routes {
     validate_data_step_two: (BuildContext context) => ValidateDataStepTwo(),
     validate_data_step_three: (BuildContext context) => ValidateDataStepThree(),
     validate_data_step_four: (BuildContext context) => ValidateDataStepFour(),
+    register_success: (BuildContext context) => RegisterSuccessScreen(),
     home: (BuildContext context) => HomeScreen(),
     my_trips: (BuildContext context) => MyTripsScreen(),
     new_trip: (BuildContext context) => NewTripScreen(),
