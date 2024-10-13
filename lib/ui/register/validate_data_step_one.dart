@@ -166,7 +166,11 @@ class _ValidateDataStepOneState extends State<ValidateDataStepOne> {
         ),
       ),
       onPressed: () {
-        // Add your logic here for "Siguiente"
+        if (_accountType == "Conductor") {
+          Navigator.of(context).pushNamed("/validate_data_step_two");
+        } else {
+          Navigator.of(context).pushNamed("/validate_data_step_three");
+        }
       },
       child: Center(
         child: Text(
