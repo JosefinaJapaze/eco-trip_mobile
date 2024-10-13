@@ -26,8 +26,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   late FocusNode _passwordFocusNode;
   late FocusNode _confirmPasswordFocusNode;
 
-  final _store = FormStore();
-
   @override
   void initState() {
     super.initState();
@@ -36,328 +34,131 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      primary: true,
-      appBar: EmptyAppBar(),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: _buildBody(),
     );
   }
 
   Widget _buildBody() {
-    return Material(
-      child: Stack(
-        children: <Widget>[
-          MediaQuery.of(context).orientation == Orientation.landscape
-              ? Row(
-                  children: <Widget>[
-                    Expanded(
-                      flex: 1,
-                      child: _buildLeftSide(),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: _buildRightSide(),
-                    ),
-                  ],
-                )
-              : Center(child: _buildRightSide()),
-          Observer(
-            builder: (context) {
-              return _store.success
-                  ? navigate(context)
-                  : _showErrorMessage(_store.errorStore.errorMessage);
-            },
-          ),
-          Observer(
-            builder: (context) {
-              return Visibility(
-                visible: _store.loading,
-                child: CustomProgressIndicatorWidget(),
-              );
-            },
-          )
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          _buildRegisterField(),
+          _buildNameField(),
+          _buildLastNameField(),
+          _buildGenderField(),
+          _buildAgeField(),
+          _buildPhoneNumberField(),
+          _buildEmailField(),
+          _buildPasswordField(),
+          _buildConfirmPasswordField(),
+          _buildRegisterButton(),
         ],
       ),
     );
   }
 
-  Widget _buildLeftSide() {
-    return SizedBox.expand(
-      child: Image.asset(
-        Assets.appLogo,
-        fit: BoxFit.cover,
+  Widget _buildRegisterField() {
+    return Text(
+      'Registro',
+      style: TextStyle(
+        fontSize: 36,
+        fontWeight: FontWeight.bold,
       ),
     );
   }
 
-  Widget _buildRightSide() {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            _buildRegisterField(),
-            SizedBox(width: 20.0, height: 30.0),
-            _buildNameField(),
-            _buildLastNameField(),
-            _buildGenderField(),
-            _buildAgeField(),
-            _buildPhoneNumberField(),
-            _buildEmailField(),
-            _buildPasswordField(),
-            _buildConfirmPasswordField(),
-            _buildRegisterButton()
-          ],
+  Widget _buildNameField() {
+    return _buildTextField("Nombre");
+  }
+
+  Widget _buildLastNameField() {
+    return _buildTextField("Apellido");
+  }
+
+  Widget _buildGenderField() {
+    return _buildTextField("Sexo");
+  }
+
+  Widget _buildAgeField() {
+    return _buildTextField("Edad");
+  }
+
+  Widget _buildPhoneNumberField() {
+    return _buildTextField("Numero de Celular");
+  }
+
+  Widget _buildEmailField() {
+    return _buildTextField("Correo electronico");
+  }
+
+  Widget _buildPasswordField() {
+    return _buildTextField("Contraseña", isObscure: true);
+  }
+
+  Widget _buildConfirmPasswordField() {
+    return _buildTextField("Repetir contraseña", isObscure: true);
+  }
+
+  Widget _buildTextField(String hint, {bool isObscure = false}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextField(
+        obscureText: isObscure,
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 10.0),
+          hintText: hint,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5.0),
+            borderSide: BorderSide(color: Colors.black),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5.0),
+            borderSide:
+                BorderSide(color: Colors.black), // Border color when enabled
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5.0),
+            borderSide:
+                BorderSide(color: Colors.blue), // Border color when focused
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildRegisterField() {
-    return Observer(
-      builder: (context) {
-        return Text(
-          'Registro',
-          textAlign: TextAlign.center,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 37),
-        );
-      },
-    );
-  }
-
-  Widget _buildGenderField() {
-    return Observer(
-      builder: (context) {
-        return TextFieldWidget(
-          hint: "Sexo",
-          inputType: TextInputType.emailAddress,
-          textController: _userEmailController,
-          inputAction: TextInputAction.next,
-          autoFocus: false,
-          onChanged: (value) {
-            _store.setUserId(_userEmailController.text);
-          },
-          onFieldSubmitted: (value) {
-            FocusScope.of(context).requestFocus(_passwordFocusNode);
-          },
-          errorText: _store.formErrorStore.userEmail,
-        );
-      },
-    );
-  }
-
-  Widget _buildNameField() {
-    return Observer(
-      builder: (context) {
-        return TextFieldWidget(
-          hint: "Nombre",
-          inputType: TextInputType.emailAddress,
-          textController: _userEmailController,
-          inputAction: TextInputAction.next,
-          autoFocus: false,
-          onChanged: (value) {
-            _store.setUserId(_userEmailController.text);
-          },
-          onFieldSubmitted: (value) {
-            FocusScope.of(context).requestFocus(_passwordFocusNode);
-          },
-          errorText: _store.formErrorStore.userEmail,
-        );
-      },
-    );
-  }
-
-  Widget _buildLastNameField() {
-    return Observer(
-      builder: (context) {
-        return TextFieldWidget(
-          hint: "Apellido",
-          inputType: TextInputType.emailAddress,
-          textController: _userEmailController,
-          inputAction: TextInputAction.next,
-          autoFocus: false,
-          onChanged: (value) {
-            _store.setUserId(_userEmailController.text);
-          },
-          onFieldSubmitted: (value) {
-            FocusScope.of(context).requestFocus(_passwordFocusNode);
-          },
-          errorText: _store.formErrorStore.userEmail,
-        );
-      },
-    );
-  }
-
-  Widget _buildAgeField() {
-    return Observer(
-      builder: (context) {
-        return TextFieldWidget(
-          hint: "Edad",
-          inputType: TextInputType.emailAddress,
-          textController: _userEmailController,
-          inputAction: TextInputAction.next,
-          autoFocus: false,
-          onChanged: (value) {
-            _store.setUserId(_userEmailController.text);
-          },
-          onFieldSubmitted: (value) {
-            FocusScope.of(context).requestFocus(_passwordFocusNode);
-          },
-          errorText: _store.formErrorStore.userEmail,
-        );
-      },
-    );
-  }
-
-  Widget _buildPhoneNumberField() {
-    return Observer(
-      builder: (context) {
-        return TextFieldWidget(
-          hint: "Numero de celular",
-          inputType: TextInputType.emailAddress,
-          textController: _userEmailController,
-          inputAction: TextInputAction.next,
-          autoFocus: false,
-          onChanged: (value) {
-            _store.setUserId(_userEmailController.text);
-          },
-          onFieldSubmitted: (value) {
-            FocusScope.of(context).requestFocus(_passwordFocusNode);
-          },
-          errorText: _store.formErrorStore.userEmail,
-        );
-      },
-    );
-  }
-
-  Widget _buildEmailField() {
-    return Observer(
-      builder: (context) {
-        return TextFieldWidget(
-          hint: "Correo electronico",
-          inputType: TextInputType.emailAddress,
-          textController: _userEmailController,
-          inputAction: TextInputAction.next,
-          autoFocus: false,
-          onChanged: (value) {
-            _store.setUserId(_userEmailController.text);
-          },
-          onFieldSubmitted: (value) {
-            FocusScope.of(context).requestFocus(_passwordFocusNode);
-          },
-          errorText: _store.formErrorStore.userEmail,
-        );
-      },
-    );
-  }
-
-  Widget _buildPasswordField() {
-    return Observer(
-      builder: (context) {
-        return TextFieldWidget(
-          hint: "Contraseña",
-          isObscure: true,
-          padding: EdgeInsets.only(top: 16.0),
-          textController: _passwordController,
-          focusNode: _passwordFocusNode,
-          errorText: _store.formErrorStore.password,
-          onChanged: (value) {
-            _store.setPassword(_passwordController.text);
-          },
-          onFieldSubmitted: (value) {
-            FocusScope.of(context).requestFocus(_confirmPasswordFocusNode);
-          },
-        );
-      },
-    );
-  }
-
-  Widget _buildConfirmPasswordField() {
-    return Observer(
-      builder: (context) {
-        return TextFieldWidget(
-          hint: "Repetir contraseña",
-          isObscure: true,
-          padding: EdgeInsets.only(top: 16.0),
-          textController: _passwordController,
-          focusNode: _passwordFocusNode,
-          errorText: _store.formErrorStore.password,
-          onChanged: (value) {
-            _store.setPassword(_passwordController.text);
-          },
-          onFieldSubmitted: (value) {
-            FocusScope.of(context).requestFocus(_confirmPasswordFocusNode);
-          },
-        );
-      },
-    );
-  }
-
   Widget _buildRegisterButton() {
-    return RoundedButtonWidget(
-      buttonText: "Confirmar",
-      buttonColor: Colors.lime,
-      textColor: Colors.black,
-      onPressed: () async {
-        if (_store.canRegister) {
-          DeviceUtils.hideKeyboard(context);
-          _store.register();
-        } else {
-          _showErrorMessage('Por favor complete los campos');
-        }
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.lime,
+        padding: EdgeInsets.all(16.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5.0),
+        ),
+      ),
+      onPressed: () {
+        // Add your logic here for registration
       },
+      child: Text(
+        "CONFIRMAR",
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+        ),
+      ),
     );
-  }
-
-  Widget navigate(BuildContext context) {
-    SharedPreferences.getInstance().then((prefs) {
-      prefs.setBool(Preferences.is_logged_in, true);
-    });
-
-    Future.delayed(Duration(milliseconds: 0), () {
-      Navigator.of(context).pushNamedAndRemoveUntil(
-          Routes.home, (Route<dynamic> route) => false);
-    });
-
-    return Container();
-  }
-
-  // General Methods:-----------------------------------------------------------
-  _showErrorMessage(String message) {
-    if (message.isNotEmpty) {
-      Future.delayed(Duration(milliseconds: 0), () {
-        if (message.isNotEmpty) {
-          FlushbarHelper.createError(
-            message: message,
-            title: AppLocalizations.of(context).translate('home_tv_error'),
-            duration: Duration(seconds: 3),
-          ).show(context);
-        }
-      });
-    }
-
-    return SizedBox.shrink();
-  }
-
-  // dispose:-------------------------------------------------------------------
-  @override
-  void dispose() {
-    // Clean up the controller when the Widget is removed from the Widget tree
-    _userEmailController.dispose();
-    _passwordController.dispose();
-    _confirmPasswordController.dispose();
-    _passwordFocusNode.dispose();
-    _confirmPasswordFocusNode.dispose();
-    super.dispose();
   }
 }
