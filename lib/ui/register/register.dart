@@ -1,17 +1,4 @@
-import 'package:another_flushbar/flushbar_helper.dart';
-import 'package:boilerplate/constants/assets.dart';
-import 'package:boilerplate/data/sharedpref/constants/preferences.dart';
-import 'package:boilerplate/utils/routes/routes.dart';
-import 'package:boilerplate/stores/form/form_store.dart';
-import 'package:boilerplate/utils/device/device_utils.dart';
-import 'package:boilerplate/utils/locale/app_localization.dart';
-import 'package:boilerplate/widgets/empty_app_bar_widget.dart';
-import 'package:boilerplate/widgets/progress_indicator_widget.dart';
-import 'package:boilerplate/widgets/rounded_button_widget.dart';
-import 'package:boilerplate/widgets/textfield_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -119,7 +106,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       child: TextField(
         obscureText: isObscure,
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 10.0),
+          contentPadding:
+              EdgeInsets.symmetric(vertical: 16.0, horizontal: 10.0),
           hintText: hint,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(5.0),
@@ -150,7 +138,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       ),
       onPressed: () {
-        // Add your logic here for registration
+        Navigator.of(context).pushNamed("/validate_data_step_one");
       },
       child: Text(
         "CONFIRMAR",
