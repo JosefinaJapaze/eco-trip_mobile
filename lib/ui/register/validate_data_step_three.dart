@@ -114,7 +114,7 @@ class _ValidateDataStepThreeState extends State<ValidateDataStepThree> {
         ),
       ),
       onPressed: () {
-        // Add your logic here for "Siguiente"
+        Navigator.of(context).pushNamed("/validate_data_step_four");
       },
       child: Center(
         child: Text(
