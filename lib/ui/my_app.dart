@@ -5,7 +5,7 @@ import 'package:boilerplate/di/components/service_locator.dart';
 import 'package:boilerplate/stores/language/language_store.dart';
 import 'package:boilerplate/stores/trip/trip_store.dart';
 import 'package:boilerplate/stores/theme/theme_store.dart';
-import 'package:boilerplate/stores/user/user_store.dart';
+import 'package:boilerplate/ui/login/store/login_store.dart';
 import 'package:boilerplate/ui/home/home.dart';
 import 'package:boilerplate/ui/login/login.dart';
 import 'package:boilerplate/utils/locale/app_localization.dart';

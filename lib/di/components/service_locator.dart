@@ -1,5 +1,6 @@
 
-import 'package:boilerplate/data/local/datasources/trip/trip_datasource.dart';
+import 'package:boilerplate/data/local/datasources/trip_datasource.dart';
+import 'package:boilerplate/data/network/apis/user/register_api.dart';
 import 'package:boilerplate/data/network/dio_client.dart';
 import 'package:boilerplate/data/network/rest_client.dart';
 import 'package:boilerplate/data/repository.dart';
@@ -10,7 +11,8 @@ import 'package:boilerplate/stores/error/error_store.dart';
 import 'package:boilerplate/stores/form/form_store.dart';
 import 'package:boilerplate/stores/language/language_store.dart';
 import 'package:boilerplate/stores/theme/theme_store.dart';
-import 'package:boilerplate/stores/user/user_store.dart';
+import 'package:boilerplate/ui/login/store/login_store.dart';
+import 'package:boilerplate/ui/register/store/register_store.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sembast/sembast.dart';
@@ -38,6 +40,7 @@ Future<void> setupLocator() async {
 
   // api's:---------------------------------------------------------------------
   getIt.registerSingleton(TripApi(getIt<DioClient>(), getIt<RestClient>()));
+  getIt.registerSingleton(RegisterApi(getIt<RestClient>()));
 
   // data sources
   getIt.registerSingleton(TripDataSource(await getIt.getAsync<Database>()));
@@ -54,4 +57,5 @@ Future<void> setupLocator() async {
   getIt.registerSingleton(TripStore(getIt<Repository>()));
   getIt.registerSingleton(ThemeStore(getIt<Repository>()));
   getIt.registerSingleton(UserStore(getIt<Repository>()));
+  getIt.registerSingleton(RegisterStore(getIt<RegisterApi>(), getIt<Repository>()));
 }

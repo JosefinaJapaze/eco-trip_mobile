@@ -3,6 +3,7 @@ enum AuthResultStatus {
   successful,
   wrongCredentials,
   userNotFound,
+  badRequest,
 }
 
 class LoginResult {

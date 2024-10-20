@@ -6,7 +6,7 @@ part of 'trip_store.dart';
 // StoreGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
+// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$TripStore on _TripStore, Store {
   Computed<bool>? _$loadingComputed;
@@ -16,7 +16,8 @@ mixin _$TripStore on _TripStore, Store {
           Computed<bool>(() => super.loading, name: '_TripStore.loading'))
       .value;
 
-  final _$fetchTripsFutureAtom = Atom(name: '_TripStore.fetchTripsFuture');
+  late final _$fetchTripsFutureAtom =
+      Atom(name: '_TripStore.fetchTripsFuture', context: context);
 
   @override
   ObservableFuture<TripList?> get fetchTripsFuture {
@@ -31,7 +32,8 @@ mixin _$TripStore on _TripStore, Store {
     });
   }
 
-  final _$tripListAtom = Atom(name: '_TripStore.tripList');
+  late final _$tripListAtom =
+      Atom(name: '_TripStore.tripList', context: context);
 
   @override
   TripList? get tripList {
@@ -46,7 +48,7 @@ mixin _$TripStore on _TripStore, Store {
     });
   }
 
-  final _$successAtom = Atom(name: '_TripStore.success');
+  late final _$successAtom = Atom(name: '_TripStore.success', context: context);
 
   @override
   bool get success {
@@ -61,11 +63,20 @@ mixin _$TripStore on _TripStore, Store {
     });
   }
 
-  final _$getTripsAsyncAction = AsyncAction('_TripStore.getTrips');
+  late final _$getTripsAsyncAction =
+      AsyncAction('_TripStore.getTrips', context: context);
 
   @override
   Future<dynamic> getTrips() {
     return _$getTripsAsyncAction.run(() => super.getTrips());
+  }
+
+  late final _$insertTripAsyncAction =
+      AsyncAction('_TripStore.insertTrip', context: context);
+
+  @override
+  Future<dynamic> insertTrip(Trip trip) {
+    return _$insertTripAsyncAction.run(() => super.insertTrip(trip));
   }
 
   @override

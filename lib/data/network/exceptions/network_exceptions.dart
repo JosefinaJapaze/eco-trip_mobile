@@ -9,3 +9,8 @@ class AuthException extends NetworkException {
   AuthException({message, statusCode})
       : super(message: message, statusCode: statusCode);
 }
+
+class BadRequestException extends NetworkException {
+  BadRequestException({message, statusCode})
+      : super(message: message, statusCode: statusCode);
+}

@@ -20,7 +20,7 @@ class RestClient {
       {Map<String, String>? headers, body, encoding}) {
     return http
         .post(
-          Uri.https(Endpoints.baseUrl, path),
+          Uri.http(Endpoints.host, path), 
           body: body,
           headers: headers,
           encoding: encoding,
@@ -67,6 +67,11 @@ class RestClient {
     if (statusCode == 403) {
       throw AuthException(
           message: 'Forbidden', statusCode: statusCode);
+    }
+
+    if (statusCode == 400) {
+      throw BadRequestException(
+          message: 'Bad request: ' + response.body, statusCode: statusCode);
     }
 
     if (statusCode < 200 || statusCode > 400) {

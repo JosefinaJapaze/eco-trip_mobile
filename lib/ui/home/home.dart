@@ -1,5 +1,5 @@
 import 'package:boilerplate/stores/trip/trip_store.dart';
-import 'package:boilerplate/stores/user/user_store.dart';
+import 'package:boilerplate/ui/login/store/login_store.dart';
 import 'package:boilerplate/utils/locale/app_localization.dart';
 import 'package:boilerplate/utils/routes/routes.dart';
 import 'package:boilerplate/widgets/progress_indicator_widget.dart';

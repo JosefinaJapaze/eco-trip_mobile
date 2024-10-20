@@ -1,12 +1,13 @@
 import 'dart:async';
 
 import 'package:boilerplate/data/sharedpref/shared_preference_helper.dart';
+import 'package:boilerplate/models/user/register_request.dart';
 import 'package:sembast/sembast.dart';
 
 import '../models/trip/trip.dart';
 import '../models/trip/trip_list.dart';
 import 'local/constants/db_constants.dart';
-import 'local/datasources/trip/trip_datasource.dart';
+import 'local/datasources/trip_datasource.dart';
 import 'network/apis/trip/trip_api.dart';
 
 class Repository {
@@ -59,7 +60,6 @@ class Repository {
       .then((id) => id)
       .catchError((error) => throw error);
 
-
   // Login:---------------------------------------------------------------------
   Future<bool> login(String email, String password) async {
     return await Future.delayed(Duration(seconds: 2), ()=> true);
@@ -69,6 +69,11 @@ class Repository {
       _sharedPrefsHelper.saveIsLoggedIn(value);
 
   Future<bool> get isLoggedIn => _sharedPrefsHelper.isLoggedIn;
+
+  // Register:------------------------------------------------------------------
+  Future<bool> register(RegisterRequest req) async {
+    return await Future.delayed(Duration(seconds: 2), ()=> true);
+  }
 
   // Theme: --------------------------------------------------------------------
   Future<void> changeBrightnessToDark(bool value) =>

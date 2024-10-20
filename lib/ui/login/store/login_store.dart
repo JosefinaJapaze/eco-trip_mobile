@@ -1,10 +1,10 @@
 import 'package:boilerplate/stores/error/error_store.dart';
 import 'package:mobx/mobx.dart';
 
-import '../../data/repository.dart';
-import '../form/form_store.dart';
+import '../../../data/repository.dart';
+import '../../../stores/form/form_store.dart';
 
-part 'user_store.g.dart';
+part 'login_store.g.dart';
 
 class UserStore = _UserStore with _$UserStore;
 

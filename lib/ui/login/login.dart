@@ -1,5 +1,4 @@
 import 'package:another_flushbar/flushbar_helper.dart';
-import 'package:boilerplate/constants/assets.dart';
 import 'package:boilerplate/data/sharedpref/constants/preferences.dart';
 import 'package:boilerplate/utils/routes/routes.dart';
 import 'package:boilerplate/stores/form/form_store.dart';
@@ -7,7 +6,6 @@ import 'package:boilerplate/utils/device/device_utils.dart';
 import 'package:boilerplate/utils/locale/app_localization.dart';
 import 'package:boilerplate/widgets/empty_app_bar_widget.dart';
 import 'package:boilerplate/widgets/progress_indicator_widget.dart';
-import 'package:boilerplate/widgets/rounded_button_widget.dart';
 import 'package:boilerplate/widgets/textfield_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -50,20 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Material(
       child: Stack(
         children: <Widget>[
-          MediaQuery.of(context).orientation == Orientation.landscape
-              ? Row(
-                  children: <Widget>[
-                    Expanded(
-                      flex: 1,
-                      child: _buildLeftSide(),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: _buildRightSide(),
-                    ),
-                  ],
-                )
-              : Center(child: _buildRightSide()),
+          Center(child: _buildRightSide()),
           Observer(
             builder: (context) {
               return _store.success
@@ -84,15 +69,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildLeftSide() {
-    return SizedBox.expand(
-      child: Image.asset(
-        Assets.appLogo,
-        fit: BoxFit.cover,
-      ),
-    );
-  }
-
   Widget _buildRightSide() {
     return SingleChildScrollView(
       child: Padding(
@@ -103,8 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             _buildLoginField(),
-            SizedBox(width: 20.0,
-              height: 30.0),
+            SizedBox(width: 20.0, height: 30.0),
             _buildUserIdField(),
             _buildPasswordField(),
             _buildSignInButton(),
@@ -114,6 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
   Widget _buildLoginField() {
     return Observer(
       builder: (context) {
@@ -121,12 +97,12 @@ class _LoginScreenState extends State<LoginScreen> {
           'Inicio de Sesión',
           textAlign: TextAlign.center,
           overflow: TextOverflow.ellipsis,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 37
-          ),
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 37),
         );
       },
     );
   }
+
   Widget _buildUserIdField() {
     return Observer(
       builder: (context) {
@@ -215,7 +191,6 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-  
 
   Widget navigate(BuildContext context) {
     SharedPreferences.getInstance().then((prefs) {
@@ -230,7 +205,6 @@ class _LoginScreenState extends State<LoginScreen> {
     return Container();
   }
 
-  // General Methods:-----------------------------------------------------------
   _showErrorMessage(String message) {
     if (message.isNotEmpty) {
       Future.delayed(Duration(milliseconds: 0), () {
@@ -243,7 +217,6 @@ class _LoginScreenState extends State<LoginScreen> {
         }
       });
     }
-
     return SizedBox.shrink();
   }
 
