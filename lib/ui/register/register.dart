@@ -15,24 +15,27 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController _userEmailController = TextEditingController();
+  String _userEmailError = "";
   TextEditingController _passwordController = TextEditingController();
+  String _passwordError = "";
   TextEditingController _confirmPasswordController = TextEditingController();
+  String _confirmPasswordError = "";
   TextEditingController _nameController = TextEditingController();
+  String _nameError = "";
   TextEditingController _lastNameController = TextEditingController();
+  String _lastNameError = "";
   TextEditingController _genderController = TextEditingController();
   TextEditingController _ageController = TextEditingController();
+  String _ageError = "";
   TextEditingController _phoneNumberController = TextEditingController();
-
-  late FocusNode _passwordFocusNode;
-  late FocusNode _confirmPasswordFocusNode;
+  String _phoneNumberError = "";
 
   late RegisterStore _store;
 
   @override
   void initState() {
     super.initState();
-    _passwordFocusNode = FocusNode();
-    _confirmPasswordFocusNode = FocusNode();
+    _genderController.text = "Masculino";
   }
 
   @override
@@ -59,41 +62,43 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget _buildBody() {
-    return Stack(children: [
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _buildRegisterField(),
-            _buildNameField(),
-            _buildLastNameField(),
-            _buildGenderField(),
-            _buildAgeField(),
-            _buildPhoneNumberField(),
-            _buildEmailField(),
-            _buildPasswordField(),
-            _buildConfirmPasswordField(),
-            _buildRegisterButton(),
-          ],
+    return SingleChildScrollView(
+      child: Stack(children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _buildRegisterField(),
+              _buildNameField(),
+              _buildLastNameField(),
+              _buildGenderField(),
+              _buildAgeField(),
+              _buildPhoneNumberField(),
+              _buildEmailField(),
+              _buildPasswordField(),
+              _buildConfirmPasswordField(),
+              _buildRegisterButton(),
+            ],
+          ),
         ),
-      ),
-      Observer(
-        builder: (context) {
-          return _store.success
-              ? navigate(context)
-              : _showErrorMessage(_store.errorStore.errorMessage);
-        },
-      ),
-      Observer(
-        builder: (context) {
-          return Visibility(
-            visible: _store.isLoading,
-            child: CustomProgressIndicatorWidget(),
-          );
-        },
-      )
-    ]);
+        Observer(
+          builder: (context) {
+            return _store.success
+                ? navigate(context)
+                : _showErrorMessage(_store.errorStore.errorMessage);
+          },
+        ),
+        Observer(
+          builder: (context) {
+            return Visibility(
+              visible: _store.isLoading,
+              child: CustomProgressIndicatorWidget(),
+            );
+          },
+        )
+      ]),
+    );
   }
 
   Widget _buildRegisterField() {
@@ -107,44 +112,85 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget _buildNameField() {
-    return _buildTextField("Nombre", _nameController);
+    return _buildTextField("Nombre", _nameController, _nameError);
   }
 
   Widget _buildLastNameField() {
-    return _buildTextField("Apellido", _lastNameController);
+    return _buildTextField("Apellido", _lastNameController, _lastNameError);
   }
 
   Widget _buildGenderField() {
-    return _buildTextField("Sexo", _genderController);
+    // radio button group of genero
+    return Row(
+      children: [
+        Text("Genero: "),
+        Radio(
+          value: "Masculino",
+          groupValue: _genderController.text,
+          onChanged: (value) {
+            setState(() {
+              _genderController.text = value.toString();
+            });
+          },
+        ),
+        Text("Masculino"),
+        Radio(
+          value: "Femenino",
+          groupValue: _genderController.text,
+          onChanged: (value) {
+            setState(() {
+              _genderController.text = value.toString();
+            });
+          },
+        ),
+        Text("Femenino"),
+      ],
+    );
   }
 
   Widget _buildAgeField() {
-    return _buildTextField("Edad", _ageController);
+    return _buildTextField("Edad", _ageController, _ageError);
   }
 
   Widget _buildPhoneNumberField() {
-    return _buildTextField("Numero de Celular", _phoneNumberController);
+    return _buildTextField(
+        "Numero de Celular", _phoneNumberController, _phoneNumberError);
   }
 
   Widget _buildEmailField() {
-    return _buildTextField("Correo electronico", _userEmailController);
+    return _buildTextField(
+        "Correo electronico", _userEmailController, _userEmailError);
   }
 
   Widget _buildPasswordField() {
-    return _buildTextField("Contraseña", _passwordController, isObscure: true);
+    return _buildTextField("Contraseña", _passwordController, _passwordError,
+        isObscure: true);
   }
 
   Widget _buildConfirmPasswordField() {
-    return _buildTextField("Repetir contraseña", _confirmPasswordController, isObscure: true);
-  } 
+    return _buildTextField(
+        "Repetir contraseña", _confirmPasswordController, _confirmPasswordError,
+        isObscure: true);
+  }
 
-  Widget _buildTextField(String hint, TextEditingController? controller, {bool isObscure = false}) {
+  Widget _buildTextField(
+      String hint, TextEditingController? controller, String error,
+      {bool isObscure = false}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: TextField(
         controller: controller,
         obscureText: isObscure,
         decoration: InputDecoration(
+          errorText: error.isEmpty ? null : error,
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5.0),
+            borderSide: BorderSide(color: Colors.red),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5.0),
+            borderSide: BorderSide(color: Colors.red),
+          ),
           contentPadding:
               EdgeInsets.symmetric(vertical: 16.0, horizontal: 10.0),
           hintText: hint,
@@ -177,6 +223,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       ),
       onPressed: () {
+        if (!_validateFields()) return;
         _store.register(RegisterParams(
           email: _userEmailController.text,
           password: _passwordController.text,
@@ -214,8 +261,105 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Widget navigate(BuildContext context) {
     Future.delayed(Duration(milliseconds: 0), () {
-      Navigator.of(context).pushNamed(Routes.validate_data_step_one);
+      Navigator.of(context).popAndPushNamed(Routes.validate_data_step_one);
     });
     return Container();
+  }
+
+  bool _validateFields() {
+    bool valid = true;
+    if (_nameController.text.isEmpty) {
+      setState(() {
+        _nameError = "Campo requerido";
+      });
+      valid = false;
+    } else {
+      setState(() {
+        _nameError = "";
+      });
+    }
+
+    if (_lastNameController.text.isEmpty) {
+      setState(() {
+        _lastNameError = "Campo requerido";
+      });
+      valid = false;
+    } else {
+      setState(() {
+        _lastNameError = "";
+      });
+    }
+
+    if (_ageController.text.isEmpty) {
+      setState(() {
+        _ageError = "Campo requerido";
+      });
+      valid = false;
+    } else {
+      setState(() {
+        _ageError = "";
+      });
+    }
+
+    if (_phoneNumberController.text.isEmpty) {
+      setState(() {
+        _phoneNumberError = "Campo requerido";
+      });
+      valid = false;
+    } else {
+      setState(() {
+        _phoneNumberError = "";
+      });
+    }
+
+    if (_userEmailController.text.isEmpty) {
+      setState(() {
+        _userEmailError = "Campo requerido";
+      });
+      valid = false;
+    } else {
+      setState(() {
+        _userEmailError = "";
+      });
+    }
+
+    if (_passwordController.text.isEmpty) {
+      setState(() {
+        _passwordError = "Campo requerido";
+      });
+      valid = false;
+    } else {
+      setState(() {
+        _passwordError = "";
+      });
+    }
+
+    if (_confirmPasswordController.text.isEmpty) {
+      setState(() {
+        _confirmPasswordError = "Campo requerido";
+      });
+      valid = false;
+    } else {
+      setState(() {
+        _confirmPasswordError = "";
+      });
+    }
+
+    if (_passwordController.text.isNotEmpty &&
+        _confirmPasswordController.text.isNotEmpty &&
+        _passwordController.text != _confirmPasswordController.text) {
+      setState(() {
+        _passwordError = "Las contraseñas no coinciden";
+        _confirmPasswordError = "Las contraseñas no coinciden";
+      });
+      valid = false;
+    } else {
+      setState(() {
+        _passwordError = "";
+        _confirmPasswordError = "";
+      });
+    }
+
+    return valid;
   }
 }
