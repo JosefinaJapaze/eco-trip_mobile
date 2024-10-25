@@ -1,13 +1,14 @@
-import 'package:boilerplate/widgets/base_app_bar.dart';
+import 'package:ecotrip/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class JoinProgrammedCalendarScreen extends StatefulWidget {
   @override
-  _JoinProgrammedCalendarScreenState createState() => _JoinProgrammedCalendarScreenState();
+  _JoinProgrammedCalendarScreenState createState() =>
+      _JoinProgrammedCalendarScreenState();
 }
 
-class _JoinProgrammedCalendarScreenState extends State<JoinProgrammedCalendarScreen> {
-
+class _JoinProgrammedCalendarScreenState
+    extends State<JoinProgrammedCalendarScreen> {
   final List<String> items = [
     '06:00hs',
     '12:00hs',
@@ -68,46 +69,42 @@ class _JoinProgrammedCalendarScreenState extends State<JoinProgrammedCalendarScr
   Widget _buildDropDownButton() {
     return DecoratedBox(
       decoration: BoxDecoration(
-          color:Colors.white, //background color of dropdown button
-          border: Border.all(color: Colors.black, width:3), //border of dropdown button
-          boxShadow: <BoxShadow>[ //apply shadow on Dropdown button
+          color: Colors.white, //background color of dropdown button
+          border: Border.all(
+              color: Colors.black, width: 3), //border of dropdown button
+          boxShadow: <BoxShadow>[
+            //apply shadow on Dropdown button
             BoxShadow(
                 color: Color.fromRGBO(0, 0, 0, 0.57), //shadow for button
                 blurRadius: 5) //blur radius of shadow
-          ]
-      ),
+          ]),
       child: Padding(
-        padding: EdgeInsets.only(left:30, right:30),
+        padding: EdgeInsets.only(left: 30, right: 30),
         child: DropdownButton(
           hint: Text(
             'Select Item',
             style: TextStyle(
               fontSize: 14,
-              color: Theme
-                  .of(context)
-                  .hintColor,
+              color: Theme.of(context).hintColor,
             ),
           ),
           items: items
-              .map((item) =>
-              DropdownMenuItem<String>(
-                value: item,
-                child: Text(
-                  item,
-                  style: const TextStyle(
-                    fontSize: 14,
-                  ),
-                ),
-              ))
+              .map((item) => DropdownMenuItem<String>(
+                    value: item,
+                    child: Text(
+                      item,
+                      style: const TextStyle(
+                        fontSize: 14,
+                      ),
+                    ),
+                  ))
               .toList(),
           value: selectedValue,
-
           onChanged: (value) {
             setState(() {
               selectedValue = value as String;
             });
           },
-
         ),
       ),
     );
@@ -122,20 +119,16 @@ class _JoinProgrammedCalendarScreenState extends State<JoinProgrammedCalendarScr
               borderRadius: BorderRadius.circular(20),
               color: Colors.lime,
             ),
-            child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               TextButton(
-                  onPressed: () => {
-                    Navigator.of(context).pushNamed(route)
-                  },
+                  onPressed: () => {Navigator.of(context).pushNamed(route)},
                   child: Text(
                     'BUSCAR',
-                    style:
-                    TextStyle(
+                    style: TextStyle(
                       color: Colors.black,
                     ),
                   )),
-            ]
-            )
-        ));
+            ])));
   }
 }

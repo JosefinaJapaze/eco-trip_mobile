@@ -1,4 +1,4 @@
-import 'package:boilerplate/widgets/base_app_bar.dart';
+import 'package:ecotrip/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class CreateRequestScreen extends StatefulWidget {
@@ -7,7 +7,6 @@ class CreateRequestScreen extends StatefulWidget {
 }
 
 class _CreateRequestScreenState extends State<CreateRequestScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -52,13 +51,10 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
               color: Colors.lime,
             ),
             child: TextButton(
-                onPressed: () => {
-                  Navigator.of(context).pushNamed("/home")
-                },
+                onPressed: () => {Navigator.of(context).pushNamed("/home")},
                 child: Text(
                   'ACEPTAR',
-                  style:
-                  TextStyle(
+                  style: TextStyle(
                     color: Colors.black,
                   ),
                 )),

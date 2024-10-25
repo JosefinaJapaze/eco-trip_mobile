@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:boilerplate/widgets/base_app_bar.dart';
+import 'package:ecotrip/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:geolocator/geolocator.dart';
@@ -20,7 +20,7 @@ class _TripRouteScreenState extends State<TripRouteScreen> {
   void initState() {
     super.initState();
     controller = MapController(
-      initMapWithUserPosition: false,
+      initMapWithUserPosition: UserTrackingOption(enableTracking: true),
       initPosition: GeoPoint(latitude: -26.8274, longitude: -65.2078),
     );
     timer = Timer.periodic(Duration(seconds: 3), (Timer t) => drawMap());
@@ -115,18 +115,26 @@ class _TripRouteScreenState extends State<TripRouteScreen> {
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       child: OSMFlutter(
-        initZoom: 14,
-        controller: controller,
-        markerOption: MarkerOption(
-          defaultMarker: MarkerIcon(
-            icon: Icon(
-              Icons.person_pin_circle,
-              color: Colors.blue,
-              size: 56,
+        osmOption: OSMOption(
+            userLocationMarker: UserLocationMaker(
+              directionArrowMarker: MarkerIcon(
+                icon: Icon(
+                  Icons.arrow_drop_down_circle,
+                  color: Colors.blue,
+                  size: 56,
+                ),
+              ),
+              personMarker: MarkerIcon(
+                icon: Icon(
+                  Icons.person_pin_circle,
+                  color: Colors.blue,
+                  size: 56,
+                ),
+              ),
             ),
-          ),
-        ),
-        trackMyPosition: false,
+            zoomOption: ZoomOption(initZoom: 14),
+            userTrackingOption: UserTrackingOption(enableTracking: false)),
+        controller: controller,
       ),
     );
   }

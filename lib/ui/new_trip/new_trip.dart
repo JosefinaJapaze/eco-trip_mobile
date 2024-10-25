@@ -1,4 +1,4 @@
-import 'package:boilerplate/widgets/base_app_bar.dart';
+import 'package:ecotrip/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class NewTripScreen extends StatefulWidget {
@@ -41,30 +41,27 @@ class _NewTripScreenState extends State<NewTripScreen> {
 
   Widget _buildTripTypeProgrammed(route) {
     return Padding(
-      padding: const EdgeInsets.only(top: 50),
-      child: Container(
-        height: 60,
-        width: 250,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: Colors.black,
-        ),
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          TextButton(
-              onPressed: () => {
-                Navigator.of(context).pushNamed(route)
-              },
-              child: Text(
-                'Viajes programados',
-                style:
-                TextStyle(
-                  color: Colors.white,
-                ),
-              )),
-    ]
-    )
-    ));
+        padding: const EdgeInsets.only(top: 50),
+        child: Container(
+            height: 60,
+            width: 250,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.black,
+            ),
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              TextButton(
+                  onPressed: () => {Navigator.of(context).pushNamed(route)},
+                  child: Text(
+                    'Viajes programados',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  )),
+            ])));
   }
+
   Widget _buildTripTypeFrecuent(route) {
     return Padding(
         padding: const EdgeInsets.only(top: 50),
@@ -75,19 +72,16 @@ class _NewTripScreenState extends State<NewTripScreen> {
               borderRadius: BorderRadius.circular(20),
               color: Colors.black,
             ),
-            child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               TextButton(
-                  onPressed: () => {
-                    Navigator.of(context).pushNamed(route)
-                  },
+                  onPressed: () => {Navigator.of(context).pushNamed(route)},
                   child: Text(
                     'Viajes frecuentes',
                     style: TextStyle(
                       color: Colors.white,
                     ),
                   )),
-            ]
-            )
-        ));
+            ])));
   }
 }

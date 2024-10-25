@@ -1,10 +1,10 @@
 import 'package:another_flushbar/flushbar_helper.dart';
-import 'package:boilerplate/data/network/apis/user/register_api.dart';
-import 'package:boilerplate/di/components/service_locator.dart';
-import 'package:boilerplate/ui/register/store/register_store.dart';
-import 'package:boilerplate/utils/locale/app_localization.dart';
-import 'package:boilerplate/utils/routes/routes.dart';
-import 'package:boilerplate/widgets/progress_indicator_widget.dart';
+import 'package:ecotrip/data/network/apis/user/register_api.dart';
+import 'package:ecotrip/di/components/service_locator.dart';
+import 'package:ecotrip/ui/register/store/register_store.dart';
+import 'package:ecotrip/utils/locale/app_localization.dart';
+import 'package:ecotrip/utils/routes/routes.dart';
+import 'package:ecotrip/widgets/progress_indicator_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 

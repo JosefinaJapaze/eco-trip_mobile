@@ -1,4 +1,4 @@
-import 'package:boilerplate/widgets/base_app_bar.dart';
+import 'package:ecotrip/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class MyWalletScreen extends StatefulWidget {
@@ -28,7 +28,6 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
           ),
           SizedBox(width: 50, height: 50),
           _buildTable("/pay_request"),
-
         ],
       ),
     );
@@ -43,77 +42,66 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
               decoration: new BoxDecoration(color: Colors.grey),
               children: [
                 TextButton(
-                  onPressed: () => {
-                    Navigator.of(context).pushNamed(route)
-                  },
-                  child:
-                Row(
-                    children:[
-                  Icon(
-                      Icons.add_card, color: Colors.black),
-                  SizedBox(width: 5),
-                  Text('******5968',
-                    style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                  )),
-                      ]),
+                  onPressed: () => {Navigator.of(context).pushNamed(route)},
+                  child: Row(children: [
+                    Icon(Icons.add_card, color: Colors.black),
+                    SizedBox(width: 5),
+                    Text('******5968',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                        )),
+                  ]),
                 ),
-          ]),
+              ]),
           TableRow(
-
               decoration: new BoxDecoration(color: Colors.blueGrey),
               children: [
                 TextButton(
-                  onPressed: () => {
-                    Navigator.of(context).pushNamed(route)
-                  },
-                 child:
-                    Row(children:[
+                  onPressed: () => {Navigator.of(context).pushNamed(route)},
+                  child: Row(children: [
                     Icon(Icons.add_card, color: Colors.black),
                     SizedBox(width: 5),
                     Text('******7980',
                         style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        ))]),
+                          color: Colors.black,
+                          fontSize: 20,
+                        ))
+                  ]),
                 ),
-          ]),
+              ]),
           TableRow(
-
               decoration: new BoxDecoration(color: Colors.grey),
               children: [
                 TextButton(
-                   onPressed: () => {
-                         Navigator.of(context).pushNamed(route)
-                  },child:
-                  Row(
-
-                      children:[
-                  Icon(Icons.money, color: Colors.black),
-                  SizedBox(width: 5),
-                  Text('Efectivo',
-                  style: TextStyle(
-                  color: Colors.black, fontSize: 20,)
-                  )]),
+                  onPressed: () => {Navigator.of(context).pushNamed(route)},
+                  child: Row(children: [
+                    Icon(Icons.money, color: Colors.black),
+                    SizedBox(width: 5),
+                    Text('Efectivo',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                        ))
+                  ]),
                 ),
-          ]),
+              ]),
           TableRow(
               decoration: new BoxDecoration(color: Colors.blueGrey),
               children: [
                 TextButton(
-                  onPressed: () => {
-                  Navigator.of(context).pushNamed(route)
-                },child:
-                Row(children:[
-                  Icon(Icons.add, color: Colors.black),
-                  SizedBox(width: 5),
-                  Text('Agregar método de pago', style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                  ))]),
+                  onPressed: () => {Navigator.of(context).pushNamed(route)},
+                  child: Row(children: [
+                    Icon(Icons.add, color: Colors.black),
+                    SizedBox(width: 5),
+                    Text('Agregar método de pago',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                        ))
+                  ]),
                 ),
-          ]),
+              ]),
         ],
       ),
     );

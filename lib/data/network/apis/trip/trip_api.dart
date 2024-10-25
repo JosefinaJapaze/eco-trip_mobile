@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:boilerplate/data/network/dio_client.dart';
-import 'package:boilerplate/data/network/rest_client.dart';
-import 'package:boilerplate/models/trip/trip_list.dart';
+import 'package:ecotrip/data/network/dio_client.dart';
+import 'package:ecotrip/data/network/rest_client.dart';
+import 'package:ecotrip/models/trip/trip_list.dart';
 
 class TripApi {
   // dio instance
@@ -19,7 +19,7 @@ class TripApi {
     return TripList();
   }
 
-/// sample api call with default rest client
+  /// sample api call with default rest client
 //  Future<TripsList> getTrips() {
 //
 //    return _restClient

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:boilerplate/data/network/constants/endpoints.dart';
+import 'package:ecotrip/data/network/constants/endpoints.dart';
 import 'package:http/http.dart' as http;
 
 import 'exceptions/network_exceptions.dart';
@@ -20,7 +20,7 @@ class RestClient {
       {Map<String, String>? headers, body, encoding}) {
     return http
         .post(
-          Uri.http(Endpoints.host, path), 
+          Uri.http(Endpoints.host, path),
           body: body,
           headers: headers,
           encoding: encoding,
@@ -60,13 +60,11 @@ class RestClient {
     final int statusCode = response.statusCode;
 
     if (statusCode == 401) {
-      throw AuthException(
-          message: 'Unauthorized', statusCode: statusCode);
+      throw AuthException(message: 'Unauthorized', statusCode: statusCode);
     }
 
     if (statusCode == 403) {
-      throw AuthException(
-          message: 'Forbidden', statusCode: statusCode);
+      throw AuthException(message: 'Forbidden', statusCode: statusCode);
     }
 
     if (statusCode == 400) {

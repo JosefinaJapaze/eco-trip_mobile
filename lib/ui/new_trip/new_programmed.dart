@@ -1,4 +1,4 @@
-import 'package:boilerplate/widgets/base_app_bar.dart';
+import 'package:ecotrip/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class NewProgrammedScreen extends StatefulWidget {
@@ -37,31 +37,25 @@ class _NewProgrammedScreenState extends State<NewProgrammedScreen> {
               borderRadius: BorderRadius.circular(20),
               color: Colors.black,
             ),
-            child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               TextButton(
-                  onPressed: () => {
-                    Navigator.of(context).pushNamed(route)
-                  },
-                  child:
-
-                  Wrap(
+                  onPressed: () => {Navigator.of(context).pushNamed(route)},
+                  child: Wrap(
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
                       Text(
                         'Unirme a un viaje',
-                        style:
-                        TextStyle(
+                        style: TextStyle(
                           color: Colors.white,
                         ),
                       ),
                       Icon(Icons.arrow_forward_ios, color: Colors.lime),
                     ],
-                  )
-              ),
-            ]
-            )
-        ));
+                  )),
+            ])));
   }
+
   Widget _buildTripCreateProgrammed(route) {
     return Padding(
         padding: const EdgeInsets.only(top: 50),
@@ -72,29 +66,22 @@ class _NewProgrammedScreenState extends State<NewProgrammedScreen> {
               borderRadius: BorderRadius.circular(20),
               color: Colors.black,
             ),
-            child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               TextButton(
-                  onPressed: () => {
-                    Navigator.of(context).pushNamed(route)
-                  },
-                  child:
-
-                  Wrap(
+                  onPressed: () => {Navigator.of(context).pushNamed(route)},
+                  child: Wrap(
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
                       Text(
                         'Crear un nuevo viaje',
-                        style:
-                        TextStyle(
+                        style: TextStyle(
                           color: Colors.white,
                         ),
                       ),
                       Icon(Icons.arrow_forward_ios, color: Colors.lime),
                     ],
-                  )
-              ),
-            ]
-            )
-        ));
+                  )),
+            ])));
   }
 }

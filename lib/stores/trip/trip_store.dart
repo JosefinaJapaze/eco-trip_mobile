@@ -1,6 +1,5 @@
-import 'package:boilerplate/data/repository.dart';
-import 'package:boilerplate/stores/error/error_store.dart';
-import 'package:boilerplate/utils/dio/dio_error_util.dart';
+import 'package:ecotrip/data/repository.dart';
+import 'package:ecotrip/stores/error/error_store.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../models/trip/trip.dart';
@@ -22,11 +21,11 @@ abstract class _TripStore with Store {
 
   // store variables:-----------------------------------------------------------
   static ObservableFuture<TripList?> emptyTripResponse =
-  ObservableFuture.value(null);
+      ObservableFuture.value(null);
 
   @observable
   ObservableFuture<TripList?> fetchTripsFuture =
-  ObservableFuture<TripList?>(emptyTripResponse);
+      ObservableFuture<TripList?>(emptyTripResponse);
 
   @observable
   TripList? tripList;
@@ -46,7 +45,7 @@ abstract class _TripStore with Store {
     future.then((tripList) {
       this.tripList = tripList;
     }).catchError((error) {
-      errorStore.errorMessage = DioErrorUtil.handleError(error);
+      errorStore.errorMessage = "Couldn't fetch trips. Please try again later.";
     });
   }
 
@@ -60,7 +59,7 @@ abstract class _TripStore with Store {
     future.then((tripList) {
       this.tripList = tripList;
     }).catchError((error) {
-      errorStore.errorMessage = DioErrorUtil.handleError(error);
+      errorStore.errorMessage = "Couldn't fetch trips. Please try again later.";
     });
   }
 }

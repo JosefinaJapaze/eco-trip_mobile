@@ -1,4 +1,4 @@
-import 'package:boilerplate/widgets/base_app_bar.dart';
+import 'package:ecotrip/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -7,10 +7,12 @@ import '../../stores/trip/trip_store.dart';
 
 class JoinProgrammedMatchsScreen extends StatefulWidget {
   @override
-  _JoinProgrammedMatchsScreenState createState() => _JoinProgrammedMatchsScreenState();
+  _JoinProgrammedMatchsScreenState createState() =>
+      _JoinProgrammedMatchsScreenState();
 }
 
-class _JoinProgrammedMatchsScreenState extends State<JoinProgrammedMatchsScreen> {
+class _JoinProgrammedMatchsScreenState
+    extends State<JoinProgrammedMatchsScreen> {
   //stores:---------------------------------------------------------------------
   late TripStore _tripStore;
 
@@ -33,18 +35,16 @@ class _JoinProgrammedMatchsScreenState extends State<JoinProgrammedMatchsScreen>
   }
 
   void insertTrip() {
-
-    _tripStore.insertTrip(
-        Trip(
+    _tripStore
+        .insertTrip(Trip(
             hasStarted: false,
             isFinished: false,
             seatsLeft: 3, // sacar
             cost: 982, // sacar
             type: "programmed",
             userId: '' // sacar del auth,
-        )).then((value) => {
-      Navigator.of(context).pushNamed("/join_request")
-    });
+            ))
+        .then((value) => {Navigator.of(context).pushNamed("/join_request")});
   }
 
   @override
@@ -79,21 +79,17 @@ class _JoinProgrammedMatchsScreenState extends State<JoinProgrammedMatchsScreen>
               borderRadius: BorderRadius.circular(20),
               color: Colors.lime,
             ),
-            child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               TextButton(
-                  onPressed: () => {
-                    Navigator.of(context).pushNamed(route)
-                  },
+                  onPressed: () => {Navigator.of(context).pushNamed(route)},
                   child: Text(
                     'CANCELAR',
-                    style:
-                    TextStyle(
+                    style: TextStyle(
                       color: Colors.black,
                     ),
                   )),
-            ]
-            )
-        ));
+            ])));
   }
 
   Card _buildTripHistoryCard(route) {
@@ -180,15 +176,13 @@ class _JoinProgrammedMatchsScreenState extends State<JoinProgrammedMatchsScreen>
                   child: Column(
                     children: [
                       TextButton(
-                          onPressed: () => {
-                            insertTrip()
-                          },
+                          onPressed: () => {insertTrip()},
                           style: ButtonStyle(
                               backgroundColor:
-                              MaterialStateProperty.resolveWith(
+                                  MaterialStateProperty.resolveWith(
                                       (states) => Colors.black),
                               shape:
-                              MaterialStateProperty.all(StadiumBorder())),
+                                  MaterialStateProperty.all(StadiumBorder())),
                           child: Text(
                             'Unirme',
                             style: TextStyle(

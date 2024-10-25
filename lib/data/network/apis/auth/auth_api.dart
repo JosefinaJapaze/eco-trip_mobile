@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:boilerplate/data/network/constants/endpoints.dart';
-import 'package:boilerplate/data/network/rest_client.dart';
-import 'package:boilerplate/data/network/exceptions/network_exceptions.dart';
-import 'package:boilerplate/models/auth/auth.dart';
+import 'package:ecotrip/data/network/constants/endpoints.dart';
+import 'package:ecotrip/data/network/rest_client.dart';
+import 'package:ecotrip/data/network/exceptions/network_exceptions.dart';
+import 'package:ecotrip/models/auth/auth.dart';
 
 class TripApi {
   // rest-client instance
@@ -11,7 +11,7 @@ class TripApi {
 
   TripApi(this._restClient);
 
- Future<LoginResult> login(String username, String password) {
+  Future<LoginResult> login(String username, String password) {
     return _restClient.post(Endpoints.login, body: {
       "username": username,
       "password": password,
@@ -22,10 +22,10 @@ class TripApi {
         refreshToken: res["refreshToken"],
       );
     }).catchError((e) {
-       if (e is AuthException) {
+      if (e is AuthException) {
         return LoginResult(resultStatus: AuthResultStatus.wrongCredentials);
-       }
-       throw NetworkException(message: e.toString());
+      }
+      throw NetworkException(message: e.toString());
     });
   }
 }

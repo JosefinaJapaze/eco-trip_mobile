@@ -1,4 +1,4 @@
-import 'package:boilerplate/models/trip/trip.dart';
+import 'package:ecotrip/models/trip/trip.dart';
 
 class TripList {
   final List<Trip>? trips;

@@ -1,5 +1,5 @@
-import 'package:boilerplate/stores/trip/trip_store.dart';
-import 'package:boilerplate/widgets/base_app_bar.dart';
+import 'package:ecotrip/stores/trip/trip_store.dart';
+import 'package:ecotrip/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -70,10 +70,10 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
         child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           TextButton(
               onPressed: () => {
-                setState(() {
-                  displayFrequent = false;
-                })
-              },
+                    setState(() {
+                      displayFrequent = false;
+                    })
+                  },
               child: Text(
                 'Viajes programados',
                 style: TextStyle(
@@ -83,13 +83,14 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
               )),
           TextButton(
               onPressed: () => {
-                setState(() {
-                  displayFrequent = true;
-                })
-              },
+                    setState(() {
+                      displayFrequent = true;
+                    })
+                  },
               child: Text(
                 'Viajes frecuentes',
-                style: TextStyle(color: Colors.white,
+                style: TextStyle(
+                  color: Colors.white,
                   fontSize: displayFrequent ? 16 : 14,
                 ),
               ))
@@ -99,22 +100,23 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
   }
 
   List<Widget> _buildTripHistory() {
-
-    if(_tripStore.tripList == null || _tripStore.tripList!.trips == null) {
-      return <Widget>[ Text("No se poseen viajes programados actualmente."
-          "Puedes crear o unirte a un viaje desde la pestaña Nuevo Viaje")];
+    if (_tripStore.tripList == null || _tripStore.tripList!.trips == null) {
+      return <Widget>[
+        Text("No se poseen viajes programados actualmente."
+            "Puedes crear o unirte a un viaje desde la pestaña Nuevo Viaje")
+      ];
     }
 
-      cards = <Widget>[];
-      _tripStore.tripList!.trips!.forEach((element) {
-        if (element.type == "frequent" && displayFrequent) {
-          cards.add(_buildTripHistoryCard(element));
-        }
+    cards = <Widget>[];
+    _tripStore.tripList!.trips!.forEach((element) {
+      if (element.type == "frequent" && displayFrequent) {
+        cards.add(_buildTripHistoryCard(element));
+      }
 
-        if (element.type == "programmed" && !displayFrequent) {
-          cards.add(_buildTripHistoryCard(element));
-        }
-      });
+      if (element.type == "programmed" && !displayFrequent) {
+        cards.add(_buildTripHistoryCard(element));
+      }
+    });
 
     return cards;
   }
@@ -203,9 +205,8 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
                   child: Column(
                     children: [
                       TextButton(
-                          onPressed: () => {
-                            Navigator.of(context).pushNamed("/trip_route")
-                          },
+                          onPressed: () =>
+                              {Navigator.of(context).pushNamed("/trip_route")},
                           style: ButtonStyle(
                               backgroundColor:
                                   MaterialStateProperty.resolveWith(

@@ -1,6 +1,6 @@
-import 'package:boilerplate/stores/language/language_store.dart';
-import 'package:boilerplate/stores/theme/theme_store.dart';
-import 'package:boilerplate/widgets/base_app_bar.dart';
+import 'package:ecotrip/stores/language/language_store.dart';
+import 'package:ecotrip/stores/theme/theme_store.dart';
+import 'package:ecotrip/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -61,21 +61,17 @@ class _PayTripScreenState extends State<PayTripScreen> {
               borderRadius: BorderRadius.circular(20),
               color: Colors.lime,
             ),
-            child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               TextButton(
-                  onPressed: () => {
-                    Navigator.of(context).pushNamed(route)
-                  },
+                  onPressed: () => {Navigator.of(context).pushNamed(route)},
                   child: Text(
                     'CANCELAR',
-                    style:
-                    TextStyle(
+                    style: TextStyle(
                       color: Colors.black,
                     ),
                   )),
-            ]
-            )
-        ));
+            ])));
   }
 
   Card _buildTripHistoryCard(route) {
@@ -162,22 +158,20 @@ class _PayTripScreenState extends State<PayTripScreen> {
                   child: Column(
                     children: [
                       TextButton(
-                          onPressed: () => {
-                            Navigator.of(context).pushNamed(route)
-                          },
+                          onPressed: () =>
+                              {Navigator.of(context).pushNamed(route)},
                           style: ButtonStyle(
                               backgroundColor:
-                              MaterialStateProperty.resolveWith(
+                                  MaterialStateProperty.resolveWith(
                                       (states) => Colors.black),
                               shape:
-                              MaterialStateProperty.all(StadiumBorder())),
+                                  MaterialStateProperty.all(StadiumBorder())),
                           child: Text(
                             'PAGAR',
                             style: TextStyle(
                               color: Colors.white,
                             ),
                           )),
-
                     ],
                   ),
                 )

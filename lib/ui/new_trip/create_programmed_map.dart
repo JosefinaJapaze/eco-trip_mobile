@@ -1,14 +1,14 @@
-import 'package:boilerplate/widgets/base_app_bar.dart';
+import 'package:ecotrip/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 
 class CreateProgrammedMapScreen extends StatefulWidget {
   @override
-  _CreateProgrammedMapScreenState createState() => _CreateProgrammedMapScreenState();
+  _CreateProgrammedMapScreenState createState() =>
+      _CreateProgrammedMapScreenState();
 }
 
 class _CreateProgrammedMapScreenState extends State<CreateProgrammedMapScreen> {
-
   //stores:---------------------------------------------------------------------
   late MapController controller;
 
@@ -16,8 +16,8 @@ class _CreateProgrammedMapScreenState extends State<CreateProgrammedMapScreen> {
   void initState() {
     super.initState();
     controller = MapController(
-        initMapWithUserPosition: false,
-        initPosition: GeoPoint(latitude: -26.8274, longitude: -65.2078)
+      initMapWithUserPosition: UserTrackingOption(enableTracking: true),
+      initPosition: GeoPoint(latitude: -26.8274, longitude: -65.2078),
     );
   }
 
@@ -58,18 +58,26 @@ class _CreateProgrammedMapScreenState extends State<CreateProgrammedMapScreen> {
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       child: OSMFlutter(
-        initZoom: 14,
-        controller: controller,
-        markerOption: MarkerOption(
-          defaultMarker: MarkerIcon(
-            icon: Icon(
-              Icons.person_pin_circle,
-              color: Colors.blue,
-              size: 56,
+        osmOption: OSMOption(
+            userLocationMarker: UserLocationMaker(
+              directionArrowMarker: MarkerIcon(
+                icon: Icon(
+                  Icons.arrow_drop_down_circle,
+                  color: Colors.blue,
+                  size: 56,
+                ),
+              ),
+              personMarker: MarkerIcon(
+                icon: Icon(
+                  Icons.person_pin_circle,
+                  color: Colors.blue,
+                  size: 56,
+                ),
+              ),
             ),
-          ),
-        ),
-        trackMyPosition: false,
+            zoomOption: ZoomOption(initZoom: 14),
+            userTrackingOption: UserTrackingOption(enableTracking: false)),
+        controller: controller,
       ),
     );
   }
@@ -83,39 +91,36 @@ class _CreateProgrammedMapScreenState extends State<CreateProgrammedMapScreen> {
               borderRadius: BorderRadius.circular(20),
               color: Colors.white70,
             ),
-            child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               TextButton(
-                onPressed: () => {
-                },
-                child:
-                Container(
-                  child:
-                  Row(children: [
-                    Icon(Icons.my_location_outlined, color: Colors.lime),
-                    SizedBox(width: 10),
-                    Text(
-                      'Origen',
-                      style:
-                      TextStyle(
-                        color: Colors.black,
+                onPressed: () => {},
+                child: Container(
+                  child: Row(
+                    children: [
+                      Icon(Icons.my_location_outlined, color: Colors.lime),
+                      SizedBox(width: 10),
+                      Text(
+                        'Origen',
+                        style: TextStyle(
+                          color: Colors.black,
+                        ),
                       ),
-                    ),
-                    Container(child: Icon(Icons.arrow_drop_down, color: Colors.black54)),
-                    SizedBox(width: 10),
-                    Text(
-                      'Destino',
-                      style:
-                      TextStyle(
-                        color: Colors.black,
+                      Container(
+                          child: Icon(Icons.arrow_drop_down,
+                              color: Colors.black54)),
+                      SizedBox(width: 10),
+                      Text(
+                        'Destino',
+                        style: TextStyle(
+                          color: Colors.black,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
                   ),
-
                 ),
               )
-            ]
-            )));
+            ])));
   }
 
   Widget _buildTextButtonNext(route) {
@@ -127,20 +132,16 @@ class _CreateProgrammedMapScreenState extends State<CreateProgrammedMapScreen> {
               borderRadius: BorderRadius.circular(20),
               color: Colors.lime,
             ),
-            child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               TextButton(
-                  onPressed: () => {
-                    Navigator.of(context).pushNamed(route)
-                  },
+                  onPressed: () => {Navigator.of(context).pushNamed(route)},
                   child: Text(
                     'SIGUIENTE',
-                    style:
-                    TextStyle(
+                    style: TextStyle(
                       color: Colors.black,
                     ),
                   )),
-            ]
-            )
-        ));
+            ])));
   }
 }

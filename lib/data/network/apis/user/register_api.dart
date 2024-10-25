@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:boilerplate/data/network/constants/endpoints.dart';
-import 'package:boilerplate/data/network/rest_client.dart';
-import 'package:boilerplate/data/network/exceptions/network_exceptions.dart';
-import 'package:boilerplate/models/auth/auth.dart';
-import 'package:boilerplate/models/user/register_result.dart';
+import 'package:ecotrip/data/network/constants/endpoints.dart';
+import 'package:ecotrip/data/network/rest_client.dart';
+import 'package:ecotrip/data/network/exceptions/network_exceptions.dart';
+import 'package:ecotrip/models/auth/auth.dart';
+import 'package:ecotrip/models/user/register_result.dart';
 import 'package:flutter/material.dart';
 
 enum Gender { male, female }
@@ -75,12 +75,12 @@ class RegisterApi {
   Future<RegisterResult> register(RegisterParams params) {
     return _restClient
         .post(
-          Endpoints.register,
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: jsonEncode(params.toJson()),
-          )
+      Endpoints.register,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: jsonEncode(params.toJson()),
+    )
         .then((dynamic res) {
       return RegisterResult(
         resultStatus: AuthResultStatus.successful,

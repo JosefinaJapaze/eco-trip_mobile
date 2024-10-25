@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:boilerplate/data/local/constants/db_constants.dart';
-import 'package:boilerplate/utils/encryption/xxtea.dart';
+import 'package:ecotrip/data/local/constants/db_constants.dart';
+import 'package:ecotrip/utils/encryption/xxtea.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';

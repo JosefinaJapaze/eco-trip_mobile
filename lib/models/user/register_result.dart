@@ -1,5 +1,4 @@
-
-import 'package:boilerplate/models/auth/auth.dart';
+import 'package:ecotrip/models/auth/auth.dart';
 
 class RegisterResult {
   final AuthResultStatus resultStatus;

@@ -1,35 +1,35 @@
-import 'package:boilerplate/ui/chats/chats.dart';
-import 'package:boilerplate/ui/home/home.dart';
-import 'package:boilerplate/ui/login/login.dart';
-import 'package:boilerplate/ui/register/register.dart';
-import 'package:boilerplate/ui/my_trips/trip_route.dart';
-import 'package:boilerplate/ui/my_wallet/my_wallet.dart';
-import 'package:boilerplate/ui/my_wallet/pay_request.dart';
-import 'package:boilerplate/ui/my_wallet/pay_trips.dart';
-import 'package:boilerplate/ui/new_trip/create_frecuent_calendar.dart';
-import 'package:boilerplate/ui/new_trip/create_frecuent_map.dart';
-import 'package:boilerplate/ui/new_trip/create_programmed_calendar.dart';
-import 'package:boilerplate/ui/new_trip/create_programmed_map.dart';
-import 'package:boilerplate/ui/new_trip/create_request.dart';
-import 'package:boilerplate/ui/new_trip/join_frecuent_calendar.dart';
-import 'package:boilerplate/ui/new_trip/join_frecuent_map.dart';
-import 'package:boilerplate/ui/new_trip/join_programmed.dart';
-import 'package:boilerplate/ui/new_trip/join_programmed_calendar.dart';
-import 'package:boilerplate/ui/new_trip/join_programmed_map.dart';
-import 'package:boilerplate/ui/new_trip/join_programmed_matchs.dart';
-import 'package:boilerplate/ui/new_trip/join_request.dart';
-import 'package:boilerplate/ui/new_trip/new_trip.dart';
-import 'package:boilerplate/ui/new_trip/new_frecuent.dart';
-import 'package:boilerplate/ui/new_trip/new_programmed.dart';
-import 'package:boilerplate/ui/new_trip/join_frecuent.dart';
-import 'package:boilerplate/ui/new_trip/join_frecuent_matchs.dart';
-import 'package:boilerplate/ui/register/register_success.dart';
-import 'package:boilerplate/ui/register/validate_data_step_four.dart';
-import 'package:boilerplate/ui/register/validate_data_step_one.dart';
-import 'package:boilerplate/ui/register/validate_data_step_three.dart';
-import 'package:boilerplate/ui/register/validate_data_step_two.dart';
-import 'package:boilerplate/ui/splash/splash.dart';
-import 'package:boilerplate/ui/my_trips/my_trips.dart';
+import 'package:ecotrip/ui/chats/chats.dart';
+import 'package:ecotrip/ui/home/home.dart';
+import 'package:ecotrip/ui/login/login.dart';
+import 'package:ecotrip/ui/register/register.dart';
+import 'package:ecotrip/ui/my_trips/trip_route.dart';
+import 'package:ecotrip/ui/my_wallet/my_wallet.dart';
+import 'package:ecotrip/ui/my_wallet/pay_request.dart';
+import 'package:ecotrip/ui/my_wallet/pay_trips.dart';
+import 'package:ecotrip/ui/new_trip/create_frecuent_calendar.dart';
+import 'package:ecotrip/ui/new_trip/create_frecuent_map.dart';
+import 'package:ecotrip/ui/new_trip/create_programmed_calendar.dart';
+import 'package:ecotrip/ui/new_trip/create_programmed_map.dart';
+import 'package:ecotrip/ui/new_trip/create_request.dart';
+import 'package:ecotrip/ui/new_trip/join_frecuent_calendar.dart';
+import 'package:ecotrip/ui/new_trip/join_frecuent_map.dart';
+import 'package:ecotrip/ui/new_trip/join_programmed.dart';
+import 'package:ecotrip/ui/new_trip/join_programmed_calendar.dart';
+import 'package:ecotrip/ui/new_trip/join_programmed_map.dart';
+import 'package:ecotrip/ui/new_trip/join_programmed_matchs.dart';
+import 'package:ecotrip/ui/new_trip/join_request.dart';
+import 'package:ecotrip/ui/new_trip/new_trip.dart';
+import 'package:ecotrip/ui/new_trip/new_frecuent.dart';
+import 'package:ecotrip/ui/new_trip/new_programmed.dart';
+import 'package:ecotrip/ui/new_trip/join_frecuent.dart';
+import 'package:ecotrip/ui/new_trip/join_frecuent_matchs.dart';
+import 'package:ecotrip/ui/register/register_success.dart';
+import 'package:ecotrip/ui/register/validate_data_step_four.dart';
+import 'package:ecotrip/ui/register/validate_data_step_one.dart';
+import 'package:ecotrip/ui/register/validate_data_step_three.dart';
+import 'package:ecotrip/ui/register/validate_data_step_two.dart';
+import 'package:ecotrip/ui/splash/splash.dart';
+import 'package:ecotrip/ui/my_trips/my_trips.dart';
 import 'package:flutter/material.dart';
 
 class Routes {
@@ -52,19 +52,25 @@ class Routes {
   static const String new_frecuent = '/new_frecuent';
   static const String join_frecuent_trip = '/join_frecuent_trip';
   static const String join_frecuent_trip_map = '/join_frecuent_trip_map';
-  static const String join_frecuent_trip_calendar = '/join_frecuent_trip_calendar';
+  static const String join_frecuent_trip_calendar =
+      '/join_frecuent_trip_calendar';
   static const String join_frecuent_trip_matchs = '/join_frecuent_trip_matchs';
   static const String create_frecuent_trip_map = '/create_frecuent_trip_map';
-  static const String create_frecuent_trip_calendar = '/create_frecuent_trip_calendar';
+  static const String create_frecuent_trip_calendar =
+      '/create_frecuent_trip_calendar';
   static const String join_request = '/join_request';
   static const String create_request = '/create_request';
   static const String new_programmed = '/new_programmed';
   static const String join_programmed_trip = '/join_programmed_trip';
   static const String join_programmed_trip_map = '/join_programmed_trip_map';
-  static const String join_programmed_trip_calendar = '/join_programmed_trip_calendar';
-  static const String join_programmed_trip_matchs = '/join_programmed_trip_matchs';
-  static const String create_programmed_trip_map = '/create_programmed_trip_map';
-  static const String create_programmed_trip_calendar = '/create_programmed_trip_calendar';
+  static const String join_programmed_trip_calendar =
+      '/join_programmed_trip_calendar';
+  static const String join_programmed_trip_matchs =
+      '/join_programmed_trip_matchs';
+  static const String create_programmed_trip_map =
+      '/create_programmed_trip_map';
+  static const String create_programmed_trip_calendar =
+      '/create_programmed_trip_calendar';
   static const String pay_request = '/pay_request';
   static const String pay_trip = '/pay_trip';
   static const String trip_route = '/trip_route';
@@ -86,17 +92,26 @@ class Routes {
     new_frecuent: (BuildContext context) => NewFrecuentScreen(),
     join_frecuent_trip: (BuildContext context) => JoinFrecuentScreen(),
     join_frecuent_trip_map: (BuildContext context) => JoinFrecuentMapScreen(),
-    join_frecuent_trip_calendar: (BuildContext context) => JoinFrecuentCalendarScreen(),
-    join_frecuent_trip_matchs: (BuildContext context) => JoinFrecuentMatchsScreen(),
-    create_frecuent_trip_map: (BuildContext context) => CreateFrecuentMapScreen(),
-    create_frecuent_trip_calendar: (BuildContext context) => CreateFrecuentCalendarScreen(),
+    join_frecuent_trip_calendar: (BuildContext context) =>
+        JoinFrecuentCalendarScreen(),
+    join_frecuent_trip_matchs: (BuildContext context) =>
+        JoinFrecuentMatchsScreen(),
+    create_frecuent_trip_map: (BuildContext context) =>
+        CreateFrecuentMapScreen(),
+    create_frecuent_trip_calendar: (BuildContext context) =>
+        CreateFrecuentCalendarScreen(),
     new_programmed: (BuildContext context) => NewProgrammedScreen(),
     join_programmed_trip: (BuildContext context) => JoinProgrammedScreen(),
-    join_programmed_trip_map: (BuildContext context) => JoinProgrammedMapScreen(),
-    join_programmed_trip_calendar: (BuildContext context) => JoinProgrammedCalendarScreen(),
-    join_programmed_trip_matchs: (BuildContext context) => JoinProgrammedMatchsScreen(),
-    create_programmed_trip_map: (BuildContext context) => CreateProgrammedMapScreen(),
-    create_programmed_trip_calendar: (BuildContext context) => CreateProgrammedCalendarScreen(),
+    join_programmed_trip_map: (BuildContext context) =>
+        JoinProgrammedMapScreen(),
+    join_programmed_trip_calendar: (BuildContext context) =>
+        JoinProgrammedCalendarScreen(),
+    join_programmed_trip_matchs: (BuildContext context) =>
+        JoinProgrammedMatchsScreen(),
+    create_programmed_trip_map: (BuildContext context) =>
+        CreateProgrammedMapScreen(),
+    create_programmed_trip_calendar: (BuildContext context) =>
+        CreateProgrammedCalendarScreen(),
     join_request: (BuildContext context) => JoinRequestScreen(),
     pay_request: (BuildContext context) => PayRequestScreen(),
     create_request: (BuildContext context) => CreateRequestScreen(),
@@ -104,6 +119,3 @@ class Routes {
     trip_route: (BuildContext context) => TripRouteScreen()
   };
 }
-
-
-

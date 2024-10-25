@@ -1,6 +1,6 @@
-import 'package:boilerplate/data/local/constants/db_constants.dart';
-import 'package:boilerplate/models/trip/trip.dart';
-import 'package:boilerplate/models/trip/trip_list.dart';
+import 'package:ecotrip/data/local/constants/db_constants.dart';
+import 'package:ecotrip/models/trip/trip.dart';
+import 'package:ecotrip/models/trip/trip_list.dart';
 import 'package:sembast/sembast.dart';
 
 class TripDataSource {
@@ -48,7 +48,6 @@ class TripDataSource {
   }
 
   Future<TripList> getTripsFromDb() async {
-
     print('Loading from database');
 
     // trip list
@@ -60,14 +59,14 @@ class TripDataSource {
     );
 
     // Making a List<Trip> out of List<RecordSnapshot>
-    if(recordSnapshots.length > 0) {
+    if (recordSnapshots.length > 0) {
       tripsList = TripList(
           trips: recordSnapshots.map((snapshot) {
-            final trip = Trip.fromMap(snapshot.value);
-            // An ID is a key of a record from the database.
-            trip.id = snapshot.key;
-            return trip;
-          }).toList());
+        final trip = Trip.fromMap(snapshot.value);
+        // An ID is a key of a record from the database.
+        trip.id = snapshot.key;
+        return trip;
+      }).toList());
     }
 
     return tripsList;
@@ -97,5 +96,4 @@ class TripDataSource {
       _db,
     );
   }
-
 }

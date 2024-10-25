@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:boilerplate/data/sharedpref/shared_preference_helper.dart';
-import 'package:boilerplate/models/user/register_request.dart';
+import 'package:ecotrip/data/sharedpref/shared_preference_helper.dart';
+import 'package:ecotrip/models/user/register_request.dart';
 import 'package:sembast/sembast.dart';
 
 import '../models/trip/trip.dart';
@@ -62,7 +62,7 @@ class Repository {
 
   // Login:---------------------------------------------------------------------
   Future<bool> login(String email, String password) async {
-    return await Future.delayed(Duration(seconds: 2), ()=> true);
+    return await Future.delayed(Duration(seconds: 2), () => true);
   }
 
   Future<void> saveIsLoggedIn(bool value) =>
@@ -72,7 +72,7 @@ class Repository {
 
   // Register:------------------------------------------------------------------
   Future<bool> register(RegisterRequest req) async {
-    return await Future.delayed(Duration(seconds: 2), ()=> true);
+    return await Future.delayed(Duration(seconds: 2), () => true);
   }
 
   // Theme: --------------------------------------------------------------------

@@ -1,9 +1,8 @@
-
-import 'package:boilerplate/data/network/apis/user/register_api.dart';
-import 'package:boilerplate/data/repository.dart';
-import 'package:boilerplate/models/auth/auth.dart';
-import 'package:boilerplate/models/user/register_result.dart';
-import 'package:boilerplate/stores/error/error_store.dart';
+import 'package:ecotrip/data/network/apis/user/register_api.dart';
+import 'package:ecotrip/data/repository.dart';
+import 'package:ecotrip/models/auth/auth.dart';
+import 'package:ecotrip/models/user/register_result.dart';
+import 'package:ecotrip/stores/error/error_store.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../stores/form/form_store.dart';
@@ -19,7 +18,9 @@ abstract class _RegisterStore with Store {
   final ErrorStore errorStore = ErrorStore();
 
   // constructor:---------------------------------------------------------------
-  _RegisterStore(RegisterApi client, Repository repo) : this._apiClient = client, this._repository = repo {
+  _RegisterStore(RegisterApi client, Repository repo)
+      : this._apiClient = client,
+        this._repository = repo {
     _setupDisposers();
   }
 
@@ -34,7 +35,8 @@ abstract class _RegisterStore with Store {
 
   // empty responses:-----------------------------------------------------------
   static ObservableFuture<RegisterResult> emptyRegisterResult =
-  ObservableFuture.value(RegisterResult(resultStatus: AuthResultStatus.wrongCredentials));
+      ObservableFuture.value(
+          RegisterResult(resultStatus: AuthResultStatus.wrongCredentials));
 
   // store variables:-----------------------------------------------------------
   @observable

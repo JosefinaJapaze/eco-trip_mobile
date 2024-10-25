@@ -1,4 +1,4 @@
-import 'package:boilerplate/widgets/base_app_bar.dart';
+import 'package:ecotrip/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -56,17 +56,16 @@ class _CreateFrecuentCalendarScreenState
       return;
     }
 
-    _tripStore.insertTrip(
-        Trip(
+    _tripStore
+        .insertTrip(Trip(
             hasStarted: false,
             isFinished: false,
             seatsLeft: this.availableSeats, // sacar
             cost: this.cost, // sacar
             type: "frequent",
             userId: '' // sacar del auth,
-        )).then((value) => {
-          Navigator.of(context).pushNamed("/create_request")
-    });
+            ))
+        .then((value) => {Navigator.of(context).pushNamed("/create_request")});
   }
 
   @override
@@ -106,8 +105,8 @@ class _CreateFrecuentCalendarScreenState
             controller: _asController,
             decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                    width: 3, color: Colors.black), //<-- SEE HERE
+                borderSide:
+                    BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
               ),
             ),
           ),
@@ -121,8 +120,8 @@ class _CreateFrecuentCalendarScreenState
             controller: _costController,
             decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                    width: 3, color: Colors.black), //<-- SEE HERE
+                borderSide:
+                    BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
               ),
             ),
           ),
@@ -139,12 +138,12 @@ class _CreateFrecuentCalendarScreenState
           //background color of dropdown button
           border: Border.all(color: Colors.black, width: 3),
           //border of dropdown button
-          boxShadow: <BoxShadow>[ //apply shadow on Dropdown button
+          boxShadow: <BoxShadow>[
+            //apply shadow on Dropdown button
             BoxShadow(
                 color: Color.fromRGBO(0, 0, 0, 0.57), //shadow for button
                 blurRadius: 5) //blur radius of shadow
-          ]
-      ),
+          ]),
       child: Padding(
         padding: EdgeInsets.only(left: 30, right: 30),
         child: DropdownButton(
@@ -152,31 +151,26 @@ class _CreateFrecuentCalendarScreenState
             'Select Item',
             style: TextStyle(
               fontSize: 14,
-              color: Theme
-                  .of(context)
-                  .hintColor,
+              color: Theme.of(context).hintColor,
             ),
           ),
           items: items
-              .map((item) =>
-              DropdownMenuItem<String>(
-                value: item,
-                child: Text(
-                  item,
-                  style: const TextStyle(
-                    fontSize: 14,
-                  ),
-                ),
-              ))
+              .map((item) => DropdownMenuItem<String>(
+                    value: item,
+                    child: Text(
+                      item,
+                      style: const TextStyle(
+                        fontSize: 14,
+                      ),
+                    ),
+                  ))
               .toList(),
           value: selectedHour,
-
           onChanged: (value) {
             setState(() {
               selectedHour = value as String;
             });
           },
-
         ),
       ),
     );
@@ -191,21 +185,16 @@ class _CreateFrecuentCalendarScreenState
               borderRadius: BorderRadius.circular(20),
               color: Colors.lime,
             ),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center, children: [
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               TextButton(
-                  onPressed: () =>
-                  {
-                    insertTrip()
-                  },
+                  onPressed: () => {insertTrip()},
                   child: Text(
                     'CONFIRMAR',
-                    style:
-                    TextStyle(
+                    style: TextStyle(
                       color: Colors.black,
                     ),
                   )),
-            ]
-            )));
+            ])));
   }
 }

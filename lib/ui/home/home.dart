@@ -1,8 +1,8 @@
-import 'package:boilerplate/stores/trip/trip_store.dart';
-import 'package:boilerplate/ui/login/store/login_store.dart';
-import 'package:boilerplate/utils/locale/app_localization.dart';
-import 'package:boilerplate/utils/routes/routes.dart';
-import 'package:boilerplate/widgets/progress_indicator_widget.dart';
+import 'package:ecotrip/stores/trip/trip_store.dart';
+import 'package:ecotrip/ui/login/store/login_store.dart';
+import 'package:ecotrip/utils/locale/app_localization.dart';
+import 'package:ecotrip/utils/routes/routes.dart';
+import 'package:ecotrip/widgets/progress_indicator_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';

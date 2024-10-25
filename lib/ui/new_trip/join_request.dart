@@ -1,4 +1,4 @@
-import 'package:boilerplate/widgets/base_app_bar.dart';
+import 'package:ecotrip/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class JoinRequestScreen extends StatefulWidget {
@@ -51,13 +51,10 @@ class _JoinRequestScreenState extends State<JoinRequestScreen> {
               color: Colors.lime,
             ),
             child: TextButton(
-                onPressed: () => {
-                  Navigator.of(context).pushNamed("/home")
-                },
+                onPressed: () => {Navigator.of(context).pushNamed("/home")},
                 child: Text(
                   'ACEPTAR',
-                  style:
-                  TextStyle(
+                  style: TextStyle(
                     color: Colors.black,
                   ),
                 )),
