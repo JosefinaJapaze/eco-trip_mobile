@@ -11,7 +11,6 @@ import 'package:ecotrip/stores/language/language_store.dart';
 import 'package:ecotrip/stores/theme/theme_store.dart';
 import 'package:ecotrip/ui/login/store/login_store.dart';
 import 'package:ecotrip/ui/register/store/register_store.dart';
-import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sembast/sembast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -37,7 +36,7 @@ Future<void> setupLocator() async {
   getIt.registerSingleton(RestClient());
 
   // api's:---------------------------------------------------------------------
-  getIt.registerSingleton(TripApi(getIt<DioClient>(), getIt<RestClient>()));
+  getIt.registerSingleton(TripApi(getIt<RestClient>()));
   getIt.registerSingleton(RegisterApi(getIt<RestClient>()));
 
   // data sources
