@@ -1,6 +1,5 @@
 import 'package:ecotrip/data/local/datasources/trip_datasource.dart';
 import 'package:ecotrip/data/network/apis/user/register_api.dart';
-import 'package:ecotrip/data/network/dio_client.dart';
 import 'package:ecotrip/data/network/rest_client.dart';
 import 'package:ecotrip/data/repository.dart';
 import 'package:ecotrip/data/sharedpref/shared_preference_helper.dart';
