@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+import 'package:ecotrip/data/network/apis/auth/auth_api.dart';
 import 'package:ecotrip/data/network/apis/user/register_api.dart';
 import 'package:ecotrip/data/repository.dart';
 import 'package:ecotrip/models/auth/auth.dart';
@@ -13,13 +15,15 @@ class RegisterStore = _RegisterStore with _$RegisterStore;
 
 abstract class _RegisterStore with Store {
   final RegisterApi _apiClient;
+  final AuthApi _authApi;
   final Repository _repository;
   final FormErrorStore formErrorStore = FormErrorStore();
   final ErrorStore errorStore = ErrorStore();
 
   // constructor:---------------------------------------------------------------
-  _RegisterStore(RegisterApi client, Repository repo)
+  _RegisterStore(RegisterApi client, AuthApi authApi, Repository repo)
       : this._apiClient = client,
+        this._authApi = authApi,
         this._repository = repo {
     _setupDisposers();
   }
@@ -36,7 +40,7 @@ abstract class _RegisterStore with Store {
   // empty responses:-----------------------------------------------------------
   static ObservableFuture<RegisterResult> emptyRegisterResult =
       ObservableFuture.value(
-          RegisterResult(resultStatus: AuthResultStatus.wrongCredentials));
+          RegisterResult(resultStatus: RegisterStatus.error));
 
   // store variables:-----------------------------------------------------------
   @observable
@@ -53,18 +57,46 @@ abstract class _RegisterStore with Store {
   Future register(RegisterParams req) async {
     final future = _apiClient.register(req);
     registerFuture = ObservableFuture(future);
-    await future.then((value) async {
-      if (value.resultStatus == AuthResultStatus.successful) {
-        _repository.saveIsLoggedIn(true);
-        this.success = true;
-      } else {
-        print('failed to register');
-      }
-    }).catchError((e) {
-      print(e);
+    RegisterResult registerResult;
+    try {
+      registerResult = await future;
+    } catch (e) {
+      this.success = false;
+      errorStore.errorMessage = 'Error al registrar';
+      throw e;
+    }
+
+    if (registerResult.resultStatus == RegisterStatus.userAlreadyExists) {
+      errorStore.errorMessage = 'El email ${req.email} ya existe';
+      this.success = false;
+      return null;
+    }
+    if (registerResult.resultStatus != RegisterStatus.success) {
+      this.success = false;
+      errorStore.errorMessage = 'Error al registrar';
+      return null;
+    }
+
+    String token;
+    LoginResult authRes;
+    try {
+      authRes = await _authApi.login(req.email, req.password);
+    } catch (e) {
+      errorStore.errorMessage = 'Error al registrar';
       this.success = false;
       throw e;
-    });
+    }
+
+    if (authRes.resultStatus != AuthResultStatus.successful) {
+      throw Exception('Failed to login');
+    }
+    if (authRes.token == null) {
+      throw Exception('Token is null');
+    }
+    token = authRes.token!;
+    _repository.saveAuthToken(token);
+    _repository.saveIsLoggedIn(true);
+    this.success = true;
   }
 
   // general methods:-----------------------------------------------------------

@@ -1,7 +1,7 @@
-import 'package:ecotrip/models/auth/auth.dart';
+enum RegisterStatus { success, userAlreadyExists, badRequest, error }
 
 class RegisterResult {
-  final AuthResultStatus resultStatus;
+  final RegisterStatus resultStatus;
   final String? token;
   final String? refreshToken;
 

@@ -85,9 +85,15 @@ class _ValidateDataStepOneState extends State<ValidateDataStepOne> {
         ),
         Observer(
           builder: (_) {
-            return _store.success
-                ? NavigateWidget(Routes.validate_data_step_two)
-                : ErrorMessageWidget("Ha ocurrido un error");
+            if (_store.success) {
+              if (_accountType == "Conductor") {
+                return NavigateWidget(Routes.validate_data_step_two);
+              } else {
+                return NavigateWidget(Routes.validate_data_step_three);
+              }
+            } else {
+              return ErrorMessageWidget("Ha ocurrido un error");
+            }
           },
         ),
         Observer(
@@ -201,11 +207,7 @@ class _ValidateDataStepOneState extends State<ValidateDataStepOne> {
         ),
       ),
       onPressed: () {
-        if (_accountType == "Conductor") {
-          Navigator.of(context).pushNamed("/validate_data_step_two");
-        } else {
-          Navigator.of(context).pushNamed("/validate_data_step_three");
-        }
+        uploadFiles();
       },
       child: Center(
         child: Text(

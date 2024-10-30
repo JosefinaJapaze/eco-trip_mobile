@@ -2,13 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:ecotrip/data/network/constants/endpoints.dart';
 import 'package:ecotrip/data/network/rest_client.dart';
 import 'package:ecotrip/data/network/exceptions/network_exceptions.dart';
 import 'package:ecotrip/data/repository.dart';
-import 'package:ecotrip/models/auth/auth.dart';
 import 'package:ecotrip/models/user/register_result.dart';
-import 'package:flutter/material.dart';
 
 enum Gender { male, female }
 
@@ -45,7 +44,7 @@ class RegisterParams {
     return {
       "first_name": firstName,
       "last_name": lastName,
-      "gender": gender.toString(),
+      "gender": gender.name,
       "birth_date": birthDate.toUtc().toIso8601String(),
       "phone_number": phone,
       "email": email,
@@ -74,13 +73,16 @@ class RegisterApi {
       return _restClient.post(
         Endpoints.getPresignedURL,
         headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer $token"
+          "content-type": "application/json",
+          "authorization": "Bearer $token"
         },
         body: {"document_type": type.name},
       ).then((dynamic res) {
         return PreSignedResult(url: res["url"], key: res["key"]);
       }).catchError((e) {
+        if (e is DioException) {
+          print("Dio exception: ${e.message}; ${e.response}");
+        }
         throw NetworkException(message: e.toString());
       });
     });
@@ -113,17 +115,19 @@ class RegisterApi {
     )
         .then((dynamic res) {
       return RegisterResult(
-        resultStatus: AuthResultStatus.successful,
+        resultStatus: RegisterStatus.success,
         token: res["token"],
         refreshToken: res["refreshToken"],
       );
     }).catchError((e) {
-      if (e is BadRequestException) {
-        debugPrint("Bad request: ${e.message}");
-        return RegisterResult(resultStatus: AuthResultStatus.badRequest);
-      }
-      if (e is AuthException) {
-        return RegisterResult(resultStatus: AuthResultStatus.wrongCredentials);
+      if (e is DioException) {
+        if (e.response?.statusCode == 409) {
+          return RegisterResult(resultStatus: RegisterStatus.userAlreadyExists);
+        }
+        if (e.response?.statusCode == 400) {
+          return RegisterResult(resultStatus: RegisterStatus.badRequest);
+        }
+        return RegisterResult(resultStatus: RegisterStatus.error);
       }
       throw NetworkException(message: e.toString());
     });

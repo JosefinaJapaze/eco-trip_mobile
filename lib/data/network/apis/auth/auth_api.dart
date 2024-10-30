@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
 import 'package:ecotrip/data/network/constants/endpoints.dart';
 import 'package:ecotrip/data/network/rest_client.dart';
 import 'package:ecotrip/data/network/exceptions/network_exceptions.dart';
@@ -13,7 +14,7 @@ class AuthApi {
 
   Future<LoginResult> login(String username, String password) {
     return _restClient.post(Endpoints.login, body: {
-      "username": username,
+      "email": username,
       "password": password,
     }).then((dynamic res) {
       return LoginResult(
@@ -21,8 +22,15 @@ class AuthApi {
         token: res["token"],
       );
     }).catchError((e) {
-      if (e is AuthException) {
-        return LoginResult(resultStatus: AuthResultStatus.wrongCredentials);
+      if (e is DioException) {
+        if (e.response != null) {
+          if (e.response!.statusCode == 400) {
+            return LoginResult(resultStatus: AuthResultStatus.badRequest);
+          }
+          if (e.response!.statusCode == 404) {
+            return LoginResult(resultStatus: AuthResultStatus.userNotFound);
+          }
+        }
       }
       throw NetworkException(message: e.toString());
     });

@@ -25,7 +25,8 @@ class RestClient {
       {Map<String, String>? headers, body, encoding}) {
     dynamic value;
     try {
-      value = _dioClient.post(path, data: body);
+      value =
+          _dioClient.post(path, data: body, options: Options(headers: headers));
     } on DioException catch (e) {
       _handleDioErr(e);
     }
