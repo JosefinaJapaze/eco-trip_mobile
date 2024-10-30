@@ -1,78 +1,36 @@
 import 'dart:async';
 
+import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:ecotrip/data/sharedpref/shared_preference_helper.dart';
-import 'package:ecotrip/models/user/register_request.dart';
-import 'package:sembast/sembast.dart';
-
-import '../models/trip/trip.dart';
-import '../models/trip/trip_list.dart';
-import 'local/constants/db_constants.dart';
-import 'local/datasources/trip_datasource.dart';
-import 'network/apis/trip/trip_api.dart';
 
 class Repository {
-  // data source object
-  final TripDataSource _tripDataSource;
-
-  // api objects
-  final TripApi _tripApi;
-
-  // shared pref object
   final SharedPreferenceHelper _sharedPrefsHelper;
 
-  // constructor
-  Repository(this._tripApi, this._sharedPrefsHelper, this._tripDataSource);
+  Repository(this._sharedPrefsHelper);
 
-  // Trip: ---------------------------------------------------------------------
-  Future<TripList> getTrips() async {
-    return await _tripDataSource.getTripsFromDb().then((tripsList) {
-      return tripsList;
-    }).catchError((error) => throw error);
-  }
+  Future<void> saveAuthToken(String authToken) =>
+      _sharedPrefsHelper.saveAuthToken(authToken);
 
-  Future<List<Trip>> findTripById(int id) {
-    //creating filter
-    List<Filter> filters = [];
+  Future<String?> get authToken => _sharedPrefsHelper.authToken;
 
-    //check to see if dataLogsType is not null
-    Filter dataLogTypeFilter = Filter.equals(DBConstants.FIELD_ID, id);
-    filters.add(dataLogTypeFilter);
+  Future<bool> removeAuthToken() => _sharedPrefsHelper.removeAuthToken();
 
-    //making db call
-    return _tripDataSource
-        .getAllSortedByFilter(filters: filters)
-        .then((trips) => trips)
-        .catchError((error) => throw error);
-  }
+  Future saveUserSubmissionKey(int userId, String key, String documentType) =>
+      _sharedPrefsHelper.saveUserSubmissionKey(userId, key, documentType);
 
-  Future<int> insert(Trip trip) => _tripDataSource
-      .insert(trip)
-      .then((id) => id)
-      .catchError((error) => throw error);
-
-  Future<int> update(Trip trip) => _tripDataSource
-      .update(trip)
-      .then((id) => id)
-      .catchError((error) => throw error);
-
-  Future<int> delete(Trip trip) => _tripDataSource
-      .update(trip)
-      .then((id) => id)
-      .catchError((error) => throw error);
-
-  // Login:---------------------------------------------------------------------
-  Future<bool> login(String email, String password) async {
-    return await Future.delayed(Duration(seconds: 2), () => true);
-  }
+  Future<String?> getUserSubmissionKey(int userId, String documentType) =>
+      _sharedPrefsHelper.getUserSubmissionKey(userId, documentType);
 
   Future<void> saveIsLoggedIn(bool value) =>
       _sharedPrefsHelper.saveIsLoggedIn(value);
 
   Future<bool> get isLoggedIn => _sharedPrefsHelper.isLoggedIn;
 
-  // Register:------------------------------------------------------------------
-  Future<bool> register(RegisterRequest req) async {
-    return await Future.delayed(Duration(seconds: 2), () => true);
+  Future<bool> isUserVerified() async {
+    final token = await authToken;
+    if (token == null) return false;
+    final jwt = JWT.decode(token);
+    return jwt.payload['validated'] == true;
   }
 
   // Theme: --------------------------------------------------------------------

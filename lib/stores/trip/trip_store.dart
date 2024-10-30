@@ -39,27 +39,27 @@ abstract class _TripStore with Store {
   // actions:-------------------------------------------------------------------
   @action
   Future getTrips() async {
-    final future = _repository.getTrips();
-    fetchTripsFuture = ObservableFuture(future);
+    // final future = _repository.getTrips();
+    // fetchTripsFuture = ObservableFuture(future);
 
-    future.then((tripList) {
-      this.tripList = tripList;
-    }).catchError((error) {
-      errorStore.errorMessage = "Couldn't fetch trips. Please try again later.";
-    });
+    // future.then((tripList) {
+    //   this.tripList = tripList;
+    // }).catchError((error) {
+    //   errorStore.errorMessage = "Couldn't fetch trips. Please try again later.";
+    // });
   }
 
   @action
   Future insertTrip(Trip trip) async {
-    _repository.insert(trip);
+    // _repository.insert(trip);
 
-    final future = _repository.getTrips();
-    fetchTripsFuture = ObservableFuture(future);
+    // final future = _repository.getTrips();
+    // fetchTripsFuture = ObservableFuture(future);
 
-    future.then((tripList) {
-      this.tripList = tripList;
-    }).catchError((error) {
-      errorStore.errorMessage = "Couldn't fetch trips. Please try again later.";
-    });
+    // future.then((tripList) {
+    //   this.tripList = tripList;
+    // }).catchError((error) {
+    //   errorStore.errorMessage = "Couldn't fetch trips. Please try again later.";
+    // });
   }
 }

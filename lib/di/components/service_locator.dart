@@ -1,4 +1,5 @@
 import 'package:ecotrip/data/local/datasources/trip_datasource.dart';
+import 'package:ecotrip/data/network/apis/auth/auth_api.dart';
 import 'package:ecotrip/data/network/apis/user/register_api.dart';
 import 'package:ecotrip/data/network/rest_client.dart';
 import 'package:ecotrip/data/repository.dart';
@@ -34,25 +35,23 @@ Future<void> setupLocator() async {
       SharedPreferenceHelper(await getIt.getAsync<SharedPreferences>()));
   getIt.registerSingleton(RestClient());
 
-  // api's:---------------------------------------------------------------------
-  getIt.registerSingleton(TripApi(getIt<RestClient>()));
-  getIt.registerSingleton(RegisterApi(getIt<RestClient>()));
-
   // data sources
   getIt.registerSingleton(TripDataSource(await getIt.getAsync<Database>()));
 
   // repository:----------------------------------------------------------------
-  getIt.registerSingleton(Repository(
-    getIt<TripApi>(),
-    getIt<SharedPreferenceHelper>(),
-    getIt<TripDataSource>(),
-  ));
+  getIt.registerSingleton(Repository(getIt<SharedPreferenceHelper>()));
+
+  // api's:---------------------------------------------------------------------
+  getIt.registerSingleton(TripApi(getIt<RestClient>()));
+  getIt
+      .registerSingleton(RegisterApi(getIt<RestClient>(), getIt<Repository>()));
+  getIt.registerSingleton(AuthApi(getIt<RestClient>()));
 
   // stores:--------------------------------------------------------------------
   getIt.registerSingleton(LanguageStore(getIt<Repository>()));
   getIt.registerSingleton(TripStore(getIt<Repository>()));
   getIt.registerSingleton(ThemeStore(getIt<Repository>()));
-  getIt.registerSingleton(UserStore(getIt<Repository>()));
+  getIt.registerSingleton(UserStore(getIt<Repository>(), getIt<AuthApi>()));
   getIt.registerSingleton(
       RegisterStore(getIt<RegisterApi>(), getIt<Repository>()));
 }

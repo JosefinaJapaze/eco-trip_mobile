@@ -67,15 +67,6 @@ abstract class _RegisterStore with Store {
     });
   }
 
-  Future getUploadKey(String documentType) async {
-    try {
-      final response = await _apiClient.getPresignedURL(documentType);
-      return response;
-    } catch (e) {
-      throw e;
-    }
-  }
-
   // general methods:-----------------------------------------------------------
   void dispose() {
     for (final d in _disposers) {

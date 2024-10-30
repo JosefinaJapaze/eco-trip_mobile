@@ -1,5 +1,6 @@
 import 'package:ecotrip/constants/app_theme.dart';
 import 'package:ecotrip/constants/strings.dart';
+import 'package:ecotrip/data/network/apis/auth/auth_api.dart';
 import 'package:ecotrip/data/repository.dart';
 import 'package:ecotrip/di/components/service_locator.dart';
 import 'package:ecotrip/stores/language/language_store.dart';
@@ -22,7 +23,8 @@ class MyApp extends StatelessWidget {
   final ThemeStore _themeStore = ThemeStore(getIt<Repository>());
   final TripStore _tripStore = TripStore(getIt<Repository>());
   final LanguageStore _languageStore = LanguageStore(getIt<Repository>());
-  final UserStore _userStore = UserStore(getIt<Repository>());
+  final UserStore _userStore = UserStore(getIt<Repository>(), getIt<AuthApi>());
+  final Repository _repository = getIt<Repository>();
 
   @override
   Widget build(BuildContext context) {

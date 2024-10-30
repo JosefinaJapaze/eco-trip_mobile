@@ -5,13 +5,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'constants/preferences.dart';
 
 class SharedPreferenceHelper {
-  // shared pref instance
   final SharedPreferences _sharedPreference;
 
-  // constructor
   SharedPreferenceHelper(this._sharedPreference);
 
-  // General Methods: ----------------------------------------------------------
   Future<String?> get authToken async {
     return _sharedPreference.getString(Preferences.auth_token);
   }
@@ -24,7 +21,6 @@ class SharedPreferenceHelper {
     return _sharedPreference.remove(Preferences.auth_token);
   }
 
-  // Login:---------------------------------------------------------------------
   Future<bool> get isLoggedIn async {
     return _sharedPreference.getBool(Preferences.is_logged_in) ?? false;
   }
@@ -33,7 +29,6 @@ class SharedPreferenceHelper {
     return _sharedPreference.setBool(Preferences.is_logged_in, value);
   }
 
-  // Theme:------------------------------------------------------
   bool get isDarkMode {
     return _sharedPreference.getBool(Preferences.is_dark_mode) ?? false;
   }
@@ -42,12 +37,22 @@ class SharedPreferenceHelper {
     return _sharedPreference.setBool(Preferences.is_dark_mode, value);
   }
 
-  // Language:---------------------------------------------------
   String? get currentLanguage {
     return _sharedPreference.getString(Preferences.current_language);
   }
 
   Future<void> changeLanguage(String language) {
     return _sharedPreference.setString(Preferences.current_language, language);
+  }
+
+  Future<void> saveUserSubmissionKey(
+      int userId, String uploadKey, String documentType) {
+    final kvKey = "${userId}_${documentType}";
+    return _sharedPreference.setString(kvKey, uploadKey);
+  }
+
+  Future<String?> getUserSubmissionKey(int userId, String documentType) {
+    final kvKey = "${userId}_${documentType}";
+    return Future.value(_sharedPreference.getString(kvKey));
   }
 }

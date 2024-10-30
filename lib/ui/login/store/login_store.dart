@@ -1,3 +1,5 @@
+import 'package:ecotrip/data/network/apis/auth/auth_api.dart';
+import 'package:ecotrip/models/auth/auth.dart';
 import 'package:ecotrip/stores/error/error_store.dart';
 import 'package:mobx/mobx.dart';
 
@@ -9,30 +11,21 @@ part 'login_store.g.dart';
 class UserStore = _UserStore with _$UserStore;
 
 abstract class _UserStore with Store {
-  // repository instance
+  final AuthApi _apiClient;
   final Repository _repository;
-
-  // store for handling form errors
   final FormErrorStore formErrorStore = FormErrorStore();
-
-  // store for handling error messages
   final ErrorStore errorStore = ErrorStore();
-
-  // bool to check if current user is logged in
   bool isLoggedIn = false;
 
-  // constructor:---------------------------------------------------------------
-  _UserStore(Repository repository) : this._repository = repository {
-    // setting up disposers
+  _UserStore(Repository repository, AuthApi apiClient)
+      : this._repository = repository,
+        this._apiClient = apiClient {
     _setupDisposers();
-
-    // checking if user is logged in
     repository.isLoggedIn.then((value) {
       this.isLoggedIn = value;
     });
   }
 
-  // disposers:-----------------------------------------------------------------
   late List<ReactionDisposer> _disposers;
 
   void _setupDisposers() {
@@ -42,31 +35,36 @@ abstract class _UserStore with Store {
   }
 
   // empty responses:-----------------------------------------------------------
-  static ObservableFuture<bool> emptyLoginResponse =
-      ObservableFuture.value(false);
+  static ObservableFuture<LoginResult> emptyLoginResponse =
+      ObservableFuture.value(
+          LoginResult(resultStatus: AuthResultStatus.wrongCredentials));
 
   // store variables:-----------------------------------------------------------
   @observable
   bool success = false;
 
   @observable
-  ObservableFuture<bool> loginFuture = emptyLoginResponse;
+  ObservableFuture<LoginResult> loginFuture = emptyLoginResponse;
 
   @computed
   bool get isLoading => loginFuture.status == FutureStatus.pending;
 
-  // actions:-------------------------------------------------------------------
   @action
   Future login(String email, String password) async {
-    final future = _repository.login(email, password);
+    final future = _apiClient.login(email, password);
     loginFuture = ObservableFuture(future);
     await future.then((value) async {
-      if (value) {
+      if (value.resultStatus == AuthResultStatus.successful) {
+        final token = value.token ?? '';
+        if (token == '') {
+          throw Exception('backend token is null');
+        }
         _repository.saveIsLoggedIn(true);
+        _repository.saveAuthToken(token);
         this.isLoggedIn = true;
         this.success = true;
       } else {
-        print('failed to login');
+        throw Exception('login failed');
       }
     }).catchError((e) {
       print(e);
@@ -79,9 +77,9 @@ abstract class _UserStore with Store {
   logout() {
     this.isLoggedIn = false;
     _repository.saveIsLoggedIn(false);
+    _repository.removeAuthToken();
   }
 
-  // general methods:-----------------------------------------------------------
   void dispose() {
     for (final d in _disposers) {
       d();

@@ -5,11 +5,11 @@ import 'package:ecotrip/data/network/rest_client.dart';
 import 'package:ecotrip/data/network/exceptions/network_exceptions.dart';
 import 'package:ecotrip/models/auth/auth.dart';
 
-class TripApi {
+class AuthApi {
   // rest-client instance
   final RestClient _restClient;
 
-  TripApi(this._restClient);
+  AuthApi(this._restClient);
 
   Future<LoginResult> login(String username, String password) {
     return _restClient.post(Endpoints.login, body: {
@@ -19,7 +19,6 @@ class TripApi {
       return LoginResult(
         resultStatus: AuthResultStatus.successful,
         token: res["token"],
-        refreshToken: res["refreshToken"],
       );
     }).catchError((e) {
       if (e is AuthException) {

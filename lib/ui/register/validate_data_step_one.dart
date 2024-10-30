@@ -1,4 +1,13 @@
+import 'package:ecotrip/data/network/apis/user/register_api.dart';
+import 'package:ecotrip/di/components/service_locator.dart';
+import 'package:ecotrip/ui/register/store/register_store.dart';
+import 'package:ecotrip/ui/register/store/validation_step_store.dart';
+import 'package:ecotrip/utils/routes/routes.dart';
+import 'package:ecotrip/widgets/error_message_widget.dart';
+import 'package:ecotrip/widgets/navigate_widget.dart';
+import 'package:ecotrip/widgets/progress_indicator_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'dart:io';
 
 import 'package:image_picker/image_picker.dart';
@@ -13,6 +22,14 @@ class _ValidateDataStepOneState extends State<ValidateDataStepOne> {
   File? _conductCertificateImage;
   final ImagePicker _picker = ImagePicker();
   String _accountType = "Pasajero"; // Default selection
+
+  late ValidationStepStore _store;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _store = getIt<ValidationStepStore>();
+  }
 
   Future<void> _pickImage(String type) async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
@@ -40,31 +57,48 @@ class _ValidateDataStepOneState extends State<ValidateDataStepOne> {
           },
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildHeader(),
-            SizedBox(height: 16.0),
-            _buildImagePickerField(
-              image: _dniImage,
-              hintText: "DNI",
-              onTap: () => _pickImage('DNI'),
-            ),
-            SizedBox(height: 16.0),
-            _buildImagePickerField(
-              image: _conductCertificateImage,
-              hintText: "Certificado de Buena Conducta",
-              onTap: () => _pickImage('Certificado'),
-            ),
-            SizedBox(height: 30.0),
-            _buildAccountTypeSelector(),
-            SizedBox(height: 30.0),
-            _buildNextButton(),
-          ],
+      body: Stack(children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildHeader(),
+              SizedBox(height: 16.0),
+              _buildImagePickerField(
+                image: _dniImage,
+                hintText: "DNI",
+                onTap: () => _pickImage('DNI'),
+              ),
+              SizedBox(height: 16.0),
+              _buildImagePickerField(
+                image: _conductCertificateImage,
+                hintText: "Certificado de Buena Conducta",
+                onTap: () => _pickImage('Certificado'),
+              ),
+              SizedBox(height: 30.0),
+              _buildAccountTypeSelector(),
+              SizedBox(height: 30.0),
+              _buildNextButton(),
+            ],
+          ),
         ),
-      ),
+        Observer(
+          builder: (_) {
+            return _store.success
+                ? NavigateWidget(Routes.validate_data_step_two)
+                : ErrorMessageWidget("Ha ocurrido un error");
+          },
+        ),
+        Observer(
+          builder: (_) {
+            return Visibility(
+              visible: _store.isLoading,
+              child: CustomProgressIndicatorWidget(),
+            );
+          },
+        ),
+      ]),
     );
   }
 
@@ -90,6 +124,7 @@ class _ValidateDataStepOneState extends State<ValidateDataStepOne> {
       ],
     );
   }
+
   Widget _buildImagePickerField({
     File? image,
     required String hintText,
@@ -182,5 +217,11 @@ class _ValidateDataStepOneState extends State<ValidateDataStepOne> {
         ),
       ),
     );
+  }
+
+  void uploadFiles() {
+    _store.uploadFile(DocumentType.dni, _dniImage!);
+    _store.uploadFile(
+        DocumentType.goodBehaviourCertificate, _conductCertificateImage!);
   }
 }

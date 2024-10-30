@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:ecotrip/data/network/constants/endpoints.dart';
 import 'package:ecotrip/data/network/rest_client.dart';
 import 'package:ecotrip/data/network/exceptions/network_exceptions.dart';
+import 'package:ecotrip/data/repository.dart';
 import 'package:ecotrip/models/auth/auth.dart';
 import 'package:ecotrip/models/user/register_result.dart';
 import 'package:flutter/material.dart';
@@ -52,21 +54,49 @@ class RegisterParams {
   }
 }
 
+enum DocumentType { dni, goodBehaviourCertificate }
+
+class PreSignedResult {
+  final String url;
+  final String key;
+
+  PreSignedResult({required this.url, required this.key});
+}
+
 class RegisterApi {
   final RestClient _restClient;
+  final Repository _repository;
 
-  RegisterApi(this._restClient);
+  RegisterApi(this._restClient, this._repository);
 
-  Future<String> getPresignedURL(String documentType) {
-    return _restClient.post(
-      Endpoints.getPresignedURL,
+  Future<PreSignedResult> getPresignedURL(DocumentType type) {
+    return _repository.authToken.then((token) {
+      return _restClient.post(
+        Endpoints.getPresignedURL,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $token"
+        },
+        body: {"document_type": type.name},
+      ).then((dynamic res) {
+        return PreSignedResult(url: res["url"], key: res["key"]);
+      }).catchError((e) {
+        throw NetworkException(message: e.toString());
+      });
+    });
+  }
+
+  Future<bool> uploadDocument(String url, File file) {
+    return _restClient
+        .put(
+      url,
       headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer $_restClient.userToken"
+        "Content-Type": "application/octet-stream",
       },
-      body: {"document_type": documentType},
-    ).then((dynamic res) {
-      return res.toString();
+      body: file.readAsBytesSync(),
+    )
+        .then((dynamic res) {
+      return true;
     }).catchError((e) {
       throw NetworkException(message: e.toString());
     });

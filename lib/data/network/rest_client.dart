@@ -11,7 +11,6 @@ import 'exceptions/network_exceptions.dart';
 class RestClient {
   final DioClient _dioClient = dioClient();
 
-  // Get:-----------------------------------------------------------------------
   Future<dynamic> get(String path) {
     dynamic value;
     try {
@@ -22,7 +21,6 @@ class RestClient {
     return value;
   }
 
-  // Post:----------------------------------------------------------------------
   Future<dynamic> post(String path,
       {Map<String, String>? headers, body, encoding}) {
     dynamic value;
@@ -34,7 +32,6 @@ class RestClient {
     return value;
   }
 
-  // Put:----------------------------------------------------------------------
   Future<dynamic> put(String path,
       {Map<String, String>? headers, body, encoding}) {
     dynamic value;
@@ -46,7 +43,6 @@ class RestClient {
     return value;
   }
 
-  // Delete:----------------------------------------------------------------------
   Future<dynamic> delete(String path,
       {Map<String, String>? headers, body, encoding}) {
     dynamic value;
