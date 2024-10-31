@@ -11,10 +11,11 @@ import 'exceptions/network_exceptions.dart';
 class RestClient {
   final DioClient _dioClient = dioClient();
 
-  Future<dynamic> get(String path) {
+  Future<dynamic> get(String path, {Map<String, String>? headers}) {
     dynamic value;
     try {
-      value = _dioClient.get(path);
+      value = _dioClient.get(path,
+          options: Options(responseType: ResponseType.json, headers: headers));
     } on DioException catch (e) {
       _handleDioErr(e);
     }
@@ -37,7 +38,8 @@ class RestClient {
       {Map<String, String>? headers, body, encoding}) {
     dynamic value;
     try {
-      value = _dioClient.put(path, data: body);
+      value =
+          _dioClient.put(path, data: body, options: Options(headers: headers));
     } on DioException catch (e) {
       _handleDioErr(e);
     }

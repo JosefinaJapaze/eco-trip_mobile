@@ -85,7 +85,7 @@ class _ValidateDataStepOneState extends State<ValidateDataStepOne> {
         ),
         Observer(
           builder: (_) {
-            if (_store.success) {
+            if (_store.firstStepSuccess) {
               if (_accountType == "Conductor") {
                 return NavigateWidget(Routes.validate_data_step_two);
               } else {

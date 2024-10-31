@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:ecotrip/data/network/apis/user/register_api.dart';
 import 'package:ecotrip/data/repository.dart';
+import 'package:ecotrip/stores/error/error_store.dart';
 import 'package:mobx/mobx.dart';
 
 part 'validation_step_store.g.dart';
@@ -12,6 +13,7 @@ class ValidationStepStore = _ValidationStepStore with _$ValidationStepStore;
 abstract class _ValidationStepStore with Store {
   final RegisterApi _apiClient;
   final Repository _repository;
+  final ErrorStore errorStore = ErrorStore();
 
   _ValidationStepStore(RegisterApi client, Repository repo)
       : this._apiClient = client,
@@ -57,6 +59,7 @@ abstract class _ValidationStepStore with Store {
         certificateResult = ObservableFuture(future);
         break;
       default:
+        this.firstStepSuccess = false;
         throw Exception('Invalid document type');
     }
 
@@ -71,6 +74,7 @@ abstract class _ValidationStepStore with Store {
       await _repository.saveUserSubmissionKey(
           userId, uploadKey, documentType.name);
     } catch (e) {
+      this.firstStepSuccess = false;
       print('Failed to save key to repo: $e');
       throw e;
     }
@@ -82,6 +86,7 @@ abstract class _ValidationStepStore with Store {
         certificateResult = ObservableFuture.value(preSignedResult);
         break;
       default:
+        this.firstStepSuccess = false;
         throw Exception('Invalid document type');
     }
 
@@ -94,6 +99,7 @@ abstract class _ValidationStepStore with Store {
         certificateUploadResult = ObservableFuture(uploadFuture);
         break;
       default:
+        this.firstStepSuccess = false;
         throw Exception('Invalid document type');
     }
 
@@ -106,9 +112,11 @@ abstract class _ValidationStepStore with Store {
         certificateUploadResult = ObservableFuture.value(true);
         break;
       default:
+        this.firstStepSuccess = false;
         throw Exception('Invalid document type');
     }
 
+    this.firstStepSuccess = true;
     return uploadKey;
   }
 
@@ -117,6 +125,8 @@ abstract class _ValidationStepStore with Store {
   void _setupDisposers() {
     _disposers = [
       reaction((_) => success, (_) => success = false, delay: 200),
+      reaction((_) => firstStepSuccess, (_) => firstStepSuccess = false,
+          delay: 200),
     ];
   }
 

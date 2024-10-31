@@ -73,12 +73,12 @@ class RegisterApi {
       return _restClient.post(
         Endpoints.getPresignedURL,
         headers: {
-          "content-type": "application/json",
-          "authorization": "Bearer $token"
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $token"
         },
         body: {"document_type": type.name},
       ).then((dynamic res) {
-        return PreSignedResult(url: res["url"], key: res["key"]);
+        return PreSignedResult(url: res["url"], key: res["s3_key"]);
       }).catchError((e) {
         if (e is DioException) {
           print("Dio exception: ${e.message}; ${e.response}");
