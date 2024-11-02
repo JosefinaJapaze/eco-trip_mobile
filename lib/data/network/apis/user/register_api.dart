@@ -53,7 +53,14 @@ class RegisterParams {
   }
 }
 
-enum DocumentType { dni, goodBehaviourCertificate }
+enum DocumentType {
+  dni,
+  goodBehaviourCertificate,
+  license,
+  greenCard,
+  insurance,
+  plate
+}
 
 class PreSignedResult {
   final String url;

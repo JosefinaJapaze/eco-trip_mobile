@@ -1,4 +1,12 @@
+import 'package:ecotrip/data/network/apis/user/register_api.dart';
+import 'package:ecotrip/di/components/service_locator.dart';
+import 'package:ecotrip/ui/register/store/validation_step_store.dart';
+import 'package:ecotrip/utils/routes/routes.dart';
+import 'package:ecotrip/widgets/error_message_widget.dart';
+import 'package:ecotrip/widgets/navigate_widget.dart';
+import 'package:ecotrip/widgets/progress_indicator_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'dart:io';
@@ -15,6 +23,14 @@ class _ValidateDataStepTwoState extends State<ValidateDataStepTwo> {
   String? _plateFilePath;
 
   final ImagePicker _picker = ImagePicker();
+
+  late ValidationStepStore _store;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _store = getIt<ValidationStepStore>();
+  }
 
   Future<void> _pickImage(String type) async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
@@ -57,40 +73,57 @@ class _ValidateDataStepTwoState extends State<ValidateDataStepTwo> {
           },
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildHeader(),
-            SizedBox(height: 16.0),
-            _buildImagePickerField(
-              image: _licenseImage,
-              hintText: "Carnet de Conducir",
-              onTap: () => _pickImage('Carnet'),
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildHeader(),
+                SizedBox(height: 16.0),
+                _buildImagePickerField(
+                  image: _licenseImage,
+                  hintText: "Carnet de Conducir",
+                  onTap: () => _pickImage('Carnet'),
+                ),
+                SizedBox(height: 16.0),
+                _buildImagePickerField(
+                  image: _greenCardImage,
+                  hintText: "Tarjeta Verde",
+                  onTap: () => _pickImage('Tarjeta Verde'),
+                ),
+                SizedBox(height: 16.0),
+                _buildFilePickerField(
+                  fileName: _insuranceFilePath,
+                  hintText: "Seguro",
+                  onTap: () => _pickFile('Seguro'),
+                ),
+                SizedBox(height: 16.0),
+                _buildFilePickerField(
+                  fileName: _plateFilePath,
+                  hintText: "Patente",
+                  onTap: () => _pickFile('Patente'),
+                ),
+                SizedBox(height: 30.0),
+                _buildNextButton(),
+              ],
             ),
-            SizedBox(height: 16.0),
-            _buildImagePickerField(
-              image: _greenCardImage,
-              hintText: "Tarjeta Verde",
-              onTap: () => _pickImage('Tarjeta Verde'),
-            ),
-            SizedBox(height: 16.0),
-            _buildFilePickerField(
-              fileName: _insuranceFilePath,
-              hintText: "Seguro",
-              onTap: () => _pickFile('Seguro'),
-            ),
-            SizedBox(height: 16.0),
-            _buildFilePickerField(
-              fileName: _plateFilePath,
-              hintText: "Patente",
-              onTap: () => _pickFile('Patente'),
-            ),
-            SizedBox(height: 30.0),
-            _buildNextButton(),
-          ],
-        ),
+          ),
+          Observer(builder: (_) {
+            if (_store.secondStepSuccess) {
+              return NavigateWidget(Routes.validate_data_step_three);
+            } else {
+              return ErrorMessageWidget(_store.errorStore.errorMessage);
+            }
+          }),
+          Observer(builder: (_) {
+            return Visibility(
+              visible: _store.isLoading,
+              child: CustomProgressIndicatorWidget(),
+            );
+          })
+        ],
       ),
     );
   }
@@ -179,14 +212,14 @@ class _ValidateDataStepTwoState extends State<ValidateDataStepTwo> {
   Widget _buildNextButton() {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-      backgroundColor: Colors.lime,
+        backgroundColor: Colors.lime,
         padding: EdgeInsets.symmetric(vertical: 16.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0),
         ),
       ),
       onPressed: () {
-        Navigator.of(context).pushNamed("/validate_data_step_three");
+        uploadFiles();
       },
       child: Center(
         child: Text(
@@ -198,5 +231,12 @@ class _ValidateDataStepTwoState extends State<ValidateDataStepTwo> {
         ),
       ),
     );
+  }
+
+  void uploadFiles() {
+    _store.uploadFile(DocumentType.greenCard, _greenCardImage!);
+    _store.uploadFile(DocumentType.license, _licenseImage!);
+    _store.uploadFile(DocumentType.insurance, File(_insuranceFilePath!));
+    _store.uploadFile(DocumentType.plate, File(_plateFilePath!));
   }
 }

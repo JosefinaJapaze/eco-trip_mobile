@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:ecotrip/constants/assets.dart';
 import 'package:ecotrip/data/sharedpref/constants/preferences.dart';
 import 'package:ecotrip/utils/routes/routes.dart';
 import 'package:ecotrip/widgets/app_icon_widget.dart';

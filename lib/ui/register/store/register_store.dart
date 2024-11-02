@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:ecotrip/data/network/apis/auth/auth_api.dart';
 import 'package:ecotrip/data/network/apis/user/register_api.dart';
 import 'package:ecotrip/data/repository.dart';

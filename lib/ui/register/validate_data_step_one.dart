@@ -1,6 +1,5 @@
 import 'package:ecotrip/data/network/apis/user/register_api.dart';
 import 'package:ecotrip/di/components/service_locator.dart';
-import 'package:ecotrip/ui/register/store/register_store.dart';
 import 'package:ecotrip/ui/register/store/validation_step_store.dart';
 import 'package:ecotrip/utils/routes/routes.dart';
 import 'package:ecotrip/widgets/error_message_widget.dart';
