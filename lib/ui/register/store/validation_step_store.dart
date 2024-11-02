@@ -8,12 +8,15 @@ import 'package:mobx/mobx.dart';
 
 part 'validation_step_store.g.dart';
 
+enum Step { first, second, third, fourth }
+
 class ValidationStepStore = _ValidationStepStore with _$ValidationStepStore;
 
 abstract class _ValidationStepStore with Store {
   final RegisterApi _apiClient;
   final Repository _repository;
   final ErrorStore errorStore = ErrorStore();
+  final Step currentStep = Step.first;
 
   _ValidationStepStore(RegisterApi client, Repository repo)
       : this._apiClient = client,
@@ -26,6 +29,15 @@ abstract class _ValidationStepStore with Store {
 
   @observable
   bool firstStepSuccess = false;
+
+  @observable
+  bool secondStepSuccess = false;
+
+  @observable
+  bool thirdStepSuccess = false;
+
+  @observable
+  bool fourthStepSuccess = false;
 
   @observable
   ObservableFuture<PreSignedResult?> dniPreSignedResult =
@@ -49,6 +61,29 @@ abstract class _ValidationStepStore with Store {
       dniUploadResult.status == FutureStatus.pending ||
       certificateUploadResult.status == FutureStatus.pending;
 
+  setStep(Step step) {
+    switch (step) {
+      case Step.first:
+        firstStepSuccess = false;
+        secondStepSuccess = false;
+        thirdStepSuccess = false;
+        fourthStepSuccess = false;
+        break;
+      case Step.second:
+        secondStepSuccess = false;
+        thirdStepSuccess = false;
+        fourthStepSuccess = false;
+        break;
+      case Step.third:
+        thirdStepSuccess = false;
+        fourthStepSuccess = false;
+        break;
+      case Step.fourth:
+        fourthStepSuccess = false;
+        break;
+    }
+  }
+
   Future<String> uploadFile(DocumentType documentType, File file) async {
     final future = _apiClient.getPresignedURL(documentType);
     switch (documentType) {
@@ -59,11 +94,20 @@ abstract class _ValidationStepStore with Store {
         certificateResult = ObservableFuture(future);
         break;
       default:
-        this.firstStepSuccess = false;
+        setCurrentStepSuccess(false);
         throw Exception('Invalid document type');
     }
 
-    final preSignedResult = await future;
+    PreSignedResult preSignedResult;
+    try {
+      preSignedResult = await future;
+    } catch (e) {
+      setCurrentStepSuccess(false);
+      print('Failed to get pre-signed URL: $e');
+      errorStore.errorMessage = 'Error al intentar subir el archivo';
+      throw e;
+    }
+
     final uploadKey = preSignedResult.key;
     try {
       final token = await _repository.authToken;
@@ -74,7 +118,8 @@ abstract class _ValidationStepStore with Store {
       await _repository.saveUserSubmissionKey(
           userId, uploadKey, documentType.name);
     } catch (e) {
-      this.firstStepSuccess = false;
+      setCurrentStepSuccess(false);
+      errorStore.errorMessage = 'Error al intentar subir el archivo';
       print('Failed to save key to repo: $e');
       throw e;
     }
@@ -86,7 +131,7 @@ abstract class _ValidationStepStore with Store {
         certificateResult = ObservableFuture.value(preSignedResult);
         break;
       default:
-        this.firstStepSuccess = false;
+        setCurrentStepSuccess(false);
         throw Exception('Invalid document type');
     }
 
@@ -99,11 +144,19 @@ abstract class _ValidationStepStore with Store {
         certificateUploadResult = ObservableFuture(uploadFuture);
         break;
       default:
-        this.firstStepSuccess = false;
+        setCurrentStepSuccess(false);
         throw Exception('Invalid document type');
     }
 
-    await uploadFuture;
+    try {
+      await uploadFuture;
+    } catch (e) {
+      setCurrentStepSuccess(false);
+      errorStore.errorMessage = 'Error al intentar subir el archivo';
+      print('Failed to upload file: $e');
+      throw e;
+    }
+
     switch (documentType) {
       case DocumentType.dni:
         dniUploadResult = ObservableFuture.value(true);
@@ -112,12 +165,46 @@ abstract class _ValidationStepStore with Store {
         certificateUploadResult = ObservableFuture.value(true);
         break;
       default:
-        this.firstStepSuccess = false;
+        setCurrentStepSuccess(false);
         throw Exception('Invalid document type');
     }
 
-    this.firstStepSuccess = true;
+    checkStepCompleted();
     return uploadKey;
+  }
+
+  setCurrentStepSuccess(bool success) {
+    switch (currentStep) {
+      case Step.first:
+        firstStepSuccess = success;
+        break;
+      case Step.second:
+        secondStepSuccess = success;
+        break;
+      case Step.third:
+        thirdStepSuccess = success;
+        break;
+      case Step.fourth:
+        fourthStepSuccess = success;
+        break;
+    }
+  }
+
+  checkStepCompleted() {
+    switch (currentStep) {
+      case Step.first:
+        if (dniUploadResult.status == FutureStatus.fulfilled &&
+            certificateUploadResult.status == FutureStatus.fulfilled) {
+          firstStepSuccess = true;
+        }
+        break;
+      case Step.second:
+        break;
+      case Step.third:
+        break;
+      case Step.fourth:
+        break;
+    }
   }
 
   late List<ReactionDisposer> _disposers;
@@ -126,6 +213,12 @@ abstract class _ValidationStepStore with Store {
     _disposers = [
       reaction((_) => success, (_) => success = false, delay: 200),
       reaction((_) => firstStepSuccess, (_) => firstStepSuccess = false,
+          delay: 200),
+      reaction((_) => secondStepSuccess, (_) => secondStepSuccess = false,
+          delay: 200),
+      reaction((_) => thirdStepSuccess, (_) => thirdStepSuccess = false,
+          delay: 200),
+      reaction((_) => fourthStepSuccess, (_) => fourthStepSuccess = false,
           delay: 200),
     ];
   }

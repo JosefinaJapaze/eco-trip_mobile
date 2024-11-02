@@ -92,7 +92,7 @@ class _ValidateDataStepOneState extends State<ValidateDataStepOne> {
                 return NavigateWidget(Routes.validate_data_step_three);
               }
             } else {
-              return ErrorMessageWidget("Ha ocurrido un error");
+              return ErrorMessageWidget(_store.errorStore.errorMessage);
             }
           },
         ),
