@@ -84,13 +84,17 @@ class _CheckUserValidatedWidgetState extends State<CheckUserValidatedWidget> {
   bool tokenLoaded = false;
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     checkUserValidated();
   }
 
   void checkUserValidated() async {
     final token = await _repository.authToken;
+    if (token == null) {
+      _repository.saveIsLoggedIn(false);
+    }
+
     if (token != null) {
       final decoded = JWT.decode(token);
       isUserValidated = decoded.payload['validated'] as bool;
