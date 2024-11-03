@@ -8,7 +8,7 @@ import 'package:mobx/mobx.dart';
 
 part 'validation_step_store.g.dart';
 
-enum Step { first, second, third, fourth }
+enum ValidationStep { first, second, third, fourth }
 
 class ValidationStepStore = _ValidationStepStore with _$ValidationStepStore;
 
@@ -16,7 +16,7 @@ abstract class _ValidationStepStore with Store {
   final RegisterApi _apiClient;
   final Repository _repository;
   final ErrorStore errorStore = ErrorStore();
-  final Step currentStep = Step.first;
+  ValidationStep currentStep = ValidationStep.first;
 
   _ValidationStepStore(RegisterApi client, Repository repo)
       : this._apiClient = client,
@@ -118,24 +118,28 @@ abstract class _ValidationStepStore with Store {
       selfieResult.status == FutureStatus.pending ||
       selfieUploadResult.status == FutureStatus.pending;
 
-  setStep(Step step) {
+  setStep(ValidationStep step) {
     switch (step) {
-      case Step.first:
+      case ValidationStep.first:
+        currentStep = ValidationStep.first;
         firstStepSuccess = false;
         secondStepSuccess = false;
         thirdStepSuccess = false;
         fourthStepSuccess = false;
         break;
-      case Step.second:
+      case ValidationStep.second:
+        currentStep = ValidationStep.second;
         secondStepSuccess = false;
         thirdStepSuccess = false;
         fourthStepSuccess = false;
         break;
-      case Step.third:
+      case ValidationStep.third:
+        currentStep = ValidationStep.third;
         thirdStepSuccess = false;
         fourthStepSuccess = false;
         break;
-      case Step.fourth:
+      case ValidationStep.fourth:
+        currentStep = ValidationStep.fourth;
         fourthStepSuccess = false;
         break;
     }
@@ -363,16 +367,16 @@ abstract class _ValidationStepStore with Store {
 
   setCurrentStepSuccess(bool success) {
     switch (currentStep) {
-      case Step.first:
+      case ValidationStep.first:
         firstStepSuccess = success;
         break;
-      case Step.second:
+      case ValidationStep.second:
         secondStepSuccess = success;
         break;
-      case Step.third:
+      case ValidationStep.third:
         thirdStepSuccess = success;
         break;
-      case Step.fourth:
+      case ValidationStep.fourth:
         fourthStepSuccess = success;
         break;
     }
@@ -380,13 +384,13 @@ abstract class _ValidationStepStore with Store {
 
   checkStepCompleted() {
     switch (currentStep) {
-      case Step.first:
+      case ValidationStep.first:
         if (dniUploadResult.status == FutureStatus.fulfilled &&
             certificateUploadResult.status == FutureStatus.fulfilled) {
           firstStepSuccess = true;
         }
         break;
-      case Step.second:
+      case ValidationStep.second:
         if (licenseUploadResult.status == FutureStatus.fulfilled &&
             greenCardUploadResult.status == FutureStatus.fulfilled &&
             insuranceUploadResult.status == FutureStatus.fulfilled &&
@@ -394,12 +398,12 @@ abstract class _ValidationStepStore with Store {
           secondStepSuccess = true;
         }
         break;
-      case Step.third:
+      case ValidationStep.third:
         if (serviceBillUploadResult.status == FutureStatus.fulfilled) {
           thirdStepSuccess = true;
         }
         break;
-      case Step.fourth:
+      case ValidationStep.fourth:
         if (selfieUploadResult.status == FutureStatus.fulfilled) {
           fourthStepSuccess = true;
         }

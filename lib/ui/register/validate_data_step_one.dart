@@ -28,6 +28,7 @@ class _ValidateDataStepOneState extends State<ValidateDataStepOne> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     _store = getIt<ValidationStepStore>();
+    _store.setStep(ValidationStep.first);
   }
 
   Future<void> _pickImage(String type) async {

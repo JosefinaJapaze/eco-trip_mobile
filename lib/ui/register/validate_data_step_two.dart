@@ -20,7 +20,9 @@ class _ValidateDataStepTwoState extends State<ValidateDataStepTwo> {
   File? _licenseImage;
   File? _greenCardImage;
   String? _insuranceFilePath;
+  String? _insuranceFileName;
   String? _plateFilePath;
+  String? _plateFileName;
 
   final ImagePicker _picker = ImagePicker();
 
@@ -30,6 +32,7 @@ class _ValidateDataStepTwoState extends State<ValidateDataStepTwo> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     _store = getIt<ValidationStepStore>();
+    _store.setStep(ValidationStep.second);
   }
 
   Future<void> _pickImage(String type) async {
@@ -52,9 +55,11 @@ class _ValidateDataStepTwoState extends State<ValidateDataStepTwo> {
     if (result != null) {
       setState(() {
         if (type == 'Seguro') {
-          _insuranceFilePath = result.files.single.name;
+          _insuranceFilePath = result.files.single.path;
+          _insuranceFileName = result.files.single.name;
         } else if (type == 'Patente') {
-          _plateFilePath = result.files.single.name;
+          _plateFilePath = result.files.single.path;
+          _plateFileName = result.files.single.name;
         }
       });
     }
@@ -95,13 +100,13 @@ class _ValidateDataStepTwoState extends State<ValidateDataStepTwo> {
                 ),
                 SizedBox(height: 16.0),
                 _buildFilePickerField(
-                  fileName: _insuranceFilePath,
+                  fileName: _insuranceFileName,
                   hintText: "Seguro",
                   onTap: () => _pickFile('Seguro'),
                 ),
                 SizedBox(height: 16.0),
                 _buildFilePickerField(
-                  fileName: _plateFilePath,
+                  fileName: _plateFileName,
                   hintText: "Patente",
                   onTap: () => _pickFile('Patente'),
                 ),
