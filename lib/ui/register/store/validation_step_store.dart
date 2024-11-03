@@ -40,6 +40,9 @@ abstract class _ValidationStepStore with Store {
   bool fourthStepSuccess = false;
 
   @observable
+  String userType = 'driver';
+
+  @observable
   ObservableFuture<PreSignedResult?> dniPreSignedResult =
       ObservableFuture.value(null);
 
@@ -297,6 +300,65 @@ abstract class _ValidationStepStore with Store {
 
     checkStepCompleted();
     return uploadKey;
+  }
+
+  Future<bool> submitUserValidation() async {
+    final token = await _repository.authToken;
+    if (token == null) {
+      throw Exception('Token is null');
+    }
+    final userId = JWT.decode(token).payload['userId'];
+    final dniKey =
+        await _repository.getUserSubmissionKey(userId, DocumentType.dni.name);
+    final goodBehaviorKey = await _repository.getUserSubmissionKey(
+        userId, DocumentType.goodBehaviourCertificate.name);
+    final drivingLicenseKey = await _repository.getUserSubmissionKey(
+        userId, DocumentType.license.name);
+    final greenCardKey = await _repository.getUserSubmissionKey(
+        userId, DocumentType.greenCard.name);
+    final insuranceKey = await _repository.getUserSubmissionKey(
+        userId, DocumentType.insurance.name);
+    final licensePlateKey =
+        await _repository.getUserSubmissionKey(userId, DocumentType.plate.name);
+    final exampleInvoiceKey = await _repository.getUserSubmissionKey(
+        userId, DocumentType.serviceBill.name);
+    final selfPhotoKey = await _repository.getUserSubmissionKey(
+        userId, DocumentType.selfie.name);
+
+    if (dniKey == null ||
+        goodBehaviorKey == null ||
+        licensePlateKey == null ||
+        exampleInvoiceKey == null ||
+        selfPhotoKey == null) {
+      setCurrentStepSuccess(false);
+      throw Exception('Missing submission keys');
+    }
+
+    final request = SubmitUserValidationRequest(
+      userType: 'driver',
+      dniKey: dniKey,
+      goodBehaviorKey: goodBehaviorKey,
+      drivingLicenseKey: drivingLicenseKey,
+      greenCardKey: greenCardKey,
+      insuranceKey: insuranceKey,
+      licensePlateKey: licensePlateKey,
+      exampleInvoiceKey: exampleInvoiceKey,
+      selfPhotoKey: selfPhotoKey,
+    );
+
+    final future = _apiClient.submitUserValidation(request);
+    try {
+      await future;
+    } catch (e) {
+      setCurrentStepSuccess(false);
+      errorStore.errorMessage = 'Error al intentar finalizar el registro';
+      print('Failed to submit user validation: $e');
+      throw e;
+    }
+
+    success = true;
+    setCurrentStepSuccess(success);
+    return success;
   }
 
   setCurrentStepSuccess(bool success) {

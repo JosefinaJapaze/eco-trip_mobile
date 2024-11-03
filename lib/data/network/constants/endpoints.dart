@@ -10,4 +10,5 @@ class Endpoints {
   static const String getTrips = "/trips";
   static const String register = "/register";
   static const String getPresignedURL = "/submissions/generate-presigned-url";
+  static const String submitUserValidation = "/submissions";
 }
