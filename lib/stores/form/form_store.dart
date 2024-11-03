@@ -24,7 +24,6 @@ abstract class _FormStore with Store {
     _disposers = [
       reaction((_) => userEmail, validateUserEmail),
       reaction((_) => password, validatePassword),
-      reaction((_) => confirmPassword, validateConfirmPassword)
     ];
   }
 
@@ -34,9 +33,6 @@ abstract class _FormStore with Store {
 
   @observable
   String password = '';
-
-  @observable
-  String confirmPassword = '';
 
   @observable
   bool success = false;
@@ -54,8 +50,7 @@ abstract class _FormStore with Store {
   bool get canRegister =>
       !formErrorStore.hasErrorsInRegister &&
       userEmail.isNotEmpty &&
-      password.isNotEmpty &&
-      confirmPassword.isNotEmpty;
+      password.isNotEmpty;
 
   @computed
   bool get canForgetPassword =>
@@ -73,16 +68,11 @@ abstract class _FormStore with Store {
   }
 
   @action
-  void setConfirmPassword(String value) {
-    confirmPassword = value;
-  }
-
-  @action
   void validateUserEmail(String value) {
     if (value.isEmpty) {
-      formErrorStore.userEmail = "Email can't be empty";
+      formErrorStore.userEmail = "El email no puede estar vacío";
     } else if (!isEmail(value)) {
-      formErrorStore.userEmail = 'Please enter a valid email address';
+      formErrorStore.userEmail = 'Por favor ingrese un email válido';
     } else {
       formErrorStore.userEmail = null;
     }
@@ -91,22 +81,7 @@ abstract class _FormStore with Store {
   @action
   void validatePassword(String value) {
     if (value.isEmpty) {
-      formErrorStore.password = "Password can't be empty";
-    } else if (value.length < 6) {
-      formErrorStore.password = "Password must be at-least 6 characters long";
-    } else {
-      formErrorStore.password = null;
-    }
-  }
-
-  @action
-  void validateConfirmPassword(String value) {
-    if (value.isEmpty) {
-      formErrorStore.confirmPassword = "Confirm password can't be empty";
-    } else if (value != password) {
-      formErrorStore.confirmPassword = "Password doen't match";
-    } else {
-      formErrorStore.confirmPassword = null;
+      formErrorStore.password = "La contraseña no puede estar vacía";
     }
   }
 
@@ -126,8 +101,8 @@ abstract class _FormStore with Store {
       loading = false;
       success = false;
       errorStore.errorMessage = e.toString().contains("ERROR_USER_NOT_FOUND")
-          ? "Username and password doesn't match"
-          : "Something went wrong, please check your internet connection and try again";
+          ? "Los datos ingresados son incorrectos"
+          : "Algo salió mal, por favor intente nuevamente";
       print(e);
     });
   }

@@ -6,6 +6,7 @@ import 'package:ecotrip/utils/locale/app_localization.dart';
 import 'package:ecotrip/utils/routes/routes.dart';
 import 'package:ecotrip/widgets/progress_indicator_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -149,12 +150,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget _buildAgeField() {
-    return _buildTextField("Edad", _ageController, _ageError);
+    return _buildTextField(
+      "Edad",
+      _ageController,
+      _ageError,
+      inputFormatter: FilteringTextInputFormatter.digitsOnly,
+    );
   }
 
   Widget _buildPhoneNumberField() {
     return _buildTextField(
-        "Numero de Celular", _phoneNumberController, _phoneNumberError);
+      "Numero de Celular",
+      _phoneNumberController,
+      _phoneNumberError,
+      inputFormatter: FilteringTextInputFormatter.digitsOnly,
+    );
   }
 
   Widget _buildEmailField() {
@@ -175,11 +185,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Widget _buildTextField(
       String hint, TextEditingController? controller, String error,
-      {bool isObscure = false}) {
+      {bool isObscure = false, TextInputFormatter? inputFormatter}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: TextField(
         controller: controller,
+        inputFormatters: [
+          inputFormatter ?? FilteringTextInputFormatter.singleLineFormatter,
+        ],
         obscureText: isObscure,
         decoration: InputDecoration(
           errorText: error.isEmpty ? null : error,

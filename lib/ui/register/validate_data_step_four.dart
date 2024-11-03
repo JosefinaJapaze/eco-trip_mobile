@@ -200,6 +200,7 @@ class _ValidateDataStepFourState extends State<ValidateDataStepFour> {
 
   void completeValidation() {
     if (_selfieImage == null) {
+      _store.errorStore.errorMessage = "Por favor toma una selfie";
       return;
     }
     _store.uploadFile(DocumentType.selfie, File(_selfieImage!.path)).then((_) {

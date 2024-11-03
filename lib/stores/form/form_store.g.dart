@@ -62,22 +62,6 @@ mixin _$FormStore on _FormStore, Store {
     });
   }
 
-  late final _$confirmPasswordAtom =
-      Atom(name: '_FormStore.confirmPassword', context: context);
-
-  @override
-  String get confirmPassword {
-    _$confirmPasswordAtom.reportRead();
-    return super.confirmPassword;
-  }
-
-  @override
-  set confirmPassword(String value) {
-    _$confirmPasswordAtom.reportWrite(value, super.confirmPassword, () {
-      super.confirmPassword = value;
-    });
-  }
-
   late final _$successAtom = Atom(name: '_FormStore.success', context: context);
 
   @override
@@ -166,17 +150,6 @@ mixin _$FormStore on _FormStore, Store {
   }
 
   @override
-  void setConfirmPassword(String value) {
-    final _$actionInfo = _$_FormStoreActionController.startAction(
-        name: '_FormStore.setConfirmPassword');
-    try {
-      return super.setConfirmPassword(value);
-    } finally {
-      _$_FormStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   void validateUserEmail(String value) {
     final _$actionInfo = _$_FormStoreActionController.startAction(
         name: '_FormStore.validateUserEmail');
@@ -199,22 +172,10 @@ mixin _$FormStore on _FormStore, Store {
   }
 
   @override
-  void validateConfirmPassword(String value) {
-    final _$actionInfo = _$_FormStoreActionController.startAction(
-        name: '_FormStore.validateConfirmPassword');
-    try {
-      return super.validateConfirmPassword(value);
-    } finally {
-      _$_FormStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   String toString() {
     return '''
 userEmail: ${userEmail},
 password: ${password},
-confirmPassword: ${confirmPassword},
 success: ${success},
 loading: ${loading},
 canLogin: ${canLogin},

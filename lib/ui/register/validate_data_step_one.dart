@@ -200,7 +200,9 @@ class _ValidateDataStepOneState extends State<ValidateDataStepOne> {
   Widget _buildNextButton() {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.lime,
+        backgroundColor: (_dniImage != null && _conductCertificateImage != null)
+            ? Colors.lime
+            : Colors.grey,
         padding: EdgeInsets.symmetric(vertical: 16.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0),
@@ -222,6 +224,10 @@ class _ValidateDataStepOneState extends State<ValidateDataStepOne> {
   }
 
   void uploadFiles() {
+    if (_dniImage == null || _conductCertificateImage == null) {
+      _store.errorStore.errorMessage = "Por favor seleccione las imágenes";
+      return;
+    }
     _store.uploadFile(DocumentType.dni, _dniImage!);
     _store.uploadFile(
         DocumentType.goodBehaviourCertificate, _conductCertificateImage!);

@@ -217,7 +217,7 @@ class _ValidateDataStepTwoState extends State<ValidateDataStepTwo> {
   Widget _buildNextButton() {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.lime,
+        backgroundColor: areFilesPicked() ? Colors.lime : Colors.grey,
         padding: EdgeInsets.symmetric(vertical: 16.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0),
@@ -239,9 +239,20 @@ class _ValidateDataStepTwoState extends State<ValidateDataStepTwo> {
   }
 
   void uploadFiles() {
+    if (!areFilesPicked()) {
+      _store.errorStore.errorMessage = "Por favor, complete todos los campos";
+      return;
+    }
     _store.uploadFile(DocumentType.greenCard, _greenCardImage!);
     _store.uploadFile(DocumentType.license, _licenseImage!);
     _store.uploadFile(DocumentType.insurance, File(_insuranceFilePath!));
     _store.uploadFile(DocumentType.plate, File(_plateFilePath!));
+  }
+
+  bool areFilesPicked() {
+    return _licenseImage != null &&
+        _greenCardImage != null &&
+        _insuranceFilePath != null &&
+        _plateFilePath != null;
   }
 }

@@ -142,7 +142,8 @@ class _ValidateDataStepThreeState extends State<ValidateDataStepThree> {
   Widget _buildNextButton() {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.lime,
+        backgroundColor:
+            _serviceBillFileName == null ? Colors.grey : Colors.lime,
         padding: EdgeInsets.symmetric(vertical: 16.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0),
@@ -164,6 +165,11 @@ class _ValidateDataStepThreeState extends State<ValidateDataStepThree> {
   }
 
   uploadFiles() {
+    if (_serviceBillFilePath == null) {
+      _store.errorStore.errorMessage =
+          "Por favor selecciona la factura de servicio";
+      return;
+    }
     _store.uploadFile(DocumentType.serviceBill, File(_serviceBillFilePath!));
   }
 }
