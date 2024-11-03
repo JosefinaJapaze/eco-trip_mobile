@@ -60,7 +60,8 @@ enum DocumentType {
   greenCard,
   insurance,
   plate,
-  serviceBill
+  serviceBill,
+  selfie
 }
 
 class PreSignedResult {

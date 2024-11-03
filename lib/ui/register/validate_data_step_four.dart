@@ -1,6 +1,14 @@
+import 'package:ecotrip/data/network/apis/user/register_api.dart';
+import 'package:ecotrip/di/components/service_locator.dart';
+import 'package:ecotrip/ui/register/store/validation_step_store.dart';
+import 'package:ecotrip/utils/routes/routes.dart';
+import 'package:ecotrip/widgets/error_message_widget.dart';
+import 'package:ecotrip/widgets/progress_indicator_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'dart:io';
+
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 class ValidateDataStepFour extends StatefulWidget {
   @override
@@ -11,6 +19,14 @@ class _ValidateDataStepFourState extends State<ValidateDataStepFour> {
   CameraController? _cameraController;
   List<CameraDescription>? _cameras;
   XFile? _selfieImage;
+
+  late ValidationStepStore _store;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _store = getIt<ValidationStepStore>();
+  }
 
   @override
   void initState() {
@@ -58,21 +74,34 @@ class _ValidateDataStepFourState extends State<ValidateDataStepFour> {
           },
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            _buildHeader(),
-            SizedBox(height: 16.0),
-            _buildCameraPreview(),
-            SizedBox(height: 16.0),
-            _buildInstructionsText(),
-            SizedBox(height: 30.0),
-            _buildNextButton(),
-          ],
+      body: Stack(children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              _buildHeader(),
+              SizedBox(height: 16.0),
+              _buildCameraPreview(),
+              SizedBox(height: 16.0),
+              _buildInstructionsText(),
+              SizedBox(height: 30.0),
+              _buildNextButton(),
+            ],
+          ),
         ),
-      ),
+        Observer(builder: (_) {
+          if (_store.fourthStepSuccess) {
+            Navigator.of(context).pushNamed(Routes.register_success);
+          }
+          return ErrorMessageWidget(_store.errorStore.errorMessage);
+        }),
+        Observer(builder: (_) {
+          return Visibility(
+              visible: _store.isLoading,
+              child: CustomProgressIndicatorWidget());
+        }),
+      ]),
     );
   }
 
@@ -153,7 +182,7 @@ class _ValidateDataStepFourState extends State<ValidateDataStepFour> {
         ),
       ),
       onPressed: () {
-        Navigator.of(context).pushNamed("/register_success");
+        uploadFiles();
       },
       child: Center(
         child: Text(
@@ -165,5 +194,9 @@ class _ValidateDataStepFourState extends State<ValidateDataStepFour> {
         ),
       ),
     );
+  }
+
+  void uploadFiles() {
+    _store.uploadFile(DocumentType.selfie, File(_selfieImage!.path));
   }
 }
