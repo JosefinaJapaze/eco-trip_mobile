@@ -182,7 +182,7 @@ class _ValidateDataStepFourState extends State<ValidateDataStepFour> {
         ),
       ),
       onPressed: () {
-        uploadFiles();
+        completeValidation();
       },
       child: Center(
         child: Text(
@@ -196,7 +196,9 @@ class _ValidateDataStepFourState extends State<ValidateDataStepFour> {
     );
   }
 
-  void uploadFiles() {
-    _store.uploadFile(DocumentType.selfie, File(_selfieImage!.path));
+  void completeValidation() {
+    _store.uploadFile(DocumentType.selfie, File(_selfieImage!.path)).then((_) {
+      _store.submitUserValidation();
+    });
   }
 }
