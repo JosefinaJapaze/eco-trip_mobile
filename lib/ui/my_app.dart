@@ -1,3 +1,4 @@
+import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:ecotrip/constants/app_theme.dart';
 import 'package:ecotrip/constants/strings.dart';
 import 'package:ecotrip/data/network/apis/auth/auth_api.dart';
@@ -9,8 +10,10 @@ import 'package:ecotrip/stores/theme/theme_store.dart';
 import 'package:ecotrip/ui/login/store/login_store.dart';
 import 'package:ecotrip/ui/home/home.dart';
 import 'package:ecotrip/ui/login/login.dart';
+import 'package:ecotrip/ui/register/validate_data_step_one.dart';
 import 'package:ecotrip/utils/locale/app_localization.dart';
 import 'package:ecotrip/utils/routes/routes.dart';
+import 'package:ecotrip/widgets/progress_indicator_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -24,7 +27,6 @@ class MyApp extends StatelessWidget {
   final TripStore _tripStore = TripStore(getIt<Repository>());
   final LanguageStore _languageStore = LanguageStore(getIt<Repository>());
   final UserStore _userStore = UserStore(getIt<Repository>(), getIt<AuthApi>());
-  final Repository _repository = getIt<Repository>();
 
   @override
   Widget build(BuildContext context) {
@@ -59,10 +61,55 @@ class MyApp extends StatelessWidget {
               // Built-in localization of basic text for Cupertino widgets
               GlobalCupertinoLocalizations.delegate,
             ],
-            home: _userStore.isLoggedIn ? HomeScreen() : LoginScreen(),
+            home: _userStore.isLoggedIn
+                ? CheckUserValidatedWidget()
+                : LoginScreen(),
           );
         },
       ),
     );
+  }
+}
+
+class CheckUserValidatedWidget extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _CheckUserValidatedWidgetState();
+  }
+}
+
+class _CheckUserValidatedWidgetState extends State<CheckUserValidatedWidget> {
+  final Repository _repository = getIt<Repository>();
+  bool isUserValidated = false;
+  bool tokenLoaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    checkUserValidated();
+  }
+
+  void checkUserValidated() async {
+    final token = await _repository.authToken;
+    if (token != null) {
+      final decoded = JWT.decode(token);
+      isUserValidated = decoded.payload['validated'] as bool;
+    } else {
+      isUserValidated = false;
+    }
+    setState(() {
+      tokenLoaded = true;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Observer(builder: (_) {
+      return tokenLoaded
+          ? isUserValidated
+              ? HomeScreen()
+              : ValidateDataStepOne()
+          : CustomProgressIndicatorWidget();
+    });
   }
 }
