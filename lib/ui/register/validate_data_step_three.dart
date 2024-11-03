@@ -18,6 +18,7 @@ class ValidateDataStepThree extends StatefulWidget {
 
 class _ValidateDataStepThreeState extends State<ValidateDataStepThree> {
   String? _serviceBillFilePath;
+  String? _serviceBillFileName;
 
   late ValidationStepStore _store;
 
@@ -25,6 +26,7 @@ class _ValidateDataStepThreeState extends State<ValidateDataStepThree> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     _store = getIt<ValidationStepStore>();
+    _store.setStep(ValidationStep.third);
   }
 
   Future<void> _pickFile() async {
@@ -32,7 +34,8 @@ class _ValidateDataStepThreeState extends State<ValidateDataStepThree> {
 
     if (result != null) {
       setState(() {
-        _serviceBillFilePath = result.files.single.name;
+        _serviceBillFilePath = result.files.single.path;
+        _serviceBillFileName = result.files.single.name;
       });
     }
   }
@@ -59,7 +62,7 @@ class _ValidateDataStepThreeState extends State<ValidateDataStepThree> {
               _buildHeader(),
               SizedBox(height: 16.0),
               _buildFilePickerField(
-                fileName: _serviceBillFilePath,
+                fileName: _serviceBillFileName,
                 hintText: "Factura de Servicio",
                 onTap: _pickFile,
               ),

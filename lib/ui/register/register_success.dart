@@ -1,3 +1,4 @@
+import 'package:ecotrip/utils/routes/routes.dart';
 import 'package:flutter/material.dart';
 
 class RegisterSuccessScreen extends StatelessWidget {
@@ -73,8 +74,13 @@ class RegisterSuccessScreen extends StatelessWidget {
         ),
       ),
       onPressed: () {
-        // Add your logic here for "Confirmar" action
-        Navigator.pop(context); // Example: Navigate back or to another screen
+        // remove all routes and go to the home screen
+        Future.delayed(Duration.zero, () {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            Routes.home,
+            (route) => false,
+          );
+        });
       },
       child: Center(
         child: Text(

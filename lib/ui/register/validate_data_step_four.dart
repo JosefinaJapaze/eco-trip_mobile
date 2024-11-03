@@ -26,6 +26,7 @@ class _ValidateDataStepFourState extends State<ValidateDataStepFour> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     _store = getIt<ValidationStepStore>();
+    _store.setStep(ValidationStep.fourth);
   }
 
   @override
@@ -175,7 +176,7 @@ class _ValidateDataStepFourState extends State<ValidateDataStepFour> {
   Widget _buildNextButton() {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.lime,
+        backgroundColor: _selfieImage == null ? Colors.grey : Colors.lime,
         padding: EdgeInsets.symmetric(vertical: 16.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0),
@@ -197,6 +198,9 @@ class _ValidateDataStepFourState extends State<ValidateDataStepFour> {
   }
 
   void completeValidation() {
+    if (_selfieImage == null) {
+      return;
+    }
     _store.uploadFile(DocumentType.selfie, File(_selfieImage!.path)).then((_) {
       _store.submitUserValidation();
     });

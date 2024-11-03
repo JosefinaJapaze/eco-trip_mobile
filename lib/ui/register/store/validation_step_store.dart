@@ -331,7 +331,6 @@ abstract class _ValidationStepStore with Store {
 
     if (dniKey == null ||
         goodBehaviorKey == null ||
-        licensePlateKey == null ||
         exampleInvoiceKey == null ||
         selfPhotoKey == null) {
       setCurrentStepSuccess(false);
@@ -362,6 +361,9 @@ abstract class _ValidationStepStore with Store {
 
     success = true;
     setCurrentStepSuccess(success);
+
+    _repository.removeAuthToken();
+
     return success;
   }
 
