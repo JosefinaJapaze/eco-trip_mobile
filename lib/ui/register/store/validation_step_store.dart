@@ -363,6 +363,7 @@ abstract class _ValidationStepStore with Store {
     setCurrentStepSuccess(success);
 
     _repository.removeAuthToken();
+    _repository.saveIsLoggedIn(false);
 
     return success;
   }
