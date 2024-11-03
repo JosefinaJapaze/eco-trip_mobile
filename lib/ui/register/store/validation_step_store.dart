@@ -54,12 +54,66 @@ abstract class _ValidationStepStore with Store {
   ObservableFuture<bool> certificateUploadResult =
       ObservableFuture.value(false);
 
+  @observable
+  ObservableFuture<PreSignedResult?> licenseResult =
+      ObservableFuture.value(null);
+
+  @observable
+  ObservableFuture<bool> licenseUploadResult = ObservableFuture.value(false);
+
+  @observable
+  ObservableFuture<PreSignedResult?> greenCardResult =
+      ObservableFuture.value(null);
+
+  @observable
+  ObservableFuture<bool> greenCardUploadResult = ObservableFuture.value(false);
+
+  @observable
+  ObservableFuture<PreSignedResult?> insuranceResult =
+      ObservableFuture.value(null);
+
+  @observable
+  ObservableFuture<bool> insuranceUploadResult = ObservableFuture.value(false);
+
+  @observable
+  ObservableFuture<PreSignedResult?> plateResult = ObservableFuture.value(null);
+
+  @observable
+  ObservableFuture<bool> plateUploadResult = ObservableFuture.value(false);
+
+  @observable
+  ObservableFuture<PreSignedResult?> serviceBillResult =
+      ObservableFuture.value(null);
+
+  @observable
+  ObservableFuture<bool> serviceBillUploadResult =
+      ObservableFuture.value(false);
+
+  @observable
+  ObservableFuture<PreSignedResult?> selfieResult =
+      ObservableFuture.value(null);
+
+  @observable
+  ObservableFuture<bool> selfieUploadResult = ObservableFuture.value(false);
+
   @computed
   bool get isLoading =>
       dniPreSignedResult.status == FutureStatus.pending ||
       certificateResult.status == FutureStatus.pending ||
       dniUploadResult.status == FutureStatus.pending ||
-      certificateUploadResult.status == FutureStatus.pending;
+      certificateUploadResult.status == FutureStatus.pending ||
+      licenseResult.status == FutureStatus.pending ||
+      licenseUploadResult.status == FutureStatus.pending ||
+      greenCardResult.status == FutureStatus.pending ||
+      greenCardUploadResult.status == FutureStatus.pending ||
+      insuranceResult.status == FutureStatus.pending ||
+      insuranceUploadResult.status == FutureStatus.pending ||
+      plateResult.status == FutureStatus.pending ||
+      plateUploadResult.status == FutureStatus.pending ||
+      serviceBillResult.status == FutureStatus.pending ||
+      serviceBillUploadResult.status == FutureStatus.pending ||
+      selfieResult.status == FutureStatus.pending ||
+      selfieUploadResult.status == FutureStatus.pending;
 
   setStep(Step step) {
     switch (step) {
@@ -92,6 +146,24 @@ abstract class _ValidationStepStore with Store {
         break;
       case DocumentType.goodBehaviourCertificate:
         certificateResult = ObservableFuture(future);
+        break;
+      case DocumentType.license:
+        licenseResult = ObservableFuture(future);
+        break;
+      case DocumentType.greenCard:
+        greenCardResult = ObservableFuture(future);
+        break;
+      case DocumentType.insurance:
+        insuranceResult = ObservableFuture(future);
+        break;
+      case DocumentType.plate:
+        plateResult = ObservableFuture(future);
+        break;
+      case DocumentType.serviceBill:
+        serviceBillResult = ObservableFuture(future);
+        break;
+      case DocumentType.selfie:
+        selfieResult = ObservableFuture(future);
         break;
       default:
         setCurrentStepSuccess(false);
@@ -130,6 +202,24 @@ abstract class _ValidationStepStore with Store {
       case DocumentType.goodBehaviourCertificate:
         certificateResult = ObservableFuture.value(preSignedResult);
         break;
+      case DocumentType.license:
+        licenseResult = ObservableFuture.value(preSignedResult);
+        break;
+      case DocumentType.greenCard:
+        greenCardResult = ObservableFuture.value(preSignedResult);
+        break;
+      case DocumentType.insurance:
+        insuranceResult = ObservableFuture.value(preSignedResult);
+        break;
+      case DocumentType.plate:
+        plateResult = ObservableFuture.value(preSignedResult);
+        break;
+      case DocumentType.serviceBill:
+        serviceBillResult = ObservableFuture.value(preSignedResult);
+        break;
+      case DocumentType.selfie:
+        selfieResult = ObservableFuture.value(preSignedResult);
+        break;
       default:
         setCurrentStepSuccess(false);
         throw Exception('Invalid document type');
@@ -142,6 +232,24 @@ abstract class _ValidationStepStore with Store {
         break;
       case DocumentType.goodBehaviourCertificate:
         certificateUploadResult = ObservableFuture(uploadFuture);
+        break;
+      case DocumentType.license:
+        licenseUploadResult = ObservableFuture(uploadFuture);
+        break;
+      case DocumentType.greenCard:
+        greenCardUploadResult = ObservableFuture(uploadFuture);
+        break;
+      case DocumentType.insurance:
+        insuranceUploadResult = ObservableFuture(uploadFuture);
+        break;
+      case DocumentType.plate:
+        plateUploadResult = ObservableFuture(uploadFuture);
+        break;
+      case DocumentType.serviceBill:
+        serviceBillUploadResult = ObservableFuture(uploadFuture);
+        break;
+      case DocumentType.selfie:
+        selfieUploadResult = ObservableFuture(uploadFuture);
         break;
       default:
         setCurrentStepSuccess(false);
@@ -163,6 +271,24 @@ abstract class _ValidationStepStore with Store {
         break;
       case DocumentType.goodBehaviourCertificate:
         certificateUploadResult = ObservableFuture.value(true);
+        break;
+      case DocumentType.license:
+        licenseUploadResult = ObservableFuture.value(true);
+        break;
+      case DocumentType.greenCard:
+        greenCardUploadResult = ObservableFuture.value(true);
+        break;
+      case DocumentType.insurance:
+        insuranceUploadResult = ObservableFuture.value(true);
+        break;
+      case DocumentType.plate:
+        plateUploadResult = ObservableFuture.value(true);
+        break;
+      case DocumentType.serviceBill:
+        serviceBillUploadResult = ObservableFuture.value(true);
+        break;
+      case DocumentType.selfie:
+        selfieUploadResult = ObservableFuture.value(true);
         break;
       default:
         setCurrentStepSuccess(false);
@@ -199,10 +325,22 @@ abstract class _ValidationStepStore with Store {
         }
         break;
       case Step.second:
+        if (licenseUploadResult.status == FutureStatus.fulfilled &&
+            greenCardUploadResult.status == FutureStatus.fulfilled &&
+            insuranceUploadResult.status == FutureStatus.fulfilled &&
+            plateUploadResult.status == FutureStatus.fulfilled) {
+          secondStepSuccess = true;
+        }
         break;
       case Step.third:
+        if (serviceBillUploadResult.status == FutureStatus.fulfilled) {
+          thirdStepSuccess = true;
+        }
         break;
       case Step.fourth:
+        if (selfieUploadResult.status == FutureStatus.fulfilled) {
+          fourthStepSuccess = true;
+        }
         break;
     }
   }
