@@ -77,7 +77,7 @@ class RegisterSuccessScreen extends StatelessWidget {
         // remove all routes and go to the home screen
         Future.delayed(Duration.zero, () {
           Navigator.of(context).pushNamedAndRemoveUntil(
-            Routes.home,
+            Routes.login,
             (route) => false,
           );
         });

@@ -3,6 +3,7 @@ import 'package:ecotrip/di/components/service_locator.dart';
 import 'package:ecotrip/ui/register/store/validation_step_store.dart';
 import 'package:ecotrip/utils/routes/routes.dart';
 import 'package:ecotrip/widgets/error_message_widget.dart';
+import 'package:ecotrip/widgets/navigate_widget.dart';
 import 'package:ecotrip/widgets/progress_indicator_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
@@ -93,7 +94,7 @@ class _ValidateDataStepFourState extends State<ValidateDataStepFour> {
         ),
         Observer(builder: (_) {
           if (_store.fourthStepSuccess) {
-            Navigator.of(context).pushNamed(Routes.register_success);
+            return NavigateWidget(Routes.register_success);
           }
           return ErrorMessageWidget(_store.errorStore.errorMessage);
         }),
