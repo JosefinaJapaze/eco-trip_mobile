@@ -1,8 +1,11 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
 import 'package:ecotrip/data/network/constants/endpoints.dart';
 import 'package:ecotrip/data/network/dio_client.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'exceptions/network_exceptions.dart';
 
@@ -90,14 +93,18 @@ class RestClient {
   static DioClient dioClient() {
     final client = Dio();
     client.options.baseUrl = Endpoints.host + Endpoints.baseUrl;
-    (client.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () {
-      final client = HttpClient();
-      client.badCertificateCallback =
-          (X509Certificate cert, String host, int port) {
-        return true;
+
+    if (dotenv.env['ENV'] == 'dev') {
+      (client.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () {
+        final client = HttpClient();
+        client.badCertificateCallback =
+            (X509Certificate cert, String host, int port) {
+          return true;
+        };
+        return client;
       };
-      return client;
-    };
+    }
+
     return DioClient(client);
   }
 }
