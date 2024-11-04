@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:dio/io.dart';
 import 'package:ecotrip/data/network/constants/endpoints.dart';
 import 'package:ecotrip/data/network/dio_client.dart';
 

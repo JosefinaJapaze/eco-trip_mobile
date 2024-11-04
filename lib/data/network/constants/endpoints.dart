@@ -1,8 +1,10 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class Endpoints {
   Endpoints._();
 
-  static const String host = "https://rpi/";
-  static const String baseUrl = "ecotrip/api";
+  static String host = envMustExist("BACKEND_URL");
+  static const String baseUrl = "api";
   static const int receiveTimeout = 15000;
   static const int connectionTimeout = 30000;
 
@@ -11,4 +13,12 @@ class Endpoints {
   static const String register = "/register";
   static const String getPresignedURL = "/submissions/generate-presigned-url";
   static const String submitUserValidation = "/submissions";
+}
+
+String envMustExist(String key) {
+  final env = dotenv.env[key];
+  if (env == null) {
+    throw Exception("BACKEND_URL must be defined in .env file");
+  }
+  return env;
 }
