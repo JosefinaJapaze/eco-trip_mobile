@@ -338,7 +338,7 @@ abstract class _ValidationStepStore with Store {
     }
 
     final request = SubmitUserValidationRequest(
-      userType: 'driver',
+      userType: this.userType,
       dniKey: dniKey,
       goodBehaviorKey: goodBehaviorKey,
       drivingLicenseKey: drivingLicenseKey,

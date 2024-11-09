@@ -228,6 +228,7 @@ class _ValidateDataStepOneState extends State<ValidateDataStepOne> {
       _store.errorStore.errorMessage = "Por favor seleccione las imágenes";
       return;
     }
+    _store.userType = _accountType == "Pasajero" ? "passenger" : "driver";
     _store.uploadFile(DocumentType.dni, _dniImage!);
     _store.uploadFile(
         DocumentType.goodBehaviourCertificate, _conductCertificateImage!);
