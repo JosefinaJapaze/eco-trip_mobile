@@ -9,19 +9,18 @@ part of 'form_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$FormStore on _FormStore, Store {
+  Computed<bool>? _$loadingComputed;
+
+  @override
+  bool get loading => (_$loadingComputed ??=
+          Computed<bool>(() => super.loading, name: '_FormStore.loading'))
+      .value;
   Computed<bool>? _$canLoginComputed;
 
   @override
   bool get canLogin => (_$canLoginComputed ??=
           Computed<bool>(() => super.canLogin, name: '_FormStore.canLogin'))
       .value;
-  Computed<bool>? _$canRegisterComputed;
-
-  @override
-  bool get canRegister =>
-      (_$canRegisterComputed ??= Computed<bool>(() => super.canRegister,
-              name: '_FormStore.canRegister'))
-          .value;
   Computed<bool>? _$canForgetPasswordComputed;
 
   @override
@@ -77,27 +76,20 @@ mixin _$FormStore on _FormStore, Store {
     });
   }
 
-  late final _$loadingAtom = Atom(name: '_FormStore.loading', context: context);
+  late final _$loginFutureAtom =
+      Atom(name: '_FormStore.loginFuture', context: context);
 
   @override
-  bool get loading {
-    _$loadingAtom.reportRead();
-    return super.loading;
+  ObservableFuture<LoginResult> get loginFuture {
+    _$loginFutureAtom.reportRead();
+    return super.loginFuture;
   }
 
   @override
-  set loading(bool value) {
-    _$loadingAtom.reportWrite(value, super.loading, () {
-      super.loading = value;
+  set loginFuture(ObservableFuture<LoginResult> value) {
+    _$loginFutureAtom.reportWrite(value, super.loginFuture, () {
+      super.loginFuture = value;
     });
-  }
-
-  late final _$registerAsyncAction =
-      AsyncAction('_FormStore.register', context: context);
-
-  @override
-  Future<dynamic> register() {
-    return _$registerAsyncAction.run(() => super.register());
   }
 
   late final _$loginAsyncAction =
@@ -106,22 +98,6 @@ mixin _$FormStore on _FormStore, Store {
   @override
   Future<dynamic> login() {
     return _$loginAsyncAction.run(() => super.login());
-  }
-
-  late final _$forgotPasswordAsyncAction =
-      AsyncAction('_FormStore.forgotPassword', context: context);
-
-  @override
-  Future<dynamic> forgotPassword() {
-    return _$forgotPasswordAsyncAction.run(() => super.forgotPassword());
-  }
-
-  late final _$logoutAsyncAction =
-      AsyncAction('_FormStore.logout', context: context);
-
-  @override
-  Future<dynamic> logout() {
-    return _$logoutAsyncAction.run(() => super.logout());
   }
 
   late final _$_FormStoreActionController =
@@ -177,9 +153,9 @@ mixin _$FormStore on _FormStore, Store {
 userEmail: ${userEmail},
 password: ${password},
 success: ${success},
+loginFuture: ${loginFuture},
 loading: ${loading},
 canLogin: ${canLogin},
-canRegister: ${canRegister},
 canForgetPassword: ${canForgetPassword}
     ''';
   }

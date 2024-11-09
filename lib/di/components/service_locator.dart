@@ -24,7 +24,6 @@ final getIt = GetIt.instance;
 Future<void> setupLocator() async {
   // factories:-----------------------------------------------------------------
   getIt.registerFactory(() => ErrorStore());
-  getIt.registerFactory(() => FormStore());
 
   // async singletons:----------------------------------------------------------
   getIt.registerSingletonAsync<Database>(() => LocalModule.provideDatabase());
@@ -49,6 +48,7 @@ Future<void> setupLocator() async {
   getIt.registerSingleton(AuthApi(getIt<RestClient>()));
 
   // stores:--------------------------------------------------------------------
+  getIt.registerSingleton(FormStore(getIt<AuthApi>(), getIt<Repository>()));
   getIt.registerSingleton(LanguageStore(getIt<Repository>()));
   getIt.registerSingleton(TripStore(getIt<Repository>()));
   getIt.registerSingleton(ThemeStore(getIt<Repository>()));

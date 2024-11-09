@@ -72,6 +72,8 @@ abstract class _UserStore with Store {
       this.success = false;
       throw e;
     });
+
+    return null;
   }
 
   logout() {

@@ -1,3 +1,6 @@
+import 'package:ecotrip/data/network/apis/auth/auth_api.dart';
+import 'package:ecotrip/data/repository.dart';
+import 'package:ecotrip/models/auth/auth.dart';
 import 'package:ecotrip/stores/error/error_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:validators/validators.dart';
@@ -7,13 +10,16 @@ part 'form_store.g.dart';
 class FormStore = _FormStore with _$FormStore;
 
 abstract class _FormStore with Store {
-  // store for handling form errors
   final FormErrorStore formErrorStore = FormErrorStore();
-
-  // store for handling error messages
   final ErrorStore errorStore = ErrorStore();
+  final AuthApi _authApi;
+  final Repository _repository;
 
-  _FormStore() {
+  _FormStore(
+    AuthApi authApi,
+    Repository repo,
+  )   : this._authApi = authApi,
+        this._repository = repo {
     _setupValidations();
   }
 
@@ -24,8 +30,13 @@ abstract class _FormStore with Store {
     _disposers = [
       reaction((_) => userEmail, validateUserEmail),
       reaction((_) => password, validatePassword),
+      reaction((_) => success, (_) => success = false, delay: 200),
     ];
   }
+
+  static ObservableFuture<LoginResult> emptyLoginResponse =
+      ObservableFuture.value(
+          LoginResult(resultStatus: AuthResultStatus.wrongCredentials));
 
   // store variables:-----------------------------------------------------------
   @observable
@@ -38,19 +49,13 @@ abstract class _FormStore with Store {
   bool success = false;
 
   @observable
-  bool loading = false;
+  ObservableFuture<LoginResult> loginFuture = emptyLoginResponse;
 
   @computed
-  bool get canLogin =>
-      !formErrorStore.hasErrorsInLogin &&
-      userEmail.isNotEmpty &&
-      password.isNotEmpty;
+  bool get loading => loginFuture.status == FutureStatus.pending;
 
   @computed
-  bool get canRegister =>
-      !formErrorStore.hasErrorsInRegister &&
-      userEmail.isNotEmpty &&
-      password.isNotEmpty;
+  bool get canLogin => userEmail.isNotEmpty && password.isNotEmpty;
 
   @computed
   bool get canForgetPassword =>
@@ -86,35 +91,30 @@ abstract class _FormStore with Store {
   }
 
   @action
-  Future register() async {
-    loading = true;
-  }
-
-  @action
   Future login() async {
-    loading = true;
-
-    Future.delayed(Duration(milliseconds: 2000)).then((future) {
-      loading = false;
-      success = true;
-    }).catchError((e) {
-      loading = false;
-      success = false;
+    final future = _authApi.login(userEmail, password);
+    LoginResult result;
+    try {
+      result = await future;
+    } catch (e) {
+      this.success = false;
       errorStore.errorMessage = e.toString().contains("ERROR_USER_NOT_FOUND")
           ? "Los datos ingresados son incorrectos"
           : "Algo salió mal, por favor intente nuevamente";
-      print(e);
-    });
-  }
+      throw e;
+    }
 
-  @action
-  Future forgotPassword() async {
-    loading = true;
-  }
+    if (result.resultStatus == AuthResultStatus.successful) {
+      await _repository.saveAuthToken(result.token ?? '');
+      await _repository.saveIsLoggedIn(true);
+      this.loginFuture = ObservableFuture.value(result);
+      this.success = true;
+    } else {
+      this.success = false;
+      errorStore.errorMessage = "Los datos ingresados son incorrectos";
+    }
 
-  @action
-  Future logout() async {
-    loading = true;
+    return null;
   }
 
   // general methods:-----------------------------------------------------------

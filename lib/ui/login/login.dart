@@ -1,10 +1,12 @@
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:ecotrip/data/sharedpref/constants/preferences.dart';
+import 'package:ecotrip/di/components/service_locator.dart';
 import 'package:ecotrip/utils/routes/routes.dart';
 import 'package:ecotrip/stores/form/form_store.dart';
 import 'package:ecotrip/utils/device/device_utils.dart';
 import 'package:ecotrip/utils/locale/app_localization.dart';
 import 'package:ecotrip/widgets/empty_app_bar_widget.dart';
+import 'package:ecotrip/widgets/navigate_widget.dart';
 import 'package:ecotrip/widgets/progress_indicator_widget.dart';
 import 'package:ecotrip/widgets/textfield_widget.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _passwordController = TextEditingController();
 
   late FocusNode _passwordFocusNode;
-
-  final _store = FormStore();
+  late FormStore _store;
 
   @override
   void initState() {
@@ -33,6 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    _store = getIt<FormStore>();
   }
 
   @override
@@ -52,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Observer(
             builder: (context) {
               return _store.success
-                  ? navigate(context)
+                  ? NavigateWidget(Routes.home)
                   : _showErrorMessage(_store.errorStore.errorMessage);
             },
           ),

@@ -96,6 +96,8 @@ abstract class _RegisterStore with Store {
     _repository.saveAuthToken(token);
     _repository.saveIsLoggedIn(true);
     this.success = true;
+
+    return null;
   }
 
   // general methods:-----------------------------------------------------------
