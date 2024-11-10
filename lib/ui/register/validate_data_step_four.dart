@@ -42,6 +42,7 @@ class _ValidateDataStepFourState extends State<ValidateDataStepFour> {
       _cameras!.firstWhere(
           (camera) => camera.lensDirection == CameraLensDirection.front),
       ResolutionPreset.medium,
+      enableAudio: false,
     );
 
     await _cameraController!.initialize();
