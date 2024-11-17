@@ -13,6 +13,7 @@ import 'package:ecotrip/ui/login/login.dart';
 import 'package:ecotrip/ui/register/validate_data_step_one.dart';
 import 'package:ecotrip/utils/locale/app_localization.dart';
 import 'package:ecotrip/utils/routes/routes.dart';
+import 'package:ecotrip/widgets/navigate_widget.dart';
 import 'package:ecotrip/widgets/progress_indicator_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -109,11 +110,16 @@ class _CheckUserValidatedWidgetState extends State<CheckUserValidatedWidget> {
   @override
   Widget build(BuildContext context) {
     return Observer(builder: (_) {
-      return tokenLoaded
-          ? isUserValidated
-              ? HomeScreen()
-              : ValidateDataStepOne()
-          : CustomProgressIndicatorWidget();
+      if (tokenLoaded) {
+        if (isUserValidated) {
+          return HomeScreen();
+        }
+        return NavigateWidget(
+          Routes.validate_data_step_one,
+          replace: true,
+        );
+      }
+      return CustomProgressIndicatorWidget();
     });
   }
 }

@@ -314,6 +314,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
       });
     }
 
+    if (_ageController.text.isNotEmpty &&
+        int.tryParse(_ageController.text) == null) {
+      setState(() {
+        _ageError = "Edad invalida";
+      });
+      valid = false;
+    } else {
+      setState(() {
+        _ageError = "";
+      });
+    }
+
+    if (_ageController.text.isNotEmpty &&
+        int.tryParse(_ageController.text) != null &&
+        int.parse(_ageController.text) > 200) {
+      setState(() {
+        _ageError = "Edad invalida";
+      });
+      valid = false;
+    } else {
+      setState(() {
+        _ageError = "";
+      });
+    }
+
     if (_phoneNumberController.text.isEmpty) {
       setState(() {
         _phoneNumberError = "Campo requerido";
