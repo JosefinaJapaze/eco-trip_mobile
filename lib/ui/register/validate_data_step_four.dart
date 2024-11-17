@@ -87,6 +87,8 @@ class _ValidateDataStepFourState extends State<ValidateDataStepFour> {
               SizedBox(height: 16.0),
               _buildCameraPreview(),
               SizedBox(height: 16.0),
+              _buildCameraHintText(),
+              SizedBox(height: 4.0),
               _buildInstructionsText(),
               SizedBox(height: 30.0),
               _buildNextButton(),
@@ -165,6 +167,14 @@ class _ValidateDataStepFourState extends State<ValidateDataStepFour> {
         ),
       );
     }
+  }
+
+  Widget _buildCameraHintText() {
+    return Text(
+      "Haz click en la imagen para tomar la selfie",
+      style: TextStyle(fontSize: 16.0, color: Colors.grey[700]),
+      textAlign: TextAlign.center,
+    );
   }
 
   Widget _buildInstructionsText() {
