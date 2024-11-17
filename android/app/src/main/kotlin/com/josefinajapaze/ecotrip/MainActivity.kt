@@ -1,4 +1,4 @@
-package com.josefinajapaze.ecotrip
+package com.test.test_app;
 
 import io.flutter.embedding.android.FlutterActivity
 
