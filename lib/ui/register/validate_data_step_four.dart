@@ -121,14 +121,6 @@ class _ValidateDataStepFourState extends State<ValidateDataStepFour> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: 8.0),
-        Text(
-          "Retrato con cámara frontal",
-          style: TextStyle(
-            fontSize: 16,
-            color: Colors.grey[600],
-          ),
-        ),
       ],
     );
   }
