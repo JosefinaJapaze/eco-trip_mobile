@@ -1,6 +1,5 @@
 import 'package:ecotrip/stores/language/language_store.dart';
 import 'package:ecotrip/stores/theme/theme_store.dart';
-import 'package:ecotrip/utils/locale/app_localization.dart';
 import 'package:ecotrip/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

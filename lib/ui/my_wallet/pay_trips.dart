@@ -161,11 +161,9 @@ class _PayTripScreenState extends State<PayTripScreen> {
                           onPressed: () =>
                               {Navigator.of(context).pushNamed(route)},
                           style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.resolveWith(
-                                      (states) => Colors.black),
-                              shape:
-                                  MaterialStateProperty.all(StadiumBorder())),
+                              backgroundColor: WidgetStateProperty.resolveWith(
+                                  (states) => Colors.black),
+                              shape: WidgetStateProperty.all(StadiumBorder())),
                           child: Text(
                             'PAGAR',
                             style: TextStyle(

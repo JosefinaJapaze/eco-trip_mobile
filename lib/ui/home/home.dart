@@ -139,11 +139,11 @@ class _HomeScreenState extends State<HomeScreen> {
       child: TextButton(
           onPressed: () => {Navigator.of(context).pushNamed(route)},
           style: ButtonStyle(
-            shape: MaterialStateProperty.all(RoundedRectangleBorder(
+            shape: WidgetStateProperty.all(RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30.0))),
-            fixedSize: MaterialStateProperty.all(Size.square(vw / 2.5)),
+            fixedSize: WidgetStateProperty.all(Size.square(vw / 2.5)),
             backgroundColor:
-                MaterialStateProperty.resolveWith((states) => Colors.black),
+                WidgetStateProperty.resolveWith((states) => Colors.black),
           ),
           child: Text(
             text,
@@ -190,11 +190,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.of(context).pushNamed(Routes.login)
                         },
                     style: ButtonStyle(
-                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                      shape: WidgetStateProperty.all(RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0))),
-                      fixedSize:
-                          MaterialStateProperty.all(Size.square(vw / 2.5)),
-                      backgroundColor: MaterialStateProperty.resolveWith(
+                      fixedSize: WidgetStateProperty.all(Size.square(vw / 2.5)),
+                      backgroundColor: WidgetStateProperty.resolveWith(
                           (states) => Colors.black),
                     ),
                     child: Text(

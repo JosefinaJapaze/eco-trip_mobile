@@ -176,11 +176,9 @@ class _JoinProgrammedScreenState extends State<JoinProgrammedScreen> {
                       TextButton(
                           onPressed: () => {insertTrip()},
                           style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.resolveWith(
-                                      (states) => Colors.white),
-                              shape:
-                                  MaterialStateProperty.all(StadiumBorder())),
+                              backgroundColor: WidgetStateProperty.resolveWith(
+                                  (states) => Colors.white),
+                              shape: WidgetStateProperty.all(StadiumBorder())),
                           child: Text(
                             'Unirme',
                             style: TextStyle(

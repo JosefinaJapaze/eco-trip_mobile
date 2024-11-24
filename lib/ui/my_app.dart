@@ -10,7 +10,6 @@ import 'package:ecotrip/stores/theme/theme_store.dart';
 import 'package:ecotrip/ui/login/store/login_store.dart';
 import 'package:ecotrip/ui/home/home.dart';
 import 'package:ecotrip/ui/login/login.dart';
-import 'package:ecotrip/ui/register/validate_data_step_one.dart';
 import 'package:ecotrip/utils/locale/app_localization.dart';
 import 'package:ecotrip/utils/routes/routes.dart';
 import 'package:ecotrip/widgets/navigate_widget.dart';

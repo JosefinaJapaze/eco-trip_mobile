@@ -208,11 +208,9 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
                           onPressed: () =>
                               {Navigator.of(context).pushNamed("/trip_route")},
                           style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.resolveWith(
-                                      (states) => Colors.black),
-                              shape:
-                                  MaterialStateProperty.all(StadiumBorder())),
+                              backgroundColor: WidgetStateProperty.resolveWith(
+                                  (states) => Colors.black),
+                              shape: WidgetStateProperty.all(StadiumBorder())),
                           child: Text(
                             'Recorrido',
                             style: TextStyle(
