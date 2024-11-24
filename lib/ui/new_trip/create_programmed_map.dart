@@ -15,9 +15,11 @@ class _CreateProgrammedMapScreenState extends State<CreateProgrammedMapScreen> {
   @override
   void initState() {
     super.initState();
-    controller = MapController(
-      initMapWithUserPosition: UserTrackingOption(enableTracking: true),
-      initPosition: GeoPoint(latitude: -26.8274, longitude: -65.2078),
+    controller = MapController.withUserPosition(
+      trackUserLocation: UserTrackingOption(
+        enableTracking: true,
+        unFollowUser: false,
+      ),
     );
   }
 
@@ -59,24 +61,28 @@ class _CreateProgrammedMapScreenState extends State<CreateProgrammedMapScreen> {
       width: MediaQuery.of(context).size.width,
       child: OSMFlutter(
         osmOption: OSMOption(
-            userLocationMarker: UserLocationMaker(
-              directionArrowMarker: MarkerIcon(
-                icon: Icon(
-                  Icons.arrow_drop_down_circle,
-                  color: Colors.blue,
-                  size: 56,
-                ),
-              ),
-              personMarker: MarkerIcon(
-                icon: Icon(
-                  Icons.person_pin_circle,
-                  color: Colors.blue,
-                  size: 56,
-                ),
+          userLocationMarker: UserLocationMaker(
+            directionArrowMarker: MarkerIcon(
+              icon: Icon(
+                Icons.arrow_drop_down_circle,
+                color: Colors.blue,
+                size: 56,
               ),
             ),
-            zoomOption: ZoomOption(initZoom: 14),
-            userTrackingOption: UserTrackingOption(enableTracking: false)),
+            personMarker: MarkerIcon(
+              icon: Icon(
+                Icons.person_pin_circle,
+                color: Colors.blue,
+                size: 56,
+              ),
+            ),
+          ),
+          zoomOption: ZoomOption(initZoom: 16),
+          userTrackingOption: UserTrackingOption(
+            enableTracking: true,
+            unFollowUser: false,
+          ),
+        ),
         controller: controller,
       ),
     );
