@@ -5,14 +5,13 @@ import 'package:provider/provider.dart';
 import '../../models/trip/trip.dart';
 import '../../stores/trip/trip_store.dart';
 
-class JoinProgrammedMatchsScreen extends StatefulWidget {
+class JoinScheduledMatchsScreen extends StatefulWidget {
   @override
-  _JoinProgrammedMatchsScreenState createState() =>
-      _JoinProgrammedMatchsScreenState();
+  _JoinScheduledMatchsScreenState createState() =>
+      _JoinScheduledMatchsScreenState();
 }
 
-class _JoinProgrammedMatchsScreenState
-    extends State<JoinProgrammedMatchsScreen> {
+class _JoinScheduledMatchsScreenState extends State<JoinScheduledMatchsScreen> {
   //stores:---------------------------------------------------------------------
   late TripStore _tripStore;
 

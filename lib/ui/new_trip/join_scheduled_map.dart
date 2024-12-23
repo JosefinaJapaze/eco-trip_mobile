@@ -5,13 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:geolocator/geolocator.dart';
 
-class JoinProgrammedMapScreen extends StatefulWidget {
+class JoinScheduledMapScreen extends StatefulWidget {
   @override
-  _JoinProgrammedMapScreenState createState() =>
-      _JoinProgrammedMapScreenState();
+  _JoinScheduledMapScreenState createState() => _JoinScheduledMapScreenState();
 }
 
-class _JoinProgrammedMapScreenState extends State<JoinProgrammedMapScreen> {
+class _JoinScheduledMapScreenState extends State<JoinScheduledMapScreen> {
   late MapController controller;
 
   Timer? timer;

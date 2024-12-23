@@ -1,21 +1,31 @@
+import 'package:ecotrip/di/components/service_locator.dart';
+import 'package:ecotrip/ui/new_trip/store/new_trip_store.dart';
 import 'package:ecotrip/utils/routes/routes.dart';
 import 'package:ecotrip/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 
-class CreateProgrammedMapScreen extends StatefulWidget {
+class CreateScheduledMapScreen extends StatefulWidget {
   @override
-  _CreateProgrammedMapScreenState createState() =>
-      _CreateProgrammedMapScreenState();
+  _CreateScheduledMapScreenState createState() =>
+      _CreateScheduledMapScreenState();
 }
 
-class _CreateProgrammedMapScreenState extends State<CreateProgrammedMapScreen> {
-  //stores:---------------------------------------------------------------------
+class _CreateScheduledMapScreenState extends State<CreateScheduledMapScreen> {
   late MapController controller;
   GeoPoint? geoPointOrigin;
   GeoPoint? geoPointDestination;
+  RoadInfo? selectedRoad;
 
   String helperText = 'Seleccionar origen';
+
+  late NewTripStore _store;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _store = getIt<NewTripStore>();
+  }
 
   @override
   void initState() {
@@ -48,7 +58,8 @@ class _CreateProgrammedMapScreenState extends State<CreateProgrammedMapScreen> {
       if (geoPointOrigin != null && geoPointDestination != null) {
         final dest = geoPointDestination as GeoPoint;
         final origin = geoPointOrigin as GeoPoint;
-        controller.drawRoad(
+        controller
+            .drawRoad(
           origin,
           dest,
           roadOption: RoadOption(
@@ -56,7 +67,10 @@ class _CreateProgrammedMapScreenState extends State<CreateProgrammedMapScreen> {
               roadWidth: 10,
               roadBorderWidth: 10,
               roadBorderColor: Colors.green),
-        );
+        )
+            .then((road) {
+          selectedRoad = road;
+        });
       }
     });
   }
@@ -75,11 +89,6 @@ class _CreateProgrammedMapScreenState extends State<CreateProgrammedMapScreen> {
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseAppBar(titleKey: 'join_programmed_trip_title'),
@@ -87,7 +96,6 @@ class _CreateProgrammedMapScreenState extends State<CreateProgrammedMapScreen> {
     );
   }
 
-  // body methods:--------------------------------------------------------------Widget _buildBody() {
   Widget _buildBody() {
     return Stack(children: [
       _buildMap(),
@@ -98,7 +106,7 @@ class _CreateProgrammedMapScreenState extends State<CreateProgrammedMapScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               _buildTextButtonFind(),
-              _buildTextButtonNext(Routes.create_programmed_trip_calendar)
+              _buildTextButtonNext(Routes.create_scheduled_trip_calendar)
             ],
           ),
         ),
@@ -141,38 +149,42 @@ class _CreateProgrammedMapScreenState extends State<CreateProgrammedMapScreen> {
 
   Widget _buildTextButtonFind() {
     return Padding(
-        padding: const EdgeInsets.only(top: 30),
-        child: Container(
-            width: 220,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Colors.white70,
-            ),
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              TextButton(
-                onPressed: () => {},
-                child: Container(
-                  child: Row(
-                    children: [
-                      Icon(
-                        helperText == 'Todo listo'
-                            ? Icons.check
-                            : Icons.my_location_outlined,
-                        color: Colors.lime,
+      padding: const EdgeInsets.only(top: 30),
+      child: Container(
+        width: 220,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.white70,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextButton(
+              onPressed: () => {},
+              child: Container(
+                child: Row(
+                  children: [
+                    Icon(
+                      helperText == 'Todo listo'
+                          ? Icons.check
+                          : Icons.my_location_outlined,
+                      color: Colors.lime,
+                    ),
+                    SizedBox(width: 10),
+                    Text(
+                      helperText,
+                      style: TextStyle(
+                        color: Colors.black,
                       ),
-                      SizedBox(width: 10),
-                      Text(
-                        helperText,
-                        style: TextStyle(
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              )
-            ])));
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buildTextButtonNext(route) {
@@ -189,8 +201,8 @@ class _CreateProgrammedMapScreenState extends State<CreateProgrammedMapScreen> {
           children: [
             TextButton(
                 onPressed: () => {
-                      if (helperText != 'Todo listo')
-                        {Navigator.of(context).pushNamed(route)}
+                      if (helperText == 'Todo listo')
+                        createScheduledTrip(context)
                     },
                 child: Text(
                   'SIGUIENTE',
@@ -202,5 +214,17 @@ class _CreateProgrammedMapScreenState extends State<CreateProgrammedMapScreen> {
         ),
       ),
     );
+  }
+
+  void createScheduledTrip(BuildContext context) {
+    if (geoPointDestination == null || geoPointOrigin == null) {
+      _store.errorStore.errorMessage = 'Selecciona un origen y destino';
+      return;
+    }
+    Navigator.of(context)
+        .pushNamed(Routes.create_frecuent_trip_calendar, arguments: {
+      'origin': geoPointOrigin,
+      'destination': geoPointDestination,
+    });
   }
 }

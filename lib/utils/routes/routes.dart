@@ -1,6 +1,7 @@
 import 'package:ecotrip/ui/chats/chats.dart';
 import 'package:ecotrip/ui/home/home.dart';
 import 'package:ecotrip/ui/login/login.dart';
+import 'package:ecotrip/ui/new_trip/new_scheduled.dart';
 import 'package:ecotrip/ui/register/register.dart';
 import 'package:ecotrip/ui/my_trips/trip_route.dart';
 import 'package:ecotrip/ui/my_wallet/my_wallet.dart';
@@ -8,19 +9,19 @@ import 'package:ecotrip/ui/my_wallet/pay_request.dart';
 import 'package:ecotrip/ui/my_wallet/pay_trips.dart';
 import 'package:ecotrip/ui/new_trip/create_frecuent_calendar.dart';
 import 'package:ecotrip/ui/new_trip/create_frecuent_map.dart';
-import 'package:ecotrip/ui/new_trip/create_programmed_calendar.dart';
-import 'package:ecotrip/ui/new_trip/create_programmed_map.dart';
+import 'package:ecotrip/ui/new_trip/create_scheduled_calendar.dart';
+import 'package:ecotrip/ui/new_trip/create_scheduled_map.dart';
 import 'package:ecotrip/ui/new_trip/create_request.dart';
 import 'package:ecotrip/ui/new_trip/join_frecuent_calendar.dart';
 import 'package:ecotrip/ui/new_trip/join_frecuent_map.dart';
-import 'package:ecotrip/ui/new_trip/join_programmed.dart';
-import 'package:ecotrip/ui/new_trip/join_programmed_calendar.dart';
-import 'package:ecotrip/ui/new_trip/join_programmed_map.dart';
-import 'package:ecotrip/ui/new_trip/join_programmed_matchs.dart';
+import 'package:ecotrip/ui/new_trip/join_scheduled.dart';
+import 'package:ecotrip/ui/new_trip/join_scheduled_calendar.dart';
+import 'package:ecotrip/ui/new_trip/join_scheduled_map.dart';
+import 'package:ecotrip/ui/new_trip/join_scheduled_matchs.dart';
 import 'package:ecotrip/ui/new_trip/join_request.dart';
 import 'package:ecotrip/ui/new_trip/new_trip.dart';
 import 'package:ecotrip/ui/new_trip/new_frecuent.dart';
-import 'package:ecotrip/ui/new_trip/new_programmed.dart';
+import 'package:ecotrip/ui/new_trip/new_scheduled.dart';
 import 'package:ecotrip/ui/new_trip/join_frecuent.dart';
 import 'package:ecotrip/ui/new_trip/join_frecuent_matchs.dart';
 import 'package:ecotrip/ui/register/register_success.dart';
@@ -60,17 +61,16 @@ class Routes {
       '/create_frecuent_trip_calendar';
   static const String join_request = '/join_request';
   static const String create_request = '/create_request';
-  static const String new_programmed = '/new_programmed';
-  static const String join_programmed_trip = '/join_programmed_trip';
-  static const String join_programmed_trip_map = '/join_programmed_trip_map';
-  static const String join_programmed_trip_calendar =
-      '/join_programmed_trip_calendar';
-  static const String join_programmed_trip_matchs =
-      '/join_programmed_trip_matchs';
-  static const String create_programmed_trip_map =
-      '/create_programmed_trip_map';
-  static const String create_programmed_trip_calendar =
-      '/create_programmed_trip_calendar';
+  static const String new_scheduled = '/new_scheduled';
+  static const String join_scheduled_trip = '/join_scheduled_trip';
+  static const String join_scheduled_trip_map = '/join_scheduled_trip_map';
+  static const String join_scheduled_trip_calendar =
+      '/join_scheduled_trip_calendar';
+  static const String join_scheduled_trip_matchs =
+      '/join_scheduled_trip_matchs';
+  static const String create_scheduled_trip_map = '/create_scheduled_trip_map';
+  static const String create_scheduled_trip_calendar =
+      '/create_scheduled_trip_calendar';
   static const String pay_request = '/pay_request';
   static const String pay_trip = '/pay_trip';
   static const String trip_route = '/trip_route';
@@ -100,18 +100,17 @@ class Routes {
         CreateFrecuentMapScreen(),
     create_frecuent_trip_calendar: (BuildContext context) =>
         CreateFrecuentCalendarScreen(),
-    new_programmed: (BuildContext context) => NewProgrammedScreen(),
-    join_programmed_trip: (BuildContext context) => JoinProgrammedScreen(),
-    join_programmed_trip_map: (BuildContext context) =>
-        JoinProgrammedMapScreen(),
-    join_programmed_trip_calendar: (BuildContext context) =>
-        JoinProgrammedCalendarScreen(),
-    join_programmed_trip_matchs: (BuildContext context) =>
-        JoinProgrammedMatchsScreen(),
-    create_programmed_trip_map: (BuildContext context) =>
-        CreateProgrammedMapScreen(),
-    create_programmed_trip_calendar: (BuildContext context) =>
-        CreateProgrammedCalendarScreen(),
+    new_scheduled: (BuildContext context) => NewScheduledScreen(),
+    join_scheduled_trip: (BuildContext context) => JoinScheduledScreen(),
+    join_scheduled_trip_map: (BuildContext context) => JoinScheduledMapScreen(),
+    join_scheduled_trip_calendar: (BuildContext context) =>
+        JoinScheduledCalendarScreen(),
+    join_scheduled_trip_matchs: (BuildContext context) =>
+        JoinScheduledMatchsScreen(),
+    create_scheduled_trip_map: (BuildContext context) =>
+        CreateScheduledMapScreen(),
+    create_scheduled_trip_calendar: (BuildContext context) =>
+        CreateScheduledCalendarScreen(),
     join_request: (BuildContext context) => JoinRequestScreen(),
     pay_request: (BuildContext context) => PayRequestScreen(),
     create_request: (BuildContext context) => CreateRequestScreen(),

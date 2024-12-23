@@ -5,14 +5,14 @@ import 'package:provider/provider.dart';
 import '../../models/trip/trip.dart';
 import '../../stores/trip/trip_store.dart';
 
-class CreateProgrammedCalendarScreen extends StatefulWidget {
+class CreateScheduledCalendarScreen extends StatefulWidget {
   @override
-  _CreateProgrammedCalendarScreenState createState() =>
-      _CreateProgrammedCalendarScreenState();
+  _CreateScheduledCalendarScreenState createState() =>
+      _CreateScheduledCalendarScreenState();
 }
 
-class _CreateProgrammedCalendarScreenState
-    extends State<CreateProgrammedCalendarScreen> {
+class _CreateScheduledCalendarScreenState
+    extends State<CreateScheduledCalendarScreen> {
   //stores:---------------------------------------------------------------------
   late TripStore _tripStore;
 

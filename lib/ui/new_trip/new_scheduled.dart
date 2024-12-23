@@ -1,12 +1,13 @@
+import 'package:ecotrip/utils/routes/routes.dart';
 import 'package:ecotrip/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 
-class NewProgrammedScreen extends StatefulWidget {
+class NewScheduledScreen extends StatefulWidget {
   @override
-  _NewProgrammedScreenState createState() => _NewProgrammedScreenState();
+  _NewScheduledScreenState createState() => _NewScheduledScreenState();
 }
 
-class _NewProgrammedScreenState extends State<NewProgrammedScreen> {
+class _NewScheduledScreenState extends State<NewScheduledScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,14 +21,14 @@ class _NewProgrammedScreenState extends State<NewProgrammedScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          _buildTripJoinProgrammed("/join_programmed_trip"),
-          _buildTripCreateProgrammed("/create_programmed_trip_map")
+          _buildTripJoinScheduled(Routes.join_scheduled_trip),
+          _buildTripCreateScheduled(Routes.create_scheduled_trip_map)
         ],
       ),
     );
   }
 
-  Widget _buildTripJoinProgrammed(route) {
+  Widget _buildTripJoinScheduled(route) {
     return Padding(
         padding: const EdgeInsets.only(top: 50),
         child: Container(
@@ -56,7 +57,7 @@ class _NewProgrammedScreenState extends State<NewProgrammedScreen> {
             ])));
   }
 
-  Widget _buildTripCreateProgrammed(route) {
+  Widget _buildTripCreateScheduled(route) {
     return Padding(
         padding: const EdgeInsets.only(top: 50),
         child: Container(

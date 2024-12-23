@@ -1,3 +1,4 @@
+import 'package:ecotrip/utils/routes/routes.dart';
 import 'package:ecotrip/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -32,8 +33,8 @@ class _NewTripScreenState extends State<NewTripScreen> {
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          _buildTripTypeProgrammed("/new_programmed"),
-          _buildTripTypeFrecuent("/new_frecuent")
+          _buildTripTypeProgrammed(Routes.new_scheduled),
+          _buildTripTypeFrecuent(Routes.new_frecuent)
         ],
       ),
     );

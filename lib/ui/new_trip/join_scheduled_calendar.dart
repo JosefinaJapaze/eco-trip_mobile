@@ -1,14 +1,14 @@
 import 'package:ecotrip/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 
-class JoinProgrammedCalendarScreen extends StatefulWidget {
+class JoinScheduledCalendarScreen extends StatefulWidget {
   @override
-  _JoinProgrammedCalendarScreenState createState() =>
-      _JoinProgrammedCalendarScreenState();
+  _JoinScheduledCalendarScreenState createState() =>
+      _JoinScheduledCalendarScreenState();
 }
 
-class _JoinProgrammedCalendarScreenState
-    extends State<JoinProgrammedCalendarScreen> {
+class _JoinScheduledCalendarScreenState
+    extends State<JoinScheduledCalendarScreen> {
   final List<String> items = [
     '06:00hs',
     '12:00hs',

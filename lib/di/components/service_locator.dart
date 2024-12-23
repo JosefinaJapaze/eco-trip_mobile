@@ -10,6 +10,7 @@ import 'package:ecotrip/stores/form/form_store.dart';
 import 'package:ecotrip/stores/language/language_store.dart';
 import 'package:ecotrip/stores/theme/theme_store.dart';
 import 'package:ecotrip/ui/login/store/login_store.dart';
+import 'package:ecotrip/ui/new_trip/store/new_trip_store.dart';
 import 'package:ecotrip/ui/register/store/register_store.dart';
 import 'package:ecotrip/ui/register/store/validation_step_store.dart';
 import 'package:get_it/get_it.dart';
@@ -42,7 +43,7 @@ Future<void> setupLocator() async {
   getIt.registerSingleton(Repository(getIt<SharedPreferenceHelper>()));
 
   // api's:---------------------------------------------------------------------
-  getIt.registerSingleton(TripApi(getIt<RestClient>()));
+  getIt.registerSingleton(TripApi(getIt<RestClient>(), getIt<Repository>()));
   getIt
       .registerSingleton(RegisterApi(getIt<RestClient>(), getIt<Repository>()));
   getIt.registerSingleton(AuthApi(getIt<RestClient>()));
@@ -51,6 +52,7 @@ Future<void> setupLocator() async {
   getIt.registerSingleton(FormStore(getIt<AuthApi>(), getIt<Repository>()));
   getIt.registerSingleton(LanguageStore(getIt<Repository>()));
   getIt.registerSingleton(TripStore(getIt<Repository>()));
+  getIt.registerSingleton(NewTripStore(getIt<Repository>(), getIt<TripApi>()));
   getIt.registerSingleton(ThemeStore(getIt<Repository>()));
   getIt.registerSingleton(UserStore(getIt<Repository>(), getIt<AuthApi>()));
   getIt.registerSingleton(RegisterStore(

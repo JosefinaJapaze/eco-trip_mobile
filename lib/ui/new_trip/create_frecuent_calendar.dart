@@ -1,9 +1,14 @@
+import 'package:ecotrip/data/network/apis/trip/trip_api.dart';
+import 'package:ecotrip/di/components/service_locator.dart';
+import 'package:ecotrip/ui/new_trip/store/new_trip_store.dart';
+import 'package:ecotrip/utils/routes/routes.dart';
 import 'package:ecotrip/widgets/base_app_bar.dart';
+import 'package:ecotrip/widgets/error_message_widget.dart';
+import 'package:ecotrip/widgets/navigate_widget.dart';
+import 'package:ecotrip/widgets/progress_indicator_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../../models/trip/trip.dart';
-import '../../stores/trip/trip_store.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 
 class CreateFrecuentCalendarScreen extends StatefulWidget {
   @override
@@ -13,8 +18,7 @@ class CreateFrecuentCalendarScreen extends StatefulWidget {
 
 class _CreateFrecuentCalendarScreenState
     extends State<CreateFrecuentCalendarScreen> {
-  //stores:---------------------------------------------------------------------
-  late TripStore _tripStore;
+  late NewTripStore _store;
 
   final List<String> items = [
     '06:00hs',
@@ -28,6 +32,8 @@ class _CreateFrecuentCalendarScreenState
   int? availableSeats;
   final TextEditingController _costController = TextEditingController();
   double? cost;
+  GeoPoint? geoPointOrigin;
+  GeoPoint? geoPointDestination;
 
   @override
   void initState() {
@@ -37,14 +43,7 @@ class _CreateFrecuentCalendarScreenState
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
-    // initializing stores
-    _tripStore = Provider.of<TripStore>(context);
-
-    // check to see if already called api
-    if (!_tripStore.loading) {
-      _tripStore.getTrips();
-    }
+    _store = getIt<NewTripStore>();
   }
 
   void insertTrip() {
@@ -55,79 +54,111 @@ class _CreateFrecuentCalendarScreenState
       print(e);
       return;
     }
-
-    _tripStore
-        .insertTrip(Trip(
-            hasStarted: false,
-            isFinished: false,
-            seatsLeft: this.availableSeats, // sacar
-            cost: this.cost, // sacar
-            type: "frequent",
-            userId: '' // sacar del auth,
-            ))
-        .then((value) => {Navigator.of(context).pushNamed("/create_request")});
+    _store.createNewTrip(
+      CreateTripParams(
+        origin: CreateTripAddress(
+          address: 'origin',
+          latitude: geoPointOrigin!.latitude,
+          longitude: geoPointOrigin!.longitude,
+        ),
+        destination: CreateTripAddress(
+          address: 'destination',
+          latitude: geoPointDestination!.latitude,
+          longitude: geoPointDestination!.longitude,
+        ),
+        startDate: DateTime.now(),
+        endDate: DateTime.now(),
+        availableSeats: availableSeats!,
+        cost: cost!,
+        type: 'scheduled',
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic> args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    geoPointDestination = args['origin'];
+    geoPointOrigin = args['destination'];
     return Scaffold(
-      appBar: BaseAppBar(titleKey: 'join_frecuent_trip_title'),
+      appBar: BaseAppBar(titleKey: 'join_programmed_trip_title'),
       body: _buildBody(),
     );
   }
 
-  // body methods:--------------------------------------------------------------Widget _buildBody() {
   Widget _buildBody() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            'Seleccione los días del recorrido',
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          Text(
-            'Seleccione la hora',
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          _buildDropDownButton(),
-          Text(
-            'Ingrese lugares disponibles:',
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          TextField(
-            controller: _asController,
-            decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                borderSide:
-                    BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-              ),
+    return Stack(
+      children: [
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  'Seleccione los días del recorrido',
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 12),
+                Text(
+                  'Seleccione la hora',
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                _buildDropDownButton(),
+                SizedBox(height: 12),
+                Text(
+                  'Ingrese lugares disponibles:',
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                TextField(
+                  controller: _asController,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          width: 3, color: Colors.black), //<-- SEE HERE
+                    ),
+                  ),
+                ),
+                SizedBox(height: 12),
+                Text(
+                  'Ingrese costo:',
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                TextField(
+                  controller: _costController,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          width: 3, color: Colors.black), //<-- SEE HERE
+                    ),
+                  ),
+                ),
+                _buildTextButtonFindTrips("/create_request"),
+              ],
             ),
           ),
-          Text(
-            'Ingrese costo o canje:',
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          TextField(
-            controller: _costController,
-            decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                borderSide:
-                    BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-              ),
-            ),
-          ),
-          _buildTextButtonFindTrips("/create_request"),
-        ],
-      ),
+        ),
+        Observer(builder: (context) {
+          if (_store.success) {
+            return NavigateWidget(Routes.home);
+          }
+          return ErrorMessageWidget(_store.errorStore.errorMessage);
+        }),
+        Observer(builder: (_) {
+          return Visibility(
+              visible: _store.isLoading,
+              child: CustomProgressIndicatorWidget());
+        })
+      ],
     );
   }
 
@@ -178,23 +209,28 @@ class _CreateFrecuentCalendarScreenState
 
   Widget _buildTextButtonFindTrips(route) {
     return Padding(
-        padding: const EdgeInsets.only(top: 30),
-        child: Container(
-            width: 150,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Colors.lime,
+      padding: const EdgeInsets.only(top: 30),
+      child: Container(
+        width: 150,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.lime,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextButton(
+              onPressed: () => {insertTrip()},
+              child: Text(
+                'CONFIRMAR',
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
             ),
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              TextButton(
-                  onPressed: () => {insertTrip()},
-                  child: Text(
-                    'CONFIRMAR',
-                    style: TextStyle(
-                      color: Colors.black,
-                    ),
-                  )),
-            ])));
+          ],
+        ),
+      ),
+    );
   }
 }
