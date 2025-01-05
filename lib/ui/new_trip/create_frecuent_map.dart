@@ -9,7 +9,6 @@ class CreateFrecuentMapScreen extends StatefulWidget {
 }
 
 class _CreateFrecuentMapScreenState extends State<CreateFrecuentMapScreen> {
-  //stores:---------------------------------------------------------------------
   late MapController controller;
 
   @override
@@ -36,7 +35,6 @@ class _CreateFrecuentMapScreenState extends State<CreateFrecuentMapScreen> {
     );
   }
 
-  // body methods:--------------------------------------------------------------Widget _buildBody() {
   Widget _buildBody() {
     return Stack(children: [
       _buildMap(),
@@ -87,64 +85,73 @@ class _CreateFrecuentMapScreenState extends State<CreateFrecuentMapScreen> {
 
   Widget _buildTextButtonFind() {
     return Padding(
-        padding: const EdgeInsets.only(top: 30),
-        child: Container(
-            width: 200,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Colors.white70,
-            ),
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              TextButton(
-                onPressed: () => {},
-                child: Container(
-                  child: Row(
-                    children: [
-                      Icon(Icons.my_location_outlined, color: Colors.lime),
-                      SizedBox(width: 10),
-                      Text(
-                        'Origen',
-                        style: TextStyle(
-                          color: Colors.black,
-                        ),
+      padding: const EdgeInsets.only(top: 30),
+      child: Container(
+        width: 200,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.white70,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextButton(
+              onPressed: () => {},
+              child: Container(
+                child: Row(
+                  children: [
+                    Icon(Icons.my_location_outlined, color: Colors.lime),
+                    SizedBox(width: 10),
+                    Text(
+                      'Origen',
+                      style: TextStyle(
+                        color: Colors.black,
                       ),
-                      Container(
-                          child: Icon(Icons.arrow_drop_down,
-                              color: Colors.black54)),
-                      SizedBox(width: 10),
-                      Text(
-                        'Destino',
-                        style: TextStyle(
-                          color: Colors.black,
-                        ),
+                    ),
+                    Container(
+                        child:
+                            Icon(Icons.arrow_drop_down, color: Colors.black54)),
+                    SizedBox(width: 10),
+                    Text(
+                      'Destino',
+                      style: TextStyle(
+                        color: Colors.black,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              )
-            ])));
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buildTextButtonNext(route) {
     return Padding(
-        padding: const EdgeInsets.only(top: 30),
-        child: Container(
-            width: 150,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Colors.lime,
+      padding: const EdgeInsets.only(top: 30),
+      child: Container(
+        width: 150,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.lime,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextButton(
+              onPressed: () => {Navigator.of(context).pushNamed(route)},
+              child: Text(
+                'SIGUIENTE',
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
             ),
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              TextButton(
-                  onPressed: () => {Navigator.of(context).pushNamed(route)},
-                  child: Text(
-                    'SIGUIENTE',
-                    style: TextStyle(
-                      color: Colors.black,
-                    ),
-                  )),
-            ])));
+          ],
+        ),
+      ),
+    );
   }
 }
