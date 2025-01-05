@@ -42,6 +42,7 @@ dependencies:
   camera: ^0.11.0+2
   dart_jsonwebtoken: ^2.14.1
   flutter_dotenv: ^5.2.1
+  calendar_date_picker2: ^1.1.8
 
 dev_dependencies:
   flutter_test:

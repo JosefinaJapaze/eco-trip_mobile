@@ -30,7 +30,7 @@ class _JoinScheduledCalendarScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(titleKey: 'join_programmed_trip_title'),
+      appBar: BaseAppBar(titleKey: 'join_scheduled_trip_title'),
       body: _buildBody(),
     );
   }
@@ -60,7 +60,7 @@ class _JoinScheduledCalendarScreenState
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           _buildDropDownButton(),
-          _buildTextButtonFindTrips("/join_programmed_trip_matchs"),
+          _buildTextButtonFindTrips("/join_scheduled_trip_matchs"),
         ],
       ),
     );

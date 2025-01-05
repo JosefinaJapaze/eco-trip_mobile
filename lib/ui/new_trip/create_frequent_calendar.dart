@@ -1,23 +1,21 @@
+import 'package:another_flushbar/flushbar_helper.dart';
+import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:ecotrip/data/network/apis/trip/trip_api.dart';
 import 'package:ecotrip/di/components/service_locator.dart';
 import 'package:ecotrip/ui/new_trip/store/new_trip_store.dart';
 import 'package:ecotrip/utils/routes/routes.dart';
 import 'package:ecotrip/widgets/base_app_bar.dart';
-import 'package:ecotrip/widgets/error_message_widget.dart';
-import 'package:ecotrip/widgets/navigate_widget.dart';
-import 'package:ecotrip/widgets/progress_indicator_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 
-class CreateFrecuentCalendarScreen extends StatefulWidget {
+class CreateFrequentCalendarScreen extends StatefulWidget {
   @override
-  _CreateFrecuentCalendarScreenState createState() =>
-      _CreateFrecuentCalendarScreenState();
+  _CreateFrequentCalendarScreenState createState() =>
+      _CreateFrequentCalendarScreenState();
 }
 
-class _CreateFrecuentCalendarScreenState
-    extends State<CreateFrecuentCalendarScreen> {
+class _CreateFrequentCalendarScreenState
+    extends State<CreateFrequentCalendarScreen> {
   late NewTripStore _store;
 
   final List<String> items = [
@@ -34,6 +32,7 @@ class _CreateFrecuentCalendarScreenState
   double? cost;
   GeoPoint? geoPointOrigin;
   GeoPoint? geoPointDestination;
+  List<DateTime> _selectedDates = [];
 
   @override
   void initState() {
@@ -70,7 +69,7 @@ class _CreateFrecuentCalendarScreenState
         endDate: DateTime.now(),
         availableSeats: availableSeats!,
         cost: cost!,
-        type: 'scheduled',
+        type: 'frequent',
       ),
     );
   }
@@ -82,84 +81,101 @@ class _CreateFrecuentCalendarScreenState
     geoPointDestination = args['origin'];
     geoPointOrigin = args['destination'];
     return Scaffold(
-      appBar: BaseAppBar(titleKey: 'join_programmed_trip_title'),
+      appBar: BaseAppBar(titleKey: 'join_frequent_trip_title'),
       body: _buildBody(),
     );
   }
 
   Widget _buildBody() {
-    return Stack(
-      children: [
-        Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'Seleccione los días del recorrido',
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 12),
-                Text(
-                  'Seleccione la hora',
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                _buildDropDownButton(),
-                SizedBox(height: 12),
-                Text(
-                  'Ingrese lugares disponibles:',
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                TextField(
-                  controller: _asController,
-                  decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          width: 3, color: Colors.black), //<-- SEE HERE
-                    ),
-                  ),
-                ),
-                SizedBox(height: 12),
-                Text(
-                  'Ingrese costo:',
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                TextField(
-                  controller: _costController,
-                  decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          width: 3, color: Colors.black), //<-- SEE HERE
-                    ),
-                  ),
-                ),
-                _buildTextButtonFindTrips("/create_request"),
-              ],
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            'Seleccione los días del recorrido',
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: CalendarDatePicker2(
+              config: CalendarDatePicker2Config(
+                calendarType: CalendarDatePicker2Type.multi,
+                firstDate: DateTime.now().add(Duration(days: 1)),
+                lastDate: DateTime.now().add(Duration(days: 120)),
+                currentDate: DateTime.now(),
+              ),
+              value: _selectedDates,
+              onValueChanged: (value) {
+                if (value.length > 5) {
+                  Future.delayed(Duration(milliseconds: 0), () {
+                    FlushbarHelper.createInformation(
+                      message: 'Solo pueden seleccionar 5 días a la vez',
+                      duration: Duration(seconds: 3),
+                    ).show(context);
+                  });
+                  return;
+                }
+                setState(() {
+                  _selectedDates = value;
+                });
+              },
             ),
           ),
-        ),
-        Observer(builder: (context) {
-          if (_store.success) {
-            return NavigateWidget(Routes.home);
-          }
-          return ErrorMessageWidget(_store.errorStore.errorMessage);
-        }),
-        Observer(builder: (_) {
-          return Visibility(
-              visible: _store.isLoading,
-              child: CustomProgressIndicatorWidget());
-        })
-      ],
+          SizedBox(height: 10),
+          Text(
+            'Seleccione la hora',
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          _buildDropDownButton(),
+          SizedBox(height: 20),
+          Text(
+            'Ingrese lugares disponibles:',
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 10, right: 20),
+            child: TextField(
+              controller: _asController,
+              decoration: InputDecoration(
+                icon: Icon(Icons.people),
+                enabledBorder: OutlineInputBorder(
+                  borderSide:
+                      BorderSide(width: 3, color: Colors.black),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 20),
+          Text(
+            'Ingrese costo:',
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 10, right: 20),
+            child: TextField(
+              controller: _costController,
+              decoration: InputDecoration(
+                icon: Icon(Icons.attach_money),
+                enabledBorder: OutlineInputBorder(
+                  borderSide:
+                      BorderSide(width: 3, color: Colors.black),
+                ),
+              ),
+            ),
+          ),
+          _buildTextButtonFindTrips(Routes.create_request),
+        ],
+      ),
     );
+
   }
 
   Widget _buildDropDownButton() {

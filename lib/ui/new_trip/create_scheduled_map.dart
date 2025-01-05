@@ -91,7 +91,7 @@ class _CreateScheduledMapScreenState extends State<CreateScheduledMapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(titleKey: 'join_programmed_trip_title'),
+      appBar: BaseAppBar(titleKey: 'join_scheduled_trip_title'),
       body: _buildBody(),
     );
   }
@@ -222,7 +222,7 @@ class _CreateScheduledMapScreenState extends State<CreateScheduledMapScreen> {
       return;
     }
     Navigator.of(context)
-        .pushNamed(Routes.create_frecuent_trip_calendar, arguments: {
+        .pushNamed(Routes.create_scheduled_trip_calendar, arguments: {
       'origin': geoPointOrigin,
       'destination': geoPointDestination,
     });

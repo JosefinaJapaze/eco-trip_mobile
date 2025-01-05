@@ -19,9 +19,9 @@
   "new_trip_title" : "Nuevo viaje",
   "my_wallet_title" : "Mi billetera",
   "chats_title" : "Chats",
-  "new_frecuent_title" : "Viajes frecuentes",
-  "new_programmed_title" : "Viajes programados",
-  "join_frecuent_trip_title" : "Viajes frecuentes",
-  "join_programmed_trip_title" : "Viajes programados",
+  "new_frequent_title" : "Viajes frecuentes",
+  "new_scheduled_title" : "Viajes programados",
+  "join_frequent_trip_title" : "Viajes frecuentes",
+  "join_scheduled_trip_title" : "Viajes programados",
   "trip_route" : "Recorrido del viaje"
 }

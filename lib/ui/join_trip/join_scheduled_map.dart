@@ -99,7 +99,7 @@ class _JoinScheduledMapScreenState extends State<JoinScheduledMapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(titleKey: 'join_programmed_trip_title'),
+      appBar: BaseAppBar(titleKey: 'join_scheduled_trip_title'),
       body: _buildBody(),
     );
   }
@@ -115,7 +115,7 @@ class _JoinScheduledMapScreenState extends State<JoinScheduledMapScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               _buildTextButtonFind(),
-              _buildTextButtonNext("/join_programmed_trip_calendar")
+              _buildTextButtonNext("/join_scheduled_trip_calendar")
             ],
           ),
         ),

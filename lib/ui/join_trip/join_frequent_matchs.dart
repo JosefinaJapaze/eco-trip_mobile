@@ -5,13 +5,13 @@ import 'package:provider/provider.dart';
 import '../../models/trip/trip.dart';
 import '../../stores/trip/trip_store.dart';
 
-class JoinFrecuentMatchsScreen extends StatefulWidget {
+class JoinFrequentMatchsScreen extends StatefulWidget {
   @override
-  _JoinFrecuentMatchsScreenState createState() =>
-      _JoinFrecuentMatchsScreenState();
+  _JoinFrequentMatchsScreenState createState() =>
+      _JoinFrequentMatchsScreenState();
 }
 
-class _JoinFrecuentMatchsScreenState extends State<JoinFrecuentMatchsScreen> {
+class _JoinFrequentMatchsScreenState extends State<JoinFrequentMatchsScreen> {
   //stores:---------------------------------------------------------------------
   late TripStore _tripStore;
 

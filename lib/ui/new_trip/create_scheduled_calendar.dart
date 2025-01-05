@@ -1,9 +1,13 @@
+import 'package:another_flushbar/flushbar_helper.dart';
+import 'package:calendar_date_picker2/calendar_date_picker2.dart';
+import 'package:ecotrip/data/network/apis/trip/trip_api.dart';
+import 'package:ecotrip/di/components/service_locator.dart';
+import 'package:ecotrip/ui/new_trip/store/new_trip_store.dart';
+import 'package:ecotrip/utils/locale/app_localization.dart';
+import 'package:ecotrip/utils/routes/routes.dart';
 import 'package:ecotrip/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../../models/trip/trip.dart';
-import '../../stores/trip/trip_store.dart';
+import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 
 class CreateScheduledCalendarScreen extends StatefulWidget {
   @override
@@ -13,8 +17,7 @@ class CreateScheduledCalendarScreen extends StatefulWidget {
 
 class _CreateScheduledCalendarScreenState
     extends State<CreateScheduledCalendarScreen> {
-  //stores:---------------------------------------------------------------------
-  late TripStore _tripStore;
+  late NewTripStore _store;
 
   final List<String> items = [
     '06:00hs',
@@ -28,6 +31,10 @@ class _CreateScheduledCalendarScreenState
   int? availableSeats;
   final TextEditingController _costController = TextEditingController();
   double? cost;
+  GeoPoint? geoPointOrigin;
+  GeoPoint? geoPointDestination;
+  DateTime? startDate;
+  DateTime? endDate;
 
   @override
   void initState() {
@@ -37,14 +44,7 @@ class _CreateScheduledCalendarScreenState
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
-    // initializing stores
-    _tripStore = Provider.of<TripStore>(context);
-
-    // check to see if already called api
-    if (!_tripStore.loading) {
-      _tripStore.getTrips();
-    }
+    _store = getIt<NewTripStore>();
   }
 
   void insertTrip() {
@@ -55,39 +55,74 @@ class _CreateScheduledCalendarScreenState
       print(e);
       return;
     }
-
-    _tripStore
-        .insertTrip(Trip(
-            hasStarted: false,
-            isFinished: false,
-            seatsLeft: this.availableSeats, // sacar
-            cost: this.cost, // sacar
-            type: "programmed",
-            userId: '' // sacar del auth,
-            ))
-        .then((value) => {Navigator.of(context).pushNamed("/create_request")});
+    _store.createNewTrip(
+      CreateTripParams(
+        origin: CreateTripAddress(
+          address: 'origin',
+          latitude: geoPointOrigin!.latitude,
+          longitude: geoPointOrigin!.longitude,
+        ),
+        destination: CreateTripAddress(
+          address: 'destination',
+          latitude: geoPointDestination!.latitude,
+          longitude: geoPointDestination!.longitude,
+        ),
+        startDate: DateTime.now(),
+        endDate: DateTime.now(),
+        availableSeats: availableSeats!,
+        cost: cost!,
+        type: 'scheduled',
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic> args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    geoPointDestination = args['origin'];
+    geoPointOrigin = args['destination'];
     return Scaffold(
-      appBar: BaseAppBar(titleKey: 'join_programmed_trip_title'),
+      appBar: BaseAppBar(titleKey: 'join_scheduled_trip_title'),
       body: _buildBody(),
     );
+
   }
 
-  // body methods:--------------------------------------------------------------Widget _buildBody() {
   Widget _buildBody() {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            'Seleccione los días del recorrido',
+            'Seleccione los dias de inicio y regreso del recorrido',
             textAlign: TextAlign.center,
-            overflow: TextOverflow.ellipsis,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: CalendarDatePicker2(
+              config: CalendarDatePicker2Config(
+                calendarType: CalendarDatePicker2Type.range,
+                firstDate: DateTime.now().add(Duration(days: 1)),
+                lastDate: DateTime.now().add(Duration(days: 120)),
+                currentDate: DateTime.now(),
+              ),
+              value: [startDate, endDate],
+              onValueChanged: (value) {
+                if (startDate == null) {
+                  setState(() {
+                    startDate = value[0];
+                  });
+                } else if (endDate == null) {
+                  setState(() {
+                    endDate = value[1];
+                  });
+                }
+              },
+            ),
+          ),
+          SizedBox(height: 10),
           Text(
             'Seleccione la hora',
             textAlign: TextAlign.center,
@@ -95,37 +130,47 @@ class _CreateScheduledCalendarScreenState
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           _buildDropDownButton(),
+          SizedBox(height: 20),
           Text(
             'Ingrese lugares disponibles:',
             textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          TextField(
-            controller: _asController,
-            decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                borderSide:
-                    BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+          Padding(
+            padding: const EdgeInsets.only(left: 10, right: 20),
+            child: TextField(
+              controller: _asController,
+              decoration: InputDecoration(
+                icon: Icon(Icons.people),
+                enabledBorder: OutlineInputBorder(
+                  borderSide:
+                      BorderSide(width: 3, color: Colors.black),
+                ),
               ),
             ),
           ),
+          SizedBox(height: 20),
           Text(
-            'Ingrese costo o canje:',
+            'Ingrese costo:',
             textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          TextField(
-            controller: _costController,
-            decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                borderSide:
-                    BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+          Padding(
+            padding: const EdgeInsets.only(left: 10, right: 20),
+            child: TextField(
+              controller: _costController,
+              decoration: InputDecoration(
+                icon: Icon(Icons.attach_money),
+                enabledBorder: OutlineInputBorder(
+                  borderSide:
+                      BorderSide(width: 3, color: Colors.black),
+                ),
               ),
             ),
           ),
-          _buildTextButtonFindTrips("/create_request"),
+          _buildTextButtonFindTrips(Routes.create_request),
         ],
       ),
     );
@@ -135,14 +180,11 @@ class _CreateScheduledCalendarScreenState
     return DecoratedBox(
       decoration: BoxDecoration(
           color: Colors.white,
-          //background color of dropdown button
           border: Border.all(color: Colors.black, width: 3),
-          //border of dropdown button
           boxShadow: <BoxShadow>[
-            //apply shadow on Dropdown button
             BoxShadow(
-                color: Color.fromRGBO(0, 0, 0, 0.57), //shadow for button
-                blurRadius: 5) //blur radius of shadow
+                color: Color.fromRGBO(0, 0, 0, 0.57),
+                blurRadius: 5)
           ]),
       child: Padding(
         padding: EdgeInsets.only(left: 30, right: 30),
@@ -178,23 +220,28 @@ class _CreateScheduledCalendarScreenState
 
   Widget _buildTextButtonFindTrips(route) {
     return Padding(
-        padding: const EdgeInsets.only(top: 30),
-        child: Container(
-            width: 150,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Colors.lime,
+      padding: const EdgeInsets.only(top: 30),
+      child: Container(
+        width: 150,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.lime,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextButton(
+              onPressed: () => {insertTrip()},
+              child: Text(
+                'CONFIRMAR',
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
             ),
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              TextButton(
-                  onPressed: () => {insertTrip()},
-                  child: Text(
-                    'CONFIRMAR',
-                    style: TextStyle(
-                      color: Colors.black,
-                    ),
-                  )),
-            ])));
+          ],
+        ),
+      ),
+    );
   }
 }

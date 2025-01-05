@@ -49,7 +49,7 @@ class _JoinScheduledMatchsScreenState extends State<JoinScheduledMatchsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(titleKey: 'join_programmed_trip_title'),
+      appBar: BaseAppBar(titleKey: 'join_scheduled_trip_title'),
       body: _buildBody(),
     );
   }

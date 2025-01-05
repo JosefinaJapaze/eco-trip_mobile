@@ -33,56 +33,66 @@ class _NewTripScreenState extends State<NewTripScreen> {
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          _buildTripTypeProgrammed(Routes.new_scheduled),
-          _buildTripTypeFrecuent(Routes.new_frecuent)
+          _buildTripTypeScheduled(Routes.new_scheduled),
+          _buildTripTypeFrequent(Routes.new_frequent)
         ],
       ),
     );
   }
 
-  Widget _buildTripTypeProgrammed(route) {
+  Widget _buildTripTypeScheduled(route) {
     return Padding(
-        padding: const EdgeInsets.only(top: 50),
-        child: Container(
-            height: 60,
-            width: 250,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Colors.black,
+      padding: const EdgeInsets.only(top: 50),
+      child: Container(
+        height: 60,
+        width: 250,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.black,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextButton(
+              onPressed: () => {Navigator.of(context).pushNamed(route)},
+              child: Text(
+                'Viajes programados',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
             ),
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              TextButton(
-                  onPressed: () => {Navigator.of(context).pushNamed(route)},
-                  child: Text(
-                    'Viajes programados',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  )),
-            ])));
+          ],
+        ),
+      ),
+    );
   }
 
-  Widget _buildTripTypeFrecuent(route) {
+  Widget _buildTripTypeFrequent(route) {
     return Padding(
-        padding: const EdgeInsets.only(top: 50),
-        child: Container(
-            height: 60,
-            width: 250,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Colors.black,
+      padding: const EdgeInsets.only(top: 50),
+      child: Container(
+        height: 60,
+        width: 250,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.black,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextButton(
+              onPressed: () => {Navigator.of(context).pushNamed(route)},
+              child: Text(
+                'Viajes frecuentes',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
             ),
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              TextButton(
-                  onPressed: () => {Navigator.of(context).pushNamed(route)},
-                  child: Text(
-                    'Viajes frecuentes',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  )),
-            ])));
+          ],
+        ),
+      ),
+    );
   }
 }

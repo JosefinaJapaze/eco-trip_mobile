@@ -11,7 +11,7 @@ class _NewScheduledScreenState extends State<NewScheduledScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(titleKey: 'new_programmed_title'),
+      appBar: BaseAppBar(titleKey: 'new_scheduled_title'),
       body: _buildBody(),
     );
   }

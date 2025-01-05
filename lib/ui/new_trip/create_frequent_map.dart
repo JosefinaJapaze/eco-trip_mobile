@@ -1,15 +1,30 @@
+import 'package:ecotrip/di/components/service_locator.dart';
+import 'package:ecotrip/ui/new_trip/store/new_trip_store.dart';
+import 'package:ecotrip/utils/routes/routes.dart';
 import 'package:ecotrip/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 
-class CreateFrecuentMapScreen extends StatefulWidget {
+class CreateFrequentMapScreen extends StatefulWidget {
   @override
-  _CreateFrecuentMapScreenState createState() =>
-      _CreateFrecuentMapScreenState();
+  _CreateFrequentMapScreenState createState() =>
+      _CreateFrequentMapScreenState();
 }
 
-class _CreateFrecuentMapScreenState extends State<CreateFrecuentMapScreen> {
+class _CreateFrequentMapScreenState extends State<CreateFrequentMapScreen> {
   late MapController controller;
+  late NewTripStore _store;
+  GeoPoint? geoPointOrigin;
+  GeoPoint? geoPointDestination;
+  RoadInfo? selectedRoad;
+
+  String helperText = 'Seleccionar origen';
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _store = getIt<NewTripStore>();
+  }
 
   @override
   void initState() {
@@ -20,17 +35,62 @@ class _CreateFrecuentMapScreenState extends State<CreateFrecuentMapScreen> {
         unFollowUser: false,
       ),
     );
+
+    controller.listenerMapSingleTapping.addListener(() {
+      final geoPoint = controller.listenerMapSingleTapping.value;
+      if (geoPoint == null) return;
+
+      if (geoPointOrigin == null) {
+        geoPointOrigin = geoPoint;
+        setState(() {
+          helperText = 'Seleccionar destino';
+        });
+        _addMarker(geoPointOrigin!);
+      } else if (geoPointDestination == null) {
+        geoPointDestination = geoPoint;
+        setState(() {
+          helperText = 'Todo listo';
+        });
+        _addMarker(geoPointDestination!);
+      }
+
+      if (geoPointOrigin != null && geoPointDestination != null) {
+        final dest = geoPointDestination as GeoPoint;
+        final origin = geoPointOrigin as GeoPoint;
+        controller
+            .drawRoad(
+          origin,
+          dest,
+          roadOption: RoadOption(
+              roadColor: Colors.green,
+              roadWidth: 10,
+              roadBorderWidth: 10,
+              roadBorderColor: Colors.green),
+        )
+            .then((road) {
+          selectedRoad = road;
+        });
+      }
+    });
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void _addMarker(GeoPoint geoPoint) {
+    controller.addMarker(
+      geoPoint,
+      markerIcon: MarkerIcon(
+        icon: Icon(
+          Icons.location_on,
+          color: Colors.blue,
+          size: 40,
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(titleKey: 'join_frecuent_trip_title'),
+      appBar: BaseAppBar(titleKey: 'join_frequent_trip_title'),
       body: _buildBody(),
     );
   }
@@ -45,7 +105,7 @@ class _CreateFrecuentMapScreenState extends State<CreateFrecuentMapScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               _buildTextButtonFind(),
-              _buildTextButtonNext("/create_frecuent_trip_calendar")
+              _buildTextButtonNext(Routes.create_frequent_trip_calendar)
             ],
           ),
         ),
@@ -87,7 +147,7 @@ class _CreateFrecuentMapScreenState extends State<CreateFrecuentMapScreen> {
     return Padding(
       padding: const EdgeInsets.only(top: 30),
       child: Container(
-        width: 200,
+        width: 220,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: Colors.white70,
@@ -100,20 +160,15 @@ class _CreateFrecuentMapScreenState extends State<CreateFrecuentMapScreen> {
               child: Container(
                 child: Row(
                   children: [
-                    Icon(Icons.my_location_outlined, color: Colors.lime),
-                    SizedBox(width: 10),
-                    Text(
-                      'Origen',
-                      style: TextStyle(
-                        color: Colors.black,
-                      ),
+                    Icon(
+                      helperText == 'Todo listo'
+                          ? Icons.check
+                          : Icons.my_location_outlined,
+                      color: Colors.lime,
                     ),
-                    Container(
-                        child:
-                            Icon(Icons.arrow_drop_down, color: Colors.black54)),
                     SizedBox(width: 10),
                     Text(
-                      'Destino',
+                      helperText,
                       style: TextStyle(
                         color: Colors.black,
                       ),
@@ -126,6 +181,7 @@ class _CreateFrecuentMapScreenState extends State<CreateFrecuentMapScreen> {
         ),
       ),
     );
+
   }
 
   Widget _buildTextButtonNext(route) {
@@ -141,7 +197,9 @@ class _CreateFrecuentMapScreenState extends State<CreateFrecuentMapScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextButton(
-              onPressed: () => {Navigator.of(context).pushNamed(route)},
+              onPressed: () => {
+                if (helperText == 'Todo listo') createFrequentTrip(context)
+              },
               child: Text(
                 'SIGUIENTE',
                 style: TextStyle(
@@ -153,5 +211,17 @@ class _CreateFrecuentMapScreenState extends State<CreateFrecuentMapScreen> {
         ),
       ),
     );
+  }
+
+  void createFrequentTrip(BuildContext context) {
+    if (geoPointDestination == null || geoPointOrigin == null) {
+      _store.errorStore.errorMessage = 'Selecciona un origen y destino';
+      return;
+    }
+    Navigator.of(context)
+        .pushNamed(Routes.create_frequent_trip_calendar, arguments: {
+      'origin': geoPointOrigin,
+      'destination': geoPointDestination,
+    });
   }
 }

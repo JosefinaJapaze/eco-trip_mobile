@@ -48,7 +48,7 @@ class _JoinScheduledScreenState extends State<JoinScheduledScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(titleKey: 'join_programmed_trip_title'),
+      appBar: BaseAppBar(titleKey: 'join_scheduled_trip_title'),
       body: _buildBody(),
     );
   }
@@ -62,7 +62,7 @@ class _JoinScheduledScreenState extends State<JoinScheduledScreen> {
           Text("Viajes disponibles actualmente:"),
           _buildTripHistoryCard("/join_request"),
           _buildTripHistoryCard("/join_request"),
-          _buildTextButton("/join_programmed_trip_map")
+          _buildTextButton("/join_scheduled_trip_map")
         ],
       ),
     );

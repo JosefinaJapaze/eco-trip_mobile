@@ -20,7 +20,7 @@ class _CreateRequestScreenState extends State<CreateRequestScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(titleKey: 'join_frecuent_trip_title'),
+      appBar: BaseAppBar(titleKey: 'join_frequent_trip_title'),
       body: _buildBody(),
     );
   }

@@ -16,8 +16,10 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
           onPressed: () => {Navigator.of(context).pop()},
           icon: Container(
               padding: EdgeInsets.all(5),
-              child: Icon(Icons.arrow_back_ios_new,
-                  color: Theme.of(context).colorScheme.surface),
+              child: Icon(
+                Icons.arrow_back_ios_new,
+                color: Theme.of(context).colorScheme.primary,
+              ),
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(

@@ -5,12 +5,12 @@ import 'package:provider/provider.dart';
 import '../../models/trip/trip.dart';
 import '../../stores/trip/trip_store.dart';
 
-class JoinFrecuentScreen extends StatefulWidget {
+class JoinFrequentScreen extends StatefulWidget {
   @override
-  _JoinFrecuentScreenState createState() => _JoinFrecuentScreenState();
+  _JoinFrequentScreenState createState() => _JoinFrequentScreenState();
 }
 
-class _JoinFrecuentScreenState extends State<JoinFrecuentScreen> {
+class _JoinFrequentScreenState extends State<JoinFrequentScreen> {
   //stores:---------------------------------------------------------------------
   late TripStore _tripStore;
 

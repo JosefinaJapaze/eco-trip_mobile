@@ -7,23 +7,23 @@ import 'package:ecotrip/ui/my_trips/trip_route.dart';
 import 'package:ecotrip/ui/my_wallet/my_wallet.dart';
 import 'package:ecotrip/ui/my_wallet/pay_request.dart';
 import 'package:ecotrip/ui/my_wallet/pay_trips.dart';
-import 'package:ecotrip/ui/new_trip/create_frecuent_calendar.dart';
-import 'package:ecotrip/ui/new_trip/create_frecuent_map.dart';
+import 'package:ecotrip/ui/new_trip/create_frequent_calendar.dart';
+import 'package:ecotrip/ui/new_trip/create_frequent_map.dart';
 import 'package:ecotrip/ui/new_trip/create_scheduled_calendar.dart';
 import 'package:ecotrip/ui/new_trip/create_scheduled_map.dart';
 import 'package:ecotrip/ui/new_trip/create_request.dart';
-import 'package:ecotrip/ui/join_trip/join_frecuent_calendar.dart';
-import 'package:ecotrip/ui/join_trip/join_frecuent_map.dart';
+import 'package:ecotrip/ui/join_trip/join_frequent_calendar.dart';
+import 'package:ecotrip/ui/join_trip/join_frequent_map.dart';
 import 'package:ecotrip/ui/join_trip/join_scheduled.dart';
 import 'package:ecotrip/ui/join_trip/join_scheduled_calendar.dart';
 import 'package:ecotrip/ui/join_trip/join_scheduled_map.dart';
 import 'package:ecotrip/ui/join_trip/join_scheduled_matchs.dart';
 import 'package:ecotrip/ui/join_trip/join_request.dart';
 import 'package:ecotrip/ui/new_trip/new_trip.dart';
-import 'package:ecotrip/ui/new_trip/new_frecuent.dart';
+import 'package:ecotrip/ui/new_trip/new_frequent.dart';
 import 'package:ecotrip/ui/new_trip/new_scheduled.dart';
-import 'package:ecotrip/ui/join_trip/join_frecuent.dart';
-import 'package:ecotrip/ui/join_trip/join_frecuent_matchs.dart';
+import 'package:ecotrip/ui/join_trip/join_frequent.dart';
+import 'package:ecotrip/ui/join_trip/join_frequent_matchs.dart';
 import 'package:ecotrip/ui/register/register_success.dart';
 import 'package:ecotrip/ui/register/validate_data_step_four.dart';
 import 'package:ecotrip/ui/register/validate_data_step_one.dart';
@@ -50,15 +50,15 @@ class Routes {
   static const String new_trip = '/new_trip';
   static const String my_wallet = '/my_wallet';
   static const String chats = '/chats';
-  static const String new_frecuent = '/new_frecuent';
-  static const String join_frecuent_trip = '/join_frecuent_trip';
-  static const String join_frecuent_trip_map = '/join_frecuent_trip_map';
-  static const String join_frecuent_trip_calendar =
-      '/join_frecuent_trip_calendar';
-  static const String join_frecuent_trip_matchs = '/join_frecuent_trip_matchs';
-  static const String create_frecuent_trip_map = '/create_frecuent_trip_map';
-  static const String create_frecuent_trip_calendar =
-      '/create_frecuent_trip_calendar';
+  static const String new_frequent = '/new_frequent';
+  static const String join_frequent_trip = '/join_frequent_trip';
+  static const String join_frequent_trip_map = '/join_frequent_trip_map';
+  static const String join_frequent_trip_calendar =
+      '/join_frequent_trip_calendar';
+  static const String join_frequent_trip_matchs = '/join_frequent_trip_matchs';
+  static const String create_frequent_trip_map = '/create_frequent_trip_map';
+  static const String create_frequent_trip_calendar =
+      '/create_frequent_trip_calendar';
   static const String join_request = '/join_request';
   static const String create_request = '/create_request';
   static const String new_scheduled = '/new_scheduled';
@@ -89,17 +89,17 @@ class Routes {
     new_trip: (BuildContext context) => NewTripScreen(),
     my_wallet: (BuildContext context) => MyWalletScreen(),
     chats: (BuildContext context) => ChatsScreen(),
-    new_frecuent: (BuildContext context) => NewFrecuentScreen(),
-    join_frecuent_trip: (BuildContext context) => JoinFrecuentScreen(),
-    join_frecuent_trip_map: (BuildContext context) => JoinFrecuentMapScreen(),
-    join_frecuent_trip_calendar: (BuildContext context) =>
-        JoinFrecuentCalendarScreen(),
-    join_frecuent_trip_matchs: (BuildContext context) =>
-        JoinFrecuentMatchsScreen(),
-    create_frecuent_trip_map: (BuildContext context) =>
-        CreateFrecuentMapScreen(),
-    create_frecuent_trip_calendar: (BuildContext context) =>
-        CreateFrecuentCalendarScreen(),
+    new_frequent: (BuildContext context) => NewFrequentScreen(),
+    join_frequent_trip: (BuildContext context) => JoinFrequentScreen(),
+    join_frequent_trip_map: (BuildContext context) => JoinFrequentMapScreen(),
+    join_frequent_trip_calendar: (BuildContext context) =>
+        JoinFrequentCalendarScreen(),
+    join_frequent_trip_matchs: (BuildContext context) =>
+        JoinFrequentMatchsScreen(),
+    create_frequent_trip_map: (BuildContext context) =>
+        CreateFrequentMapScreen(),
+    create_frequent_trip_calendar: (BuildContext context) =>
+        CreateFrequentCalendarScreen(),
     new_scheduled: (BuildContext context) => NewScheduledScreen(),
     join_scheduled_trip: (BuildContext context) => JoinScheduledScreen(),
     join_scheduled_trip_map: (BuildContext context) => JoinScheduledMapScreen(),
