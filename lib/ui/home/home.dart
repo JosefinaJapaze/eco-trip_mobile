@@ -15,7 +15,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late TripStore _tripStore;
   late UserStore _userStore;
-
   // Añadido el índice actual
   int _currentIndex = 0;
 
@@ -88,7 +87,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Método para construir el contenido de la página de inicio
   Widget _buildHomeContent() {
     return Stack(
       children: <Widget>[
@@ -115,15 +113,15 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
-            child: Text("¡Hola, Usuario!"),
+            child: Text("¡Hola, $UserName!"),
           ),
           Wrap(
             direction: Axis.horizontal,
             children: [
-              _buildMainMenuButton("Mis viajes", "/my_trips"),
-              _buildMainMenuButton("Nuevo viaje", "/new_trip"),
-              _buildMainMenuButton("Mi billetera", "/pay_trip"),
-              _buildMainMenuButton("Chats", "/chats"),
+              _buildMainMenuButton("Mis viajes", Routes.my_trips),
+              _buildMainMenuButton("Nuevo viaje", Routes.new_trip),
+              _buildMainMenuButton("Mi billetera", Routes.pay_trip),
+              _buildMainMenuButton("Chats", Routes.chats),
             ],
           ),
         ],
@@ -159,7 +157,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Añadidos métodos para construir las diferentes páginas
   Widget _buildPaymentRequestsPage() {
     return Center(child: Text('Payment Requests Page'));
   }
@@ -176,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
-            child: Text("¡Hola, Usuario!"),
+            child: Text("¡Hola, $UserName!"),
           ),
           Wrap(
             direction: Axis.horizontal,

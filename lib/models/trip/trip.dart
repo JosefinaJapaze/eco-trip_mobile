@@ -1,39 +1,48 @@
 import '../address/address.dart';
 
+enum DayOfWeek {
+  LUNES,
+  MARTES,
+  MIERCOLES,
+  JUEVES,
+  VIERNES,
+  SABADO,
+  DOMINGO,
+}
+
 class Trip {
   int? id;
-  DateTime? startedOn;
-  DateTime? finishedOn;
+  DateTime? startDate;
   bool? isFinished;
   bool? hasStarted;
-  int? seatsLeft;
+  int? totalSeats;
   String? type;
   double? cost;
   Address? addressFrom;
   Address? addressTo;
   String? userId;
+  DayOfWeek? dayOfWeek;
 
   Trip({
     this.id,
-    this.startedOn,
-    this.finishedOn,
+    this.startDate,
     this.isFinished,
     this.hasStarted,
-    this.seatsLeft,
+    this.totalSeats,
     this.type,
     this.cost,
     this.addressFrom,
     this.addressTo,
     this.userId,
+    this.dayOfWeek,
   });
 
   factory Trip.fromMap(Map<String, dynamic> json) => Trip(
     id: json["id"],
-    startedOn: json["startedOn"],
-    finishedOn: json["finishedOn"],
-    isFinished: json["isFinished"],
-    hasStarted: json["hasStarted"],
-    seatsLeft: json["seatsLeft"],
+    startDate: json["start_date"],
+    isFinished: json["is_finished"],
+    hasStarted: json["has_started"],
+    totalSeats: json["total_seats"],
     type: json["type"],
     cost: json["cost"],
     addressFrom: Address(
@@ -44,22 +53,23 @@ class Trip {
       address: json["address_to_address"],
       city: json["address_to_city"],
     ),
-    userId: json["userId"],
+    userId: json["user_id"],
+    dayOfWeek: DayOfWeek.values.firstWhere((e) => e.toString() == json["day_of_week"]),
   );
 
   Map<String, dynamic> toMap() => {
     "id": id,
-    "startedOn": startedOn,
-    "finishedOn": finishedOn,
-    "isFinished": isFinished,
-    "hasStarted": hasStarted,
-    "seatsLeft": seatsLeft,
+    "start_date": startDate,
+    "is_finished": isFinished,
+    "has_started": hasStarted,
+    "total_seats": totalSeats,
     "type": type,
     "cost": cost,
     "address_from_address": addressFrom == null ? addressFrom?.address : "",
     "address_from_city": addressFrom == null ? addressFrom?.city : "",
     "address_to_address": addressTo == null ? addressTo?.address : "",
     "address_to_city": addressTo == null ? addressTo?.city : "",
-    "userId": userId,
+    "user_id": userId,
+    "day_of_week": dayOfWeek?.toString(),
   };
 }

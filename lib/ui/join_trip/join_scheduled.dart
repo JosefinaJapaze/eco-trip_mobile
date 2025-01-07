@@ -37,7 +37,7 @@ class _JoinScheduledScreenState extends State<JoinScheduledScreen> {
         .insertTrip(Trip(
             hasStarted: false,
             isFinished: false,
-            seatsLeft: 1, // sacar
+            totalSeats: 1, // sacar
             cost: 982, // sacar
             type: "programmed",
             userId: '' // sacar del auth,

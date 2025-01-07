@@ -1,7 +1,6 @@
-import 'package:another_flushbar/flushbar_helper.dart';
-import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:ecotrip/data/network/apis/trip/trip_api.dart';
 import 'package:ecotrip/di/components/service_locator.dart';
+import 'package:ecotrip/models/trip/trip.dart';
 import 'package:ecotrip/ui/new_trip/store/new_trip_store.dart';
 import 'package:ecotrip/utils/routes/routes.dart';
 import 'package:ecotrip/widgets/base_app_bar.dart';
@@ -18,21 +17,36 @@ class _CreateFrequentCalendarScreenState
     extends State<CreateFrequentCalendarScreen> {
   late NewTripStore _store;
 
-  final List<String> items = [
-    '06:00hs',
-    '12:00hs',
-    '18:00hs',
-    '00:00hs',
-  ];
-  String? selectedHour;
-
   final TextEditingController _asController = TextEditingController();
-  int? availableSeats;
   final TextEditingController _costController = TextEditingController();
   double? cost;
   GeoPoint? geoPointOrigin;
   GeoPoint? geoPointDestination;
-  List<DateTime> _selectedDates = [];
+  DayOfWeek? selectedDay;
+  int? selectedHour;
+  int totalSeats = 0;
+
+  String intSelectedTimeToString(int time) {
+    int minute = time % 100;
+    int hour = time ~/ 100;
+    if (time < 59) {
+      return '00:${minute.toString().padLeft(2, '0')}';
+    }
+    if (time < 1000) {
+      return '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}';
+    }
+    return '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}';
+  }
+
+  bool canInsertTrip() {
+    return selectedDay != null && selectedHour != null && _asController.text.isNotEmpty && _costController.text.isNotEmpty;
+  }
+
+  void handleSelectedDay(DayOfWeek day) {
+    setState(() {
+      selectedDay = day;
+    });
+  }
 
   @override
   void initState() {
@@ -46,9 +60,12 @@ class _CreateFrequentCalendarScreenState
   }
 
   void insertTrip() {
+    if (!canInsertTrip()) {
+      return;
+    }
     try {
       this.cost = double.parse(_costController.value.text);
-      this.availableSeats = int.parse(_asController.value.text);
+      this.totalSeats = int.parse(_asController.value.text);
     } catch (e) {
       print(e);
       return;
@@ -67,7 +84,7 @@ class _CreateFrequentCalendarScreenState
         ),
         startDate: DateTime.now(),
         endDate: DateTime.now(),
-        availableSeats: availableSeats!,
+        availableSeats: totalSeats,
         cost: cost!,
         type: 'frequent',
       ),
@@ -92,45 +109,171 @@ class _CreateFrequentCalendarScreenState
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            'Seleccione los días del recorrido',
+            'Seleccione el dia de la semana',
             textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: CalendarDatePicker2(
-              config: CalendarDatePicker2Config(
-                calendarType: CalendarDatePicker2Type.multi,
-                firstDate: DateTime.now().add(Duration(days: 1)),
-                lastDate: DateTime.now().add(Duration(days: 120)),
-                currentDate: DateTime.now(),
-              ),
-              value: _selectedDates,
-              onValueChanged: (value) {
-                if (value.length > 5) {
-                  Future.delayed(Duration(milliseconds: 0), () {
-                    FlushbarHelper.createInformation(
-                      message: 'Solo pueden seleccionar 5 días a la vez',
-                      duration: Duration(seconds: 3),
-                    ).show(context);
-                  });
-                  return;
-                }
-                setState(() {
-                  _selectedDates = value;
-                });
-              },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 8,
+                  child: TextButton(
+                    onPressed: () {
+                      handleSelectedDay(DayOfWeek.LUNES);
+                    },
+                    child: Text("Lun"),
+                    style: TextButton.styleFrom(
+                      textStyle:
+                          TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                      backgroundColor: selectedDay == DayOfWeek.LUNES
+                          ? Colors.lime
+                          : Colors.white,
+                      side: BorderSide(color: Colors.lime, width: 3),
+                      foregroundColor: Colors.black,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 8,
+                  child: TextButton(
+                    onPressed: () {
+                      handleSelectedDay(DayOfWeek.MARTES);
+                    },
+                    child: Text("Mar"),
+                    style: TextButton.styleFrom(
+                      textStyle:
+                          TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                      backgroundColor: selectedDay == DayOfWeek.MARTES
+                          ? Colors.lime
+                          : Colors.white,
+                      side: BorderSide(color: Colors.lime, width: 3),
+                      foregroundColor: Colors.black,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 8,
+                  child: TextButton(
+                    onPressed: () {
+                      handleSelectedDay(DayOfWeek.MIERCOLES);
+                    },
+                    child: Text("Mie"),
+                    style: TextButton.styleFrom(
+                      textStyle:
+                          TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                      backgroundColor: selectedDay == DayOfWeek.MIERCOLES
+                          ? Colors.lime
+                          : Colors.white,
+                      side: BorderSide(color: Colors.lime, width: 3),
+                      foregroundColor: Colors.black,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 8,
+                  child: TextButton(
+                    onPressed: () {
+                      handleSelectedDay(DayOfWeek.JUEVES);
+                    },
+                    child: Text("Jue"),
+                    style: TextButton.styleFrom(
+                      textStyle:
+                          TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                      backgroundColor: selectedDay == DayOfWeek.JUEVES
+                          ? Colors.lime
+                          : Colors.white,
+                      side: BorderSide(color: Colors.lime, width: 3),
+                      foregroundColor: Colors.black,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 8,
+                  child: TextButton(
+                    onPressed: () {
+                      handleSelectedDay(DayOfWeek.VIERNES);
+                    },
+                    child: Text("Vie"),
+                    style: TextButton.styleFrom(
+                      textStyle:
+                          TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                      backgroundColor: selectedDay == DayOfWeek.VIERNES
+                          ? Colors.lime
+                          : Colors.white,
+                      side: BorderSide(color: Colors.lime, width: 3),
+                      foregroundColor: Colors.black,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 8,
+                  child: TextButton(
+                    onPressed: () {
+                      handleSelectedDay(DayOfWeek.SABADO);
+                    },
+                    child: Text("Sab"),
+                    style: TextButton.styleFrom(
+                      textStyle:
+                          TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                      backgroundColor: selectedDay == DayOfWeek.SABADO
+                          ? Colors.lime
+                          : Colors.white,
+                      side: BorderSide(color: Colors.lime, width: 3),
+                      foregroundColor: Colors.black,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 8,
+                  child: TextButton(
+                    onPressed: () {
+                      handleSelectedDay(DayOfWeek.DOMINGO);
+                    },
+                    child: Text("Dom"),
+                    style: TextButton.styleFrom(
+                      textStyle:
+                          TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                      backgroundColor: selectedDay == DayOfWeek.DOMINGO
+                          ? Colors.lime
+                          : Colors.white,
+                      side: BorderSide(color: Colors.lime, width: 3),
+                      foregroundColor: Colors.black,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-          SizedBox(height: 10),
-          Text(
-            'Seleccione la hora',
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          _buildDropDownButton(),
+          SizedBox(height: 20),
+          selectedHour == null
+              ? Container()
+              : Text('Hora seleccionada'),
+          _buildElevatedButtonSelectHour(),
           SizedBox(height: 20),
           Text(
             'Ingrese lugares disponibles:',
@@ -145,8 +288,7 @@ class _CreateFrequentCalendarScreenState
               decoration: InputDecoration(
                 icon: Icon(Icons.people),
                 enabledBorder: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(width: 3, color: Colors.black),
+                  borderSide: BorderSide(width: 3, color: Colors.black),
                 ),
               ),
             ),
@@ -165,8 +307,7 @@ class _CreateFrequentCalendarScreenState
               decoration: InputDecoration(
                 icon: Icon(Icons.attach_money),
                 enabledBorder: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(width: 3, color: Colors.black),
+                  borderSide: BorderSide(width: 3, color: Colors.black),
                 ),
               ),
             ),
@@ -175,51 +316,51 @@ class _CreateFrequentCalendarScreenState
         ],
       ),
     );
-
   }
 
-  Widget _buildDropDownButton() {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-          color: Colors.white,
-          //background color of dropdown button
-          border: Border.all(color: Colors.black, width: 3),
-          //border of dropdown button
-          boxShadow: <BoxShadow>[
-            //apply shadow on Dropdown button
-            BoxShadow(
-                color: Color.fromRGBO(0, 0, 0, 0.57), //shadow for button
-                blurRadius: 5) //blur radius of shadow
-          ]),
-      child: Padding(
-        padding: EdgeInsets.only(left: 30, right: 30),
-        child: DropdownButton(
-          hint: Text(
-            'Select Item',
-            style: TextStyle(
-              fontSize: 14,
-              color: Theme.of(context).hintColor,
-            ),
-          ),
-          items: items
-              .map((item) => DropdownMenuItem<String>(
-                    value: item,
-                    child: Text(
-                      item,
-                      style: const TextStyle(
-                        fontSize: 14,
-                      ),
-                    ),
-                  ))
-              .toList(),
-          value: selectedHour,
-          onChanged: (value) {
-            setState(() {
-              selectedHour = value as String;
-            });
-          },
-        ),
+  Widget _buildElevatedButtonSelectHour() {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.lime,
+        foregroundColor: Colors.black,
       ),
+      onPressed: () async {
+        final TimeOfDay? time = await showTimePicker(
+          context: context,
+          initialTime: TimeOfDay.now(),
+          initialEntryMode: TimePickerEntryMode.inputOnly,
+          builder: (context, child) {
+            return Theme(
+              data: Theme.of(context).copyWith(
+                colorScheme: Theme.of(context).colorScheme.copyWith(
+                      primary: Colors.lime,
+                      secondary: Colors.lime,
+                      surface: Colors.white,
+                      primaryContainer: Colors.white,
+                    ),
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
+              child: Directionality(
+                textDirection: TextDirection.ltr,
+                child: MediaQuery(
+                  data: MediaQuery.of(context).copyWith(
+                    alwaysUse24HourFormat: true,
+                  ),
+                  child: child!,
+                ),
+              ),
+            );
+          },
+        );
+        if (time != null) {
+          setState(() {
+            selectedHour = int.parse("${time.hour}${time.minute}");
+          });
+        }
+      },
+      child: selectedHour != null
+          ? Text(intSelectedTimeToString(selectedHour!))
+          : Text('Seleccionar hora...'),
     );
   }
 

@@ -1,9 +1,7 @@
-import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:ecotrip/data/network/apis/trip/trip_api.dart';
 import 'package:ecotrip/di/components/service_locator.dart';
 import 'package:ecotrip/ui/new_trip/store/new_trip_store.dart';
-import 'package:ecotrip/utils/locale/app_localization.dart';
 import 'package:ecotrip/utils/routes/routes.dart';
 import 'package:ecotrip/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';

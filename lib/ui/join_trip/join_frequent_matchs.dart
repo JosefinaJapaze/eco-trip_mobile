@@ -38,7 +38,7 @@ class _JoinFrequentMatchsScreenState extends State<JoinFrequentMatchsScreen> {
         .insertTrip(Trip(
             hasStarted: false,
             isFinished: false,
-            seatsLeft: 3, // sacar
+            totalSeats: 3, // sacar
             cost: 982, // sacar
             type: "frequent",
             userId: '' // sacar del auth,
