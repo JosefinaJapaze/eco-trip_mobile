@@ -62,6 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: Icon(Icons.notifications_none), label: "Notificaciones"),
           BottomNavigationBarItem(
               icon: Icon(Icons.account_circle), label: "Mi cuenta"),
+
         ],
       ),
     );
