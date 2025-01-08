@@ -5,6 +5,7 @@ import 'package:ecotrip/data/network/constants/endpoints.dart';
 import 'package:ecotrip/data/network/exceptions/network_exceptions.dart';
 import 'package:ecotrip/data/network/rest_client.dart';
 import 'package:ecotrip/data/repository.dart';
+import 'package:ecotrip/models/trip/trip.dart';
 import 'package:ecotrip/models/trip/trip_list.dart';
 
 class CreateTripAddress {
@@ -30,20 +31,20 @@ class CreateTripAddress {
 class CreateTripParams {
   final CreateTripAddress origin;
   final CreateTripAddress destination;
-  final DateTime startDate;
-  final DateTime endDate;
-  final int availableSeats;
+  final int totalSeats;
   final String type;
   final double cost;
+  final FrequentTripParams? frequentTripParams;
+  final ScheduledTripParams? scheduledTripParams;
 
   CreateTripParams({
     required this.origin,
     required this.destination,
-    required this.startDate,
-    required this.endDate,
-    required this.availableSeats,
+    required this.totalSeats,
     required this.type,
     required this.cost,
+    this.frequentTripParams,
+    this.scheduledTripParams,
   });
 
   Map<String, dynamic> toJson() {
@@ -58,11 +59,11 @@ class CreateTripParams {
         "latitude": destination.latitude,
         "longitude": destination.longitude,
       },
-      "start_date": startDate.toUtc().toIso8601String(),
-      "end_date": endDate.toUtc().toIso8601String(),
-      "available_seats": availableSeats,
+      "total_seats": totalSeats,
       "type": type,
       "cost": cost,
+      if (frequentTripParams != null) "frequentTripParams": frequentTripParams!.toMap(),
+      if (scheduledTripParams != null) "scheduledTripParams": scheduledTripParams!.toMap(),
     };
   }
 }

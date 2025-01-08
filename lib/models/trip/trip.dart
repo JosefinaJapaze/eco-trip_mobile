@@ -25,7 +25,7 @@ class FrequentTripParams {
   );
 
   Map<String, dynamic> toMap() => {
-    "day_of_week": dayOfWeek?.toString(),
+    "day_of_week": dayOfWeek?.name.toLowerCase(),
     "start_time": startTime,
   };
 }

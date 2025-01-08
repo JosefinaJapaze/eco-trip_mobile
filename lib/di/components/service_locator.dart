@@ -50,7 +50,7 @@ Future<void> setupLocator() async {
   // stores:--------------------------------------------------------------------
   getIt.registerSingleton(FormStore(getIt<AuthApi>(), getIt<Repository>()));
   getIt.registerSingleton(LanguageStore(getIt<Repository>()));
-  getIt.registerSingleton(NewTripStore(getIt<Repository>(), getIt<TripApi>()));
+  getIt.registerSingleton(NewTripStore(getIt<TripApi>()));
   getIt.registerSingleton(ThemeStore(getIt<Repository>()));
   getIt.registerSingleton(UserStore(getIt<Repository>(), getIt<AuthApi>()));
   getIt.registerSingleton(RegisterStore(

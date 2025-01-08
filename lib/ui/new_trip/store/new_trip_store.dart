@@ -1,5 +1,4 @@
 import 'package:ecotrip/data/network/apis/trip/trip_api.dart';
-import 'package:ecotrip/data/repository.dart';
 import 'package:ecotrip/stores/error/error_store.dart';
 import 'package:mobx/mobx.dart';
 
@@ -8,13 +7,10 @@ part 'new_trip_store.g.dart';
 class NewTripStore = _NewTripStore with _$NewTripStore;
 
 abstract class _NewTripStore with Store {
-  final Repository _repository;
   final TripApi _tripApi;
   final ErrorStore errorStore = ErrorStore();
 
-  _NewTripStore(Repository repository, TripApi api)
-      : this._repository = repository,
-        this._tripApi = api {
+  _NewTripStore(TripApi api) : this._tripApi = api {
     _setupDisposers();
   }
 
@@ -49,11 +45,18 @@ abstract class _NewTripStore with Store {
   Future createNewTrip(CreateTripParams params) async {
     final future = _tripApi.insertTrip(params);
     newTripFuture = ObservableFuture(future);
-    await future.then((value) async {
-      if (value) {
-        setSuccess(true);
+    try {
+      bool created = await future;
+      if (created) {
+        this.success = true;
+      } else {
+        this.success = false;
+        errorStore.errorMessage = 'Error al crear viaje';
       }
-    });
+    } catch (e) {
+      errorStore.errorMessage = 'Error al crear viaje';
+      this.success = false;
+    }
   }
 
   void dispose() {

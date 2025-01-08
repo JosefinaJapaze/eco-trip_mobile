@@ -1,6 +1,7 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:ecotrip/data/network/apis/trip/trip_api.dart';
 import 'package:ecotrip/di/components/service_locator.dart';
+import 'package:ecotrip/models/trip/trip.dart';
 import 'package:ecotrip/ui/new_trip/store/new_trip_store.dart';
 import 'package:ecotrip/utils/routes/routes.dart';
 import 'package:ecotrip/widgets/base_app_bar.dart';
@@ -65,11 +66,13 @@ class _CreateScheduledCalendarScreenState
           latitude: geoPointDestination!.latitude,
           longitude: geoPointDestination!.longitude,
         ),
-        startDate: DateTime.now(),
-        endDate: DateTime.now(),
-        availableSeats: availableSeats!,
+        totalSeats: availableSeats!,
         cost: cost!,
         type: 'scheduled',
+        scheduledTripParams: ScheduledTripParams(
+          startDate: startDate,
+          startTime: 1234, // TODO
+        ),
       ),
     );
   }
