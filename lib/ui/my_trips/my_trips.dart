@@ -1,7 +1,5 @@
-import 'package:ecotrip/stores/trip/trip_store.dart';
 import 'package:ecotrip/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../models/trip/trip.dart';
 
@@ -11,8 +9,6 @@ class MyTripsScreen extends StatefulWidget {
 }
 
 class _MyTripsScreenState extends State<MyTripsScreen> {
-  //stores:---------------------------------------------------------------------
-  late TripStore _tripStore;
 
   late List<Widget> cards;
 
@@ -21,19 +17,6 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
   @override
   void initState() {
     super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    // initializing stores
-    _tripStore = Provider.of<TripStore>(context);
-
-    // check to see if already called api
-    if (!_tripStore.loading) {
-      _tripStore.getTrips();
-    }
   }
 
   @override
@@ -100,23 +83,23 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
   }
 
   List<Widget> _buildTripHistory() {
-    if (_tripStore.tripList == null || _tripStore.tripList!.trips == null) {
-      return <Widget>[
-        Text("No se poseen viajes programados actualmente."
-            "Puedes crear o unirte a un viaje desde la pestaña Nuevo Viaje")
-      ];
-    }
+    //if (_tripStore.tripList == null || _tripStore.tripList!.trips == null) {
+      //return <Widget>[
+        //Text("No se poseen viajes programados actualmente."
+            //"Puedes crear o unirte a un viaje desde la pestaña Nuevo Viaje")
+      //];
+    //}
 
     cards = <Widget>[];
-    _tripStore.tripList!.trips!.forEach((element) {
-      if (element.type == "frequent" && displayFrequent) {
-        cards.add(_buildTripHistoryCard(element));
-      }
+    //_tripStore.tripList!.trips!.forEach((element) {
+      //if (element.type == "frequent" && displayFrequent) {
+        //cards.add(_buildTripHistoryCard(element));
+      //}
 
-      if (element.type == "programmed" && !displayFrequent) {
-        cards.add(_buildTripHistoryCard(element));
-      }
-    });
+      //if (element.type == "programmed" && !displayFrequent) {
+        //cards.add(_buildTripHistoryCard(element));
+      //}
+    //});
 
     return cards;
   }

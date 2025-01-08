@@ -10,38 +10,69 @@ enum DayOfWeek {
   DOMINGO,
 }
 
+class FrequentTripParams {
+  DayOfWeek? dayOfWeek;
+  int? startTime;
+
+  FrequentTripParams({
+    this.dayOfWeek,
+    this.startTime,
+  });
+
+  factory FrequentTripParams.fromMap(Map<String, dynamic> json) => FrequentTripParams(
+    dayOfWeek: DayOfWeek.values.firstWhere((e) => e.toString() == json["day_of_week"]),
+    startTime: json["start_time"],
+  );
+
+  Map<String, dynamic> toMap() => {
+    "day_of_week": dayOfWeek?.toString(),
+    "start_time": startTime,
+  };
+}
+
+class ScheduledTripParams {
+  DateTime? startDate;
+  int? startTime;
+
+  ScheduledTripParams({
+    this.startDate,
+    this.startTime,
+  });
+
+  factory ScheduledTripParams.fromMap(Map<String, dynamic> json) => ScheduledTripParams(
+    startDate: json["start_date"],
+    startTime: json["start_time"],
+  );
+
+  Map<String, dynamic> toMap() => {
+    "start_date": startDate,
+    "start_time": startTime,
+  };
+}
+
 class Trip {
   int? id;
-  DateTime? startDate;
-  bool? isFinished;
-  bool? hasStarted;
   int? totalSeats;
   String? type;
   double? cost;
   Address? addressFrom;
   Address? addressTo;
-  String? userId;
-  DayOfWeek? dayOfWeek;
+  FrequentTripParams? frequentTripParams;
+  ScheduledTripParams? scheduledTripParams;
 
   Trip({
     this.id,
-    this.startDate,
-    this.isFinished,
-    this.hasStarted,
     this.totalSeats,
     this.type,
     this.cost,
     this.addressFrom,
     this.addressTo,
-    this.userId,
-    this.dayOfWeek,
+    this.frequentTripParams,
+    this.scheduledTripParams,
   });
 
   factory Trip.fromMap(Map<String, dynamic> json) => Trip(
     id: json["id"],
-    startDate: json["start_date"],
-    isFinished: json["is_finished"],
-    hasStarted: json["has_started"],
     totalSeats: json["total_seats"],
     type: json["type"],
     cost: json["cost"],
@@ -53,23 +84,24 @@ class Trip {
       address: json["address_to_address"],
       city: json["address_to_city"],
     ),
-    userId: json["user_id"],
-    dayOfWeek: DayOfWeek.values.firstWhere((e) => e.toString() == json["day_of_week"]),
+    frequentTripParams: FrequentTripParams(
+      dayOfWeek: DayOfWeek.values.firstWhere((e) => e.toString() == json["day_of_week"]),
+      startTime: json["start_time"],
+    ),
+    scheduledTripParams: ScheduledTripParams(
+      startDate: json["start_date"],
+      startTime: json["start_time"],
+    ),
   );
 
   Map<String, dynamic> toMap() => {
     "id": id,
-    "start_date": startDate,
-    "is_finished": isFinished,
-    "has_started": hasStarted,
     "total_seats": totalSeats,
     "type": type,
     "cost": cost,
-    "address_from_address": addressFrom == null ? addressFrom?.address : "",
-    "address_from_city": addressFrom == null ? addressFrom?.city : "",
-    "address_to_address": addressTo == null ? addressTo?.address : "",
-    "address_to_city": addressTo == null ? addressTo?.city : "",
-    "user_id": userId,
-    "day_of_week": dayOfWeek?.toString(),
+    "address_from": addressFrom?.toMap(),
+    "address_to": addressTo?.toMap(),
+    "frequentTripParams": frequentTripParams?.toMap(),
+    "scheduledTripParams": scheduledTripParams?.toMap(),
   };
 }

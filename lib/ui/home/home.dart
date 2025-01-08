@@ -1,4 +1,3 @@
-import 'package:ecotrip/stores/trip/trip_store.dart';
 import 'package:ecotrip/ui/login/store/login_store.dart';
 import 'package:ecotrip/utils/locale/app_localization.dart';
 import 'package:ecotrip/utils/routes/routes.dart';
@@ -13,10 +12,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late TripStore _tripStore;
   late UserStore _userStore;
-  // Añadido el índice actual
   int _currentIndex = 0;
+  String UserName = "Usuario";
 
   @override
   void initState() {
@@ -26,27 +24,18 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
-    // initializing stores
-    _tripStore = Provider.of<TripStore>(context);
     _userStore = Provider.of<UserStore>(context);
-
-    if (!_tripStore.loading) {
-      _tripStore.getTrips();
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      // Cambiado el cuerpo para usar IndexedStack
       body: _buildBody(),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.black,
         unselectedItemColor: Colors.black,
         fixedColor: Colors.black,
-        // Añadido currentIndex y onTap
         currentIndex: _currentIndex,
         onTap: (index) {
           setState(() {

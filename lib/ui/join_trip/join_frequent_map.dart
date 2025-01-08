@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:ecotrip/utils/routes/routes.dart';
 import 'package:ecotrip/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
@@ -23,7 +24,7 @@ class _JoinFrequentMapScreenState extends State<JoinFrequentMapScreen> {
       initMapWithUserPosition: UserTrackingOption(enableTracking: true),
       initPosition: GeoPoint(latitude: -26.8274, longitude: -65.2078),
     );
-    timer = Timer.periodic(Duration(seconds: 3), (Timer t) => drawMap());
+    //timer = Timer.periodic(Duration(seconds: 3), (Timer t) => drawMap());
   }
 
   Future<void> drawMap() async {
@@ -115,7 +116,7 @@ class _JoinFrequentMapScreenState extends State<JoinFrequentMapScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               _buildTextButtonFind(),
-              _buildTextButtonNext("/join_frecuent_trip_calendar")
+              _buildTextButtonNext(Routes.join_frequent_trip_calendar)
             ],
           ),
         ),

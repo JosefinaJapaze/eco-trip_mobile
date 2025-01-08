@@ -1,9 +1,5 @@
 import 'package:ecotrip/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../../models/trip/trip.dart';
-import '../../stores/trip/trip_store.dart';
 
 class JoinFrequentScreen extends StatefulWidget {
   @override
@@ -11,9 +7,6 @@ class JoinFrequentScreen extends StatefulWidget {
 }
 
 class _JoinFrequentScreenState extends State<JoinFrequentScreen> {
-  //stores:---------------------------------------------------------------------
-  late TripStore _tripStore;
-
   @override
   void initState() {
     super.initState();
@@ -22,27 +15,10 @@ class _JoinFrequentScreenState extends State<JoinFrequentScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
-    // initializing stores
-    _tripStore = Provider.of<TripStore>(context);
-
-    // check to see if already called api
-    if (!_tripStore.loading) {
-      _tripStore.getTrips();
-    }
   }
 
   void insertTrip() {
-    _tripStore
-        .insertTrip(Trip(
-            hasStarted: false,
-            isFinished: false,
-            totalSeats: 1, // sacar
-            cost: 982, // sacar
-            type: "frequent",
-            userId: '' // sacar del auth,
-            ))
-        .then((value) => {Navigator.of(context).pushNamed("/join_request")});
+    // TODO
   }
 
   @override

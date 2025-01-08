@@ -5,7 +5,6 @@ import 'package:ecotrip/data/network/apis/auth/auth_api.dart';
 import 'package:ecotrip/data/repository.dart';
 import 'package:ecotrip/di/components/service_locator.dart';
 import 'package:ecotrip/stores/language/language_store.dart';
-import 'package:ecotrip/stores/trip/trip_store.dart';
 import 'package:ecotrip/stores/theme/theme_store.dart';
 import 'package:ecotrip/ui/login/store/login_store.dart';
 import 'package:ecotrip/ui/home/home.dart';
@@ -24,7 +23,6 @@ class MyApp extends StatelessWidget {
   // Create your store as a final variable in a base Widget. This works better
   // with Hot Reload than creating it directly in the `build` function.
   final ThemeStore _themeStore = ThemeStore(getIt<Repository>());
-  final TripStore _tripStore = TripStore(getIt<Repository>());
   final LanguageStore _languageStore = LanguageStore(getIt<Repository>());
   final UserStore _userStore = UserStore(getIt<Repository>(), getIt<AuthApi>());
 
@@ -33,7 +31,6 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider<ThemeStore>(create: (_) => _themeStore),
-        Provider<TripStore>(create: (_) => _tripStore),
         Provider<LanguageStore>(create: (_) => _languageStore),
         Provider<UserStore>(create: (_) => _userStore),
       ],
