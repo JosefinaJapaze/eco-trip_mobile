@@ -45,7 +45,7 @@ class ScheduledTripParams {
   );
 
   Map<String, dynamic> toMap() => {
-    "start_date": startDate,
+    "start_date": startDate != null ? startDate!.toIso8601String() + "Z" : null,
     "start_time": startTime,
   };
 }
