@@ -17,19 +17,14 @@ class _JoinFrequentScreenState extends State<JoinFrequentScreen> {
     super.didChangeDependencies();
   }
 
-  void insertTrip() {
-    // TODO
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(titleKey: 'join_frecuent_trip_title'),
+      appBar: BaseAppBar(titleKey: 'join_frequent_trip_title'),
       body: _buildBody(),
     );
   }
 
-  // body methods:--------------------------------------------------------------Widget _buildBody() {
   Widget _buildBody() {
     return Center(
       child: Column(
@@ -62,8 +57,8 @@ class _JoinFrequentScreenState extends State<JoinFrequentScreen> {
                     style: TextStyle(
                       color: Colors.black,
                     ),
-                  )),
-            ])));
+                  ),),
+            ],),),);
   }
 
   Card _buildTripHistoryCard(route) {
@@ -150,7 +145,7 @@ class _JoinFrequentScreenState extends State<JoinFrequentScreen> {
                   child: Column(
                     children: [
                       TextButton(
-                          onPressed: () => {insertTrip()},
+                          onPressed: () => {Navigator.of(context).pushNamed(route)},
                           style: ButtonStyle(
                               backgroundColor: WidgetStateProperty.resolveWith(
                                   (states) => Colors.white),

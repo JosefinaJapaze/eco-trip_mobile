@@ -26,6 +26,8 @@ class Repository {
 
   Future<bool> get isLoggedIn => _sharedPrefsHelper.isLoggedIn;
 
+  Future<String?> get userType => _sharedPrefsHelper.getUserType();
+
   Future<bool> isUserVerified() async {
     final token = await authToken;
     if (token == null) return false;

@@ -29,6 +29,7 @@ class RegisterParams {
   final int phone;
   final String email;
   final String password;
+  final String userType;
 
   RegisterParams({
     required this.firstName,
@@ -38,6 +39,7 @@ class RegisterParams {
     required this.phone,
     required this.email,
     required this.password,
+    required this.userType,
   });
 
   Map<String, dynamic> toJson() {
@@ -49,6 +51,7 @@ class RegisterParams {
       "phone_number": phone,
       "email": email,
       "password": password,
+      "user_type": userType,
     };
   }
 }

@@ -245,6 +245,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           gender: genderFromString(_genderController.text) ?? Gender.male,
           birthDate: DateTime.now(), // TODO: parse age to date
           phone: int.parse(_phoneNumberController.text),
+          userType: "passenger",
         ));
       },
       child: Text(

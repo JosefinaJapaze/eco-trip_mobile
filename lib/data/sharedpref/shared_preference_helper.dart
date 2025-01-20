@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'constants/preferences.dart';
@@ -14,10 +15,14 @@ class SharedPreferenceHelper {
   }
 
   Future<bool> saveAuthToken(String authToken) async {
+    final jwt = JWT.decode(authToken);
+    final userType = jwt.payload['userType'] as String;
+    await saveUserType(userType);
     return _sharedPreference.setString(Preferences.auth_token, authToken);
   }
 
   Future<bool> removeAuthToken() async {
+    await removeUserType();
     return _sharedPreference.remove(Preferences.auth_token);
   }
 
@@ -27,6 +32,18 @@ class SharedPreferenceHelper {
 
   Future<bool> saveIsLoggedIn(bool value) async {
     return _sharedPreference.setBool(Preferences.is_logged_in, value);
+  }
+
+  Future<bool> saveUserType(String userType) async {
+    return _sharedPreference.setString(Preferences.user_type, userType);
+  }
+
+  Future<String?> getUserType() async {
+    return _sharedPreference.getString(Preferences.user_type);
+  }
+
+  Future<bool> removeUserType() async {
+    return _sharedPreference.remove(Preferences.user_type);
   }
 
   bool get isDarkMode {
