@@ -21,7 +21,6 @@ import 'package:ecotrip/ui/join_trip/join_scheduled_matchs.dart';
 import 'package:ecotrip/ui/join_trip/join_request.dart';
 import 'package:ecotrip/ui/new_trip/new_trip.dart';
 import 'package:ecotrip/ui/new_trip/new_frequent.dart';
-import 'package:ecotrip/ui/new_trip/new_scheduled.dart';
 import 'package:ecotrip/ui/join_trip/join_frequent.dart';
 import 'package:ecotrip/ui/join_trip/join_frequent_matchs.dart';
 import 'package:ecotrip/ui/register/register_success.dart';

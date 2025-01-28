@@ -41,24 +41,29 @@ class _JoinFrequentScreenState extends State<JoinFrequentScreen> {
 
   Widget _buildTextButton(route) {
     return Padding(
-        padding: const EdgeInsets.only(top: 30),
-        child: Container(
-            width: 150,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Colors.lime,
+      padding: const EdgeInsets.only(top: 30),
+      child: Container(
+        width: 150,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.lime,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextButton(
+              onPressed: () => {Navigator.of(context).pushNamed(route)},
+              child: Text(
+                'VER MAPA',
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
             ),
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              TextButton(
-                  onPressed: () => {Navigator.of(context).pushNamed(route)},
-                  child: Text(
-                    'VER MAPA',
-                    style: TextStyle(
-                      color: Colors.black,
-                    ),
-                  ),),
-            ],),),);
+          ],
+        ),
+      ),
+    );
   }
 
   Card _buildTripHistoryCard(route) {
@@ -145,7 +150,8 @@ class _JoinFrequentScreenState extends State<JoinFrequentScreen> {
                   child: Column(
                     children: [
                       TextButton(
-                          onPressed: () => {Navigator.of(context).pushNamed(route)},
+                          onPressed: () =>
+                              {Navigator.of(context).pushNamed(route)},
                           style: ButtonStyle(
                               backgroundColor: WidgetStateProperty.resolveWith(
                                   (states) => Colors.white),

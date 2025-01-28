@@ -93,6 +93,9 @@ class RestClient {
   static DioClient dioClient() {
     final client = Dio();
     client.options.baseUrl = Endpoints.host + Endpoints.baseUrl;
+    client.options.headers = {
+      'X-App-Version': '1.4.0',
+    };
 
     if (dotenv.env['ENV'] == 'dev') {
       (client.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () {
