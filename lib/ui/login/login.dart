@@ -1,26 +1,61 @@
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:ecotrip/data/sharedpref/constants/preferences.dart';
 import 'package:ecotrip/di/components/service_locator.dart';
-import 'package:ecotrip/utils/routes/routes.dart';
 import 'package:ecotrip/stores/form/form_store.dart';
-import 'package:ecotrip/utils/device/device_utils.dart';
+import 'package:ecotrip/utils/routes/routes.dart';
 import 'package:ecotrip/utils/locale/app_localization.dart';
-import 'package:ecotrip/widgets/empty_app_bar_widget.dart';
 import 'package:ecotrip/widgets/navigate_widget.dart';
 import 'package:ecotrip/widgets/progress_indicator_widget.dart';
-import 'package:ecotrip/widgets/textfield_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  Widget build(BuildContext context) {
+    final bool isSmallScreen = MediaQuery.of(context).size.width < 600;
+
+    return Scaffold(
+      body: Center(
+        child: isSmallScreen
+            ? Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _Logo(),
+                  _FormContent(),
+                ],
+              )
+            : Container(
+                padding: const EdgeInsets.all(32.0),
+                constraints: const BoxConstraints(maxWidth: 800),
+                child: Row(
+                  children: [
+                    Expanded(child: _Logo()),
+                    Expanded(
+                      child: Center(child: _FormContent()),
+                    ),
+                  ],
+                ),
+              ),
+      ),
+    );
+  }
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _FormContent extends StatefulWidget {
+  @override
+  _FormContentState createState() => _FormContentState();
+}
+
+class _FormContentState extends State<_FormContent> {
   TextEditingController _userEmailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+
+  bool _isPasswordVisible = false;
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   late FocusNode _passwordFocusNode;
   late FormStore _store;
@@ -29,170 +64,155 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     _passwordFocusNode = FocusNode();
+    _store = getIt<FormStore>();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _store = getIt<FormStore>();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      primary: true,
-      appBar: EmptyAppBar(),
-      body: _buildBody(),
-    );
-  }
-
-  Widget _buildBody() {
-    return Material(
-      child: Stack(
-        children: <Widget>[
-          Center(child: _buildRightSide()),
-          Observer(
-            builder: (context) {
-              return _store.success
-                  ? NavigateWidget(Routes.home)
-                  : _showErrorMessage(_store.errorStore.errorMessage);
-            },
+    return Stack(
+      children: [
+        Container(
+          constraints: const BoxConstraints(maxWidth: 300),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextFormField(
+                  controller: _userEmailController,
+                  onChanged: (value) {
+                    _store.setUserEmail(value);
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, ingrese algún texto';
+                    }
+                    bool emailValid = RegExp(
+                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                        .hasMatch(value);
+                    if (!emailValid) {
+                      return 'Ingrese un correo electrónico válido';
+                    }
+                    return null;
+                  },
+                  decoration: const InputDecoration(
+                    labelText: 'Correo electrónico',
+                    hintText: 'Ingresa tu correo electrónico',
+                    prefixIcon: Icon(Icons.email_outlined),
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                _gap(),
+                TextFormField(
+                  controller: _passwordController,
+                  onChanged: (value) {
+                    _store.setPassword(value);
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, ingrese algún texto';
+                    }
+                    if (value.length < 6) {
+                      return 'La contraseña debe tener al menos 6 caracteres';
+                    }
+                    return null;
+                  },
+                  obscureText: !_isPasswordVisible,
+                  decoration: InputDecoration(
+                      labelText: 'Contraseña',
+                      hintText: 'Ingresa tu contraseña',
+                      prefixIcon: const Icon(Icons.lock_outline_rounded),
+                      border: const OutlineInputBorder(),
+                      suffixIcon: IconButton(
+                        icon: Icon(_isPasswordVisible
+                            ? Icons.visibility_off
+                            : Icons.visibility),
+                        onPressed: () {
+                          setState(() {
+                            _isPasswordVisible = !_isPasswordVisible;
+                          });
+                        },
+                      )),
+                ),
+                _gap(),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.lime,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4)),
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Text(
+                        'Iniciar sesión',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                    onPressed: () {
+                      if (_formKey.currentState?.validate() ?? false) {
+                        _store.login();
+                      }
+                    },
+                  ),
+                ),
+                _gap(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '¿No tienes una cuenta?',
+                      style: TextStyle(color: Colors.grey[600]),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, Routes.register);
+                      },
+                      child: const Text(
+                        'Regístrate',
+                        style: TextStyle(
+                          color: Colors.lime,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-          Observer(
-            builder: (context) {
-              return Visibility(
-                visible: _store.loading,
-                child: CustomProgressIndicatorWidget(),
-              );
-            },
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget _buildRightSide() {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            _buildLoginField(),
-            SizedBox(width: 20.0, height: 30.0),
-            _buildUserIdField(),
-            _buildPasswordField(),
-            _buildSignInButton(),
-            _buildRegisterLink()
-          ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildLoginField() {
-    return Observer(
-      builder: (context) {
-        return Text(
-          'Inicio de Sesión',
-          textAlign: TextAlign.center,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 37),
-        );
-      },
-    );
-  }
-
-  Widget _buildUserIdField() {
-    return Observer(
-      builder: (context) {
-        return TextFieldWidget(
-          hint: AppLocalizations.of(context).translate('login_et_user_email'),
-          inputType: TextInputType.emailAddress,
-          textController: _userEmailController,
-          inputAction: TextInputAction.next,
-          autoFocus: false,
-          onChanged: (value) {
-            _store.setUserId(_userEmailController.text);
+        Observer(
+          builder: (context) {
+            return _store.success
+                ? NavigateWidget(Routes.home)
+                : _showErrorMessage(_store.errorStore.errorMessage);
           },
-          onFieldSubmitted: (value) {
-            FocusScope.of(context).requestFocus(_passwordFocusNode);
+        ),
+        Observer(
+          builder: (context) {
+            return Visibility(
+              visible: _store.loading,
+              child: CustomProgressIndicatorWidget(),
+            );
           },
-          errorText: _store.formErrorStore.userEmail,
-        );
-      },
+        )
+      ],
     );
   }
 
-  Widget _buildPasswordField() {
-    return Observer(
-      builder: (context) {
-        return TextFieldWidget(
-          hint:
-              AppLocalizations.of(context).translate('login_et_user_password'),
-          isObscure: true,
-          padding: EdgeInsets.only(top: 16.0),
-          textController: _passwordController,
-          focusNode: _passwordFocusNode,
-          errorText: _store.formErrorStore.password,
-          onChanged: (value) {
-            _store.setPassword(_passwordController.text);
-          },
-        );
-      },
-    );
-  }
-
-  Widget _buildSignInButton() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.lime,
-          padding: EdgeInsets.all(16.0),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-        ),
-        onPressed: () {
-          if (_store.canLogin) {
-            DeviceUtils.hideKeyboard(context);
-            _store.login();
-          } else {
-            _showErrorMessage('Por favor complete los campos');
-          }
-        },
-        child: Text(
-          "CONFIRMAR",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildRegisterLink() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: GestureDetector(
-        onTap: () {
-          Navigator.of(context).pushNamed(Routes.register);
-        },
-        child: Text(
-          AppLocalizations.of(context).translate('login_register_link'),
-          style: TextStyle(
-            color: Colors.blue,
-            decoration: TextDecoration.none,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );
-  }
+  Widget _gap() => const SizedBox(height: 16);
 
   Widget navigate(BuildContext context) {
     SharedPreferences.getInstance().then((prefs) {
@@ -207,7 +227,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Container();
   }
 
-  _showErrorMessage(String message) {
+  Widget _showErrorMessage(String message) {
     if (message.isNotEmpty) {
       Future.delayed(Duration(milliseconds: 0), () {
         if (message.isNotEmpty) {
@@ -230,5 +250,32 @@ class _LoginScreenState extends State<LoginScreen> {
     _passwordController.dispose();
     _passwordFocusNode.dispose();
     super.dispose();
+  }
+}
+
+class _Logo extends StatelessWidget {
+  const _Logo({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Image.asset(
+          'assets/icons/eco-trip_appicon.png',
+          width: 150,
+          height: 150,
+          fit: BoxFit.contain,
+        ),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            "Bienvenido a Ecotrip!",
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.headlineMedium,
+          ),
+        )
+      ],
+    );
   }
 }

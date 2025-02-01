@@ -63,7 +63,7 @@ abstract class _FormStore with Store {
 
   // actions:-------------------------------------------------------------------
   @action
-  void setUserId(String value) {
+  void setUserEmail(String value) {
     userEmail = value;
   }
 
@@ -103,7 +103,6 @@ abstract class _FormStore with Store {
           : "Algo salió mal, por favor intente nuevamente";
       throw e;
     }
-
     if (result.resultStatus == AuthResultStatus.successful) {
       await _repository.saveAuthToken(result.token ?? '');
       await _repository.saveIsLoggedIn(true);
