@@ -39,6 +39,10 @@ class _CreateFrequentMapScreenState extends State<CreateFrequentMapScreen> {
     controller.listenerMapSingleTapping.addListener(() {
       final geoPoint = controller.listenerMapSingleTapping.value;
       if (geoPoint == null) return;
+      selectedRoad?.instructions.forEach((instruction) {
+        print(instruction.instruction);
+      });
+
 
       if (geoPointOrigin == null) {
         geoPointOrigin = geoPoint;
