@@ -1,5 +1,6 @@
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:ecotrip/data/network/apis/trip/trip_api.dart';
+import 'package:ecotrip/data/network/maptiler_client.dart';
 import 'package:ecotrip/di/components/service_locator.dart';
 import 'package:ecotrip/models/trip/trip.dart';
 import 'package:ecotrip/ui/new_trip/store/new_trip_store.dart';

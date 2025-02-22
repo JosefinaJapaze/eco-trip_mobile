@@ -1,3 +1,4 @@
+import 'package:ecotrip/data/network/maptiler_client.dart';
 import 'package:ecotrip/di/components/service_locator.dart';
 import 'package:ecotrip/ui/new_trip/store/new_trip_store.dart';
 import 'package:ecotrip/utils/routes/routes.dart';

@@ -1,4 +1,5 @@
 import 'package:ecotrip/data/network/apis/trip/trip_api.dart';
+import 'package:ecotrip/data/network/maptiler_client.dart';
 import 'package:ecotrip/stores/error/error_store.dart';
 import 'package:mobx/mobx.dart';
 
@@ -43,6 +44,35 @@ abstract class _NewTripStore with Store {
 
   @action
   Future createNewTrip(CreateTripParams params) async {
+  final MaptilerClient _maptilerClient = MaptilerClient.instance;
+
+    final originResults = await _maptilerClient.searchByCoordinates(
+      params.origin.latitude,
+      params.origin.longitude,
+    );
+    String originStreetName = "";
+    for (final result in originResults.features) {
+      if (result.placeType.contains("address")) {
+        originStreetName = "${result.text} ${result.address}";
+        break;
+      }
+    }
+
+    final destinationResults = await _maptilerClient.searchByCoordinates(
+      params.destination.latitude,
+      params.destination.longitude,
+    );
+    String destinationStreetName = "";
+    for (final result in destinationResults.features) {
+      if (result.placeType.contains("address")) {
+        destinationStreetName = "${result.text} ${result.address}";
+        break;
+      }
+    }
+
+    params.origin.address = originStreetName;
+    params.destination.address = destinationStreetName;
+
     final future = _tripApi.insertTrip(params);
     newTripFuture = ObservableFuture(future);
     try {

@@ -9,12 +9,12 @@ import 'package:ecotrip/models/trip/trip.dart';
 import 'package:ecotrip/models/trip/trip_list.dart';
 
 class CreateTripAddress {
-  final String address;
+  String address;
   final double latitude;
   final double longitude;
 
   CreateTripAddress({
-    required this.address,
+    this.address = "",
     required this.latitude,
     required this.longitude,
   });
@@ -76,6 +76,14 @@ class TripApi {
 
   Future<TripList> getTrips() async {
     return TripList();
+  }
+
+  Future<List<Trip>> listNearbyTrips(double latitude, double longitude) async {
+    return [];
+  }
+
+  Future<bool> joinTrip(String tripId) async {
+    return false;
   }
 
   Future<bool> insertTrip(CreateTripParams params) async {
