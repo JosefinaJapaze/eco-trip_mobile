@@ -96,15 +96,6 @@ class TripOfferCard extends StatelessWidget {
                   ],
                 ),
                 SizedBox(width: 15),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(tripOffer.timeOfDay),
-                    SizedBox(height: 20),
-                    Text(tripOffer.timeOfDay),
-                  ],
-                ),
-                SizedBox(width: 15),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,7 +137,7 @@ class TripOfferCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      DateFormat('dd/MM/yyyy').format(tripOffer.date),
+                      DateFormat('dd/MM/yyyy HH:mm').format(tripOffer.date),
                       style: TextStyle(
                         fontSize: 14,
                       ),

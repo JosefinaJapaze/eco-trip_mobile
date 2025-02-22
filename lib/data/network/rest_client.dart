@@ -12,11 +12,13 @@ import 'exceptions/network_exceptions.dart';
 class RestClient {
   final DioClient _dioClient = dioClient();
 
-  Future<dynamic> get(String path, {Map<String, String>? headers}) {
+  Future<dynamic> get(String path,
+      {Map<String, String>? headers, Map<String, dynamic>? queryParameters}) {
     dynamic value;
     try {
       value = _dioClient.get(path,
-          options: Options(responseType: ResponseType.json, headers: headers));
+          options: Options(responseType: ResponseType.json, headers: headers),
+          queryParameters: queryParameters);
     } on DioException catch (e) {
       _handleDioErr(e);
     }

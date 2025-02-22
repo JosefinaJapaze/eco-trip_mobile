@@ -1,6 +1,9 @@
+import 'package:ecotrip/di/components/service_locator.dart';
+import 'package:ecotrip/ui/join_trip/store/join_trip_store.dart';
 import 'package:ecotrip/ui/join_trip/widgets/trip_offer_card.dart';
 import 'package:ecotrip/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
 class JoinScheduledScreen extends StatefulWidget {
   @override
@@ -8,6 +11,8 @@ class JoinScheduledScreen extends StatefulWidget {
 }
 
 class _JoinScheduledScreenState extends State<JoinScheduledScreen> {
+  late JoinTripStore _store;
+
   @override
   void initState() {
     super.initState();
@@ -16,6 +21,10 @@ class _JoinScheduledScreenState extends State<JoinScheduledScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    _store = getIt<JoinTripStore>();
+    Geolocator.getCurrentPosition().then((position) {
+      _store.listNearbyTrips(position.latitude, position.longitude);
+    });
   }
 
   @override

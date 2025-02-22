@@ -66,13 +66,21 @@ abstract class _JoinTripStore with Store {
   }
 
   @action
-  Future listNearbyTrips(double latitude, double longitude) async {
+  Future<List<Trip>> listNearbyTrips(double latitude, double longitude) async {
     final future = _tripApi.listNearbyTrips(latitude, longitude);
     nearbyTripsFuture = ObservableFuture(future);
     try {
       List<Trip> trips = await future;
+      return trips;
     } catch (e) {
       errorStore.errorMessage = 'Error al obtener viajes cercanos';
+      return [];
+    }
+  }
+
+  void dispose() {
+    for (final d in _disposers) {
+      d();
     }
   }
 }
