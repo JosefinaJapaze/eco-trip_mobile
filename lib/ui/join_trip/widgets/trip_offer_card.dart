@@ -137,7 +137,7 @@ class TripOfferCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      DateFormat('dd/MM/yyyy HH:mm').format(tripOffer.date),
+                      "${DateFormat('dd/MM/yyyy').format(tripOffer.date)} ${tripOffer.timeOfDay}",
                       style: TextStyle(
                         fontSize: 14,
                       ),

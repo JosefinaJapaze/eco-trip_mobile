@@ -78,16 +78,17 @@ class TripApi {
     return TripList();
   }
 
-  Future<List<Trip>> listNearbyTrips(double latitude, double longitude) async {
+  Future<List<Trip>> listNearbyTrips(double latitude, double longitude, String type) async {
     return _repository.authToken.then((token) {
       return _restClient.get(Endpoints.tripsNearby, queryParameters: {
         "lat": latitude,
         "lon": longitude,
+        "type": type,
       }, headers: {
         "Authorization": "Bearer $token",
       }).then((dynamic res) {
         var resMap = res as Map<String, dynamic>;
-        var trips = resMap["trips"] as List<dynamic>;
+        var trips = resMap["Items"] as List<dynamic>;
         return trips.map((e) => Trip.fromMap(e)).toList();
       }).catchError((e) {
         if (e is DioException) {

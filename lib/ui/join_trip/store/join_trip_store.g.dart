@@ -93,9 +93,10 @@ mixin _$JoinTripStore on _JoinTripStore, Store {
       AsyncAction('_JoinTripStore.listNearbyTrips', context: context);
 
   @override
-  Future<List<Trip>> listNearbyTrips(double latitude, double longitude) {
+  Future<List<Trip>> listNearbyTrips(
+      double latitude, double longitude, String type) {
     return _$listNearbyTripsAsyncAction
-        .run(() => super.listNearbyTrips(latitude, longitude));
+        .run(() => super.listNearbyTrips(latitude, longitude, type));
   }
 
   late final _$_JoinTripStoreActionController =

@@ -1,27 +1,23 @@
 class Address {
   String? address;
-  String? city;
-  String? state;
-  String? country;
+  double? latitude;
+  double? longitude;
 
   Address({
     this.address,
-    this.city,
-    this.state,
-    this.country,
+    this.latitude,
+    this.longitude,
   });
 
   factory Address.fromMap(Map<String, dynamic> json) => Address(
         address: json["address"],
-        city: json["city"],
-        state: json["state"],
-        country: json["country"],
+        latitude: json["latitude"],
+        longitude: json["longitude"],
       );
 
   Map<String, dynamic> toMap() => {
         "address": address,
-        "city": city,
-        "state": state,
-        "country": country,
+        "latitude": latitude,
+        "longitude": longitude,
       };
 }

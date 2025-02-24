@@ -32,7 +32,7 @@ class FrequentTripParams {
 
 class ScheduledTripParams {
   DateTime? startDate;
-  int? startTime;
+  String? startTime;
 
   ScheduledTripParams({
     this.startDate,
@@ -55,6 +55,7 @@ class Trip {
   int? totalSeats;
   String? type;
   double? cost;
+  String? creator;
   Address? addressFrom;
   Address? addressTo;
   FrequentTripParams? frequentTripParams;
@@ -65,6 +66,7 @@ class Trip {
     this.totalSeats,
     this.type,
     this.cost,
+    this.creator,
     this.addressFrom,
     this.addressTo,
     this.frequentTripParams,
@@ -72,25 +74,28 @@ class Trip {
   });
 
   factory Trip.fromMap(Map<String, dynamic> json) => Trip(
-    id: json["id"],
-    totalSeats: json["total_seats"],
-    type: json["type"],
-    cost: json["cost"],
+    id: json["TripID"],
+    totalSeats: json["TotalSeats"],
+    type: json["Type"],
+    cost: json["Cost"] is int ? (json["Cost"] as int).toDouble() : json["Cost"],
+    creator: json["Creator"],
     addressFrom: Address(
-      address: json["address_from_address"],
-      city: json["address_from_city"],
+      address: json["FromAddress"],
+      latitude: json["FromLat"],
+      longitude: json["FromLon"],
     ),
     addressTo: Address(
-      address: json["address_to_address"],
-      city: json["address_to_city"],
+      address: json["ToAddress"],
+      latitude: json["ToLat"],
+      longitude: json["ToLon"],
     ),
     frequentTripParams: FrequentTripParams(
-      dayOfWeek: DayOfWeek.values.firstWhere((e) => e.toString() == json["day_of_week"]),
-      startTime: json["start_time"],
+      dayOfWeek: json["DayOfWeek"] != null ? json["DayOfWeek"] != "" ? DayOfWeek.values.firstWhere((e) => e.toString() == json["DayOfWeek"]) : null : null,
+      startTime: json["StartTime"],
     ),
     scheduledTripParams: ScheduledTripParams(
-      startDate: json["start_date"],
-      startTime: json["start_time"],
+      startDate: json["StartDate"] != null ? DateTime.parse(json["StartDate"]) : null,
+      startTime: json["TimeOfDay"],
     ),
   );
 
@@ -99,6 +104,7 @@ class Trip {
     "total_seats": totalSeats,
     "type": type,
     "cost": cost,
+    "creator": creator,
     "address_from": addressFrom?.toMap(),
     "address_to": addressTo?.toMap(),
     "frequentTripParams": frequentTripParams?.toMap(),

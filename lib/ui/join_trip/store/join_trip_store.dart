@@ -11,7 +11,6 @@ abstract class _JoinTripStore with Store {
   final TripApi _tripApi;
   final ErrorStore errorStore = ErrorStore();
 
-
   _JoinTripStore(TripApi api) : this._tripApi = api {
     _setupDisposers();
   }
@@ -23,7 +22,10 @@ abstract class _JoinTripStore with Store {
   ObservableFuture<bool> response = ObservableFuture.value(false);
 
   @computed
-  bool get isLoading => response.status == FutureStatus.pending || joinTripFuture.status == FutureStatus.pending;
+  bool get isLoading =>
+      response.status == FutureStatus.pending ||
+      joinTripFuture.status == FutureStatus.pending ||
+      nearbyTripsFuture.status == FutureStatus.pending;
 
   @action
   void setSuccess(bool value) {
@@ -38,8 +40,11 @@ abstract class _JoinTripStore with Store {
     ];
   }
 
-  static ObservableFuture<bool> emptyJoinResponse = ObservableFuture.value(false);
-  static ObservableFuture<List<Trip>> emptyNearbyTripsResponse = ObservableFuture.value([]);
+  static ObservableFuture<bool> emptyJoinResponse =
+      ObservableFuture.value(false);
+
+  static ObservableFuture<List<Trip>> emptyNearbyTripsResponse =
+      ObservableFuture.value([]);
 
   @observable
   ObservableFuture<bool> joinTripFuture = emptyJoinResponse;
@@ -66,8 +71,9 @@ abstract class _JoinTripStore with Store {
   }
 
   @action
-  Future<List<Trip>> listNearbyTrips(double latitude, double longitude) async {
-    final future = _tripApi.listNearbyTrips(latitude, longitude);
+  Future<List<Trip>> listNearbyTrips(
+      double latitude, double longitude, String type) async {
+    final future = _tripApi.listNearbyTrips(latitude, longitude, type);
     nearbyTripsFuture = ObservableFuture(future);
     try {
       List<Trip> trips = await future;
