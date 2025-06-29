@@ -1,6 +1,7 @@
 import 'package:ecotrip/data/network/apis/trip/trip_api.dart';
 import 'package:ecotrip/data/network/maptiler_client.dart';
 import 'package:ecotrip/stores/error/error_store.dart';
+import 'package:maptiler_flutter/maptiler_flutter.dart';
 import 'package:mobx/mobx.dart';
 
 part 'new_trip_store.g.dart';
@@ -44,12 +45,20 @@ abstract class _NewTripStore with Store {
 
   @action
   Future createNewTrip(CreateTripParams params) async {
-  final MaptilerClient _maptilerClient = MaptilerClient.instance;
+    final MaptilerClient _maptilerClient = MaptilerClient.instance;
 
-    final originResults = await _maptilerClient.searchByCoordinates(
-      params.origin.latitude,
-      params.origin.longitude,
-    );
+    SearchResults? originResults;
+    try {
+      originResults = await _maptilerClient.searchByCoordinates(
+        params.origin.latitude,
+        params.origin.longitude,
+      );
+    } catch (e) {
+      errorStore.errorMessage =
+          'Error al obtener el nombre de la calle de origen';
+      return;
+    }
+
     String originStreetName = "";
     for (final result in originResults.features) {
       if (result.placeType.contains("address")) {

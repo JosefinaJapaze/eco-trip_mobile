@@ -101,7 +101,7 @@ abstract class _FormStore with Store {
       errorStore.errorMessage = e.toString().contains("ERROR_USER_NOT_FOUND")
           ? "Los datos ingresados son incorrectos"
           : "Algo salió mal, por favor intente nuevamente";
-      throw e;
+      return;
     }
     if (result.resultStatus == AuthResultStatus.successful) {
       await _repository.saveAuthToken(result.token ?? '');

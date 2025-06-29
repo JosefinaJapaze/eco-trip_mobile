@@ -44,6 +44,7 @@ dependencies:
   flutter_dotenv: ^5.2.1
   calendar_date_picker2: ^1.1.8
   maptiler_flutter: ^0.1.0
+  url_launcher: ^6.3.1
 
 dev_dependencies:
   flutter_test:
@@ -57,6 +58,10 @@ dev_dependencies:
   mobx_codegen: ^2.2.0
   build_runner: ^2.3.3
   analyzer: ^6.7.0
+
+dependency_overrides:
+  maptiler_flutter:
+    path: ./submodules/maptiler_flutter/maptiler_flutter
 
 flutter_launcher_icons:
   image_path: "assets/icons/eco-trip_appicon.png"

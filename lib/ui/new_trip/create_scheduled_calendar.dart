@@ -56,26 +56,37 @@ class _CreateScheduledCalendarScreenState
   }
 
   bool canInsertTrip() {
+    return startDate != null && 
+           selectedHour != null && 
+           _totalSeatsController.text.isNotEmpty && 
+           _costController.text.isNotEmpty;
+  }
+
+  void showValidationError() {
     if (startDate == null) {
       _showErrorMessage("Seleccione un dia de inicio");
-      return false;
+      return;
     }
     if (selectedHour == null) {
       _showErrorMessage("Seleccione una hora");
-      return false;
+      return;
     }
     if (_totalSeatsController.text.isEmpty) {
       _showErrorMessage("Ingrese el numero de asientos");
-      return false;
+      return;
     }
     if (_costController.text.isEmpty) {
       _showErrorMessage("Ingrese el costo");
-      return false;
+      return;
     }
-    return true;
   }
 
   void insertTrip() {
+    if (!canInsertTrip()) {
+      showValidationError();
+      return;
+    }
+
     try {
       cost = double.parse(_costController.value.text);
     } catch (e) {
@@ -240,23 +251,25 @@ class _CreateScheduledCalendarScreenState
   }
 
   Widget _buildTextButtonFindTrips(route) {
+    bool isValid = canInsertTrip();
+    
     return Padding(
       padding: const EdgeInsets.only(top: 30),
       child: Container(
         width: 150,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: Colors.lime,
+          color: isValid ? Colors.lime : Colors.grey,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextButton(
-              onPressed: () => {insertTrip()},
+              onPressed: isValid ? () => {insertTrip()} : null,
               child: Text(
                 'CONFIRMAR',
                 style: TextStyle(
-                  color: Colors.black,
+                  color: isValid ? Colors.black : Colors.white,
                 ),
               ),
             ),

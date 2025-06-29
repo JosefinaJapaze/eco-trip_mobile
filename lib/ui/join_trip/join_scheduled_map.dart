@@ -19,9 +19,11 @@ class _JoinScheduledMapScreenState extends State<JoinScheduledMapScreen> {
   @override
   void initState() {
     super.initState();
-    controller = MapController(
-      initMapWithUserPosition: UserTrackingOption(enableTracking: true),
-      initPosition: GeoPoint(latitude: -26.8274, longitude: -65.2078),
+    controller = MapController.withUserPosition(
+      trackUserLocation: UserTrackingOption(
+        enableTracking: true,
+        unFollowUser: false,
+      ),
     );
     timer = Timer.periodic(Duration(seconds: 3), (Timer t) => drawMap());
   }
