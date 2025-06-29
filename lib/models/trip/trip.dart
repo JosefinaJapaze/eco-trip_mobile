@@ -32,7 +32,7 @@ class FrequentTripParams {
 
 class ScheduledTripParams {
   DateTime? startDate;
-  String? startTime;
+  int? startTime;
 
   ScheduledTripParams({
     this.startDate,

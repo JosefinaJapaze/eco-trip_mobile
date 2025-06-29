@@ -118,7 +118,7 @@ class _CreateScheduledCalendarScreenState
         type: 'scheduled',
         scheduledTripParams: ScheduledTripParams(
           startDate: startDate,
-          startTime: intSelectedTimeToString(selectedHour!),
+          startTime: selectedHour,
         ),
       ),
     );
