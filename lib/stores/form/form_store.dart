@@ -110,7 +110,19 @@ abstract class _FormStore with Store {
       this.success = true;
     } else {
       this.success = false;
-      errorStore.errorMessage = "Los datos ingresados son incorrectos";
+      switch (result.resultStatus) {
+        case AuthResultStatus.wrongCredentials:
+          errorStore.errorMessage = "Credenciales inválidas. Verifique su correo y contraseña.";
+          break;
+        case AuthResultStatus.userNotFound:
+          errorStore.errorMessage = "Usuario no encontrado. Verifique su correo electrónico.";
+          break;
+        case AuthResultStatus.badRequest:
+          errorStore.errorMessage = "Datos de entrada inválidos. Verifique la información ingresada.";
+          break;
+        default:
+          errorStore.errorMessage = "Los datos ingresados son incorrectos";
+      }
     }
 
     return null;

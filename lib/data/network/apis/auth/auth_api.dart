@@ -27,6 +27,9 @@ class AuthApi {
           if (e.response!.statusCode == 400) {
             return LoginResult(resultStatus: AuthResultStatus.badRequest);
           }
+          if (e.response!.statusCode == 401) {
+            return LoginResult(resultStatus: AuthResultStatus.wrongCredentials);
+          }
           if (e.response!.statusCode == 404) {
             return LoginResult(resultStatus: AuthResultStatus.userNotFound);
           }
