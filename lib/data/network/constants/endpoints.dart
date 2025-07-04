@@ -4,7 +4,7 @@ class Endpoints {
   Endpoints._();
 
   static String host = envMustExist("BACKEND_URL");
-  static const String baseUrl = "api";
+  static const String baseUrl = "/api";
   static const int receiveTimeout = 15000;
   static const int connectionTimeout = 30000;
 
