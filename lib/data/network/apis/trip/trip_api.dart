@@ -74,8 +74,21 @@ class TripApi {
 
   TripApi(this._restClient, this._repository);
 
-  Future<TripList> getTrips() async {
-    return TripList();
+  Future<List<Trip>> getMyTrips() async {
+    return _repository.authToken.then((token) {
+      return _restClient.get(Endpoints.myTrips, headers: {
+        "Authorization": "Bearer $token",
+      }).then((dynamic res) {
+        var resMap = res as Map<String, dynamic>;
+        var trips = resMap["Items"] as List<dynamic>;
+        return trips.map((e) => Trip.fromMap(e)).toList();
+      }).catchError((e) {
+        if (e is DioException) {
+          print("Dio exception: ${e.message}; ${e.response}");
+        }
+        throw NetworkException(message: e.toString());
+      });
+    });
   }
 
   Future<List<Trip>> listNearbyTrips(double latitude, double longitude, String type) async {

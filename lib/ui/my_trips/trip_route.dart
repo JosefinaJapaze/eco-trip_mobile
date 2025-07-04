@@ -21,7 +21,6 @@ class _TripRouteScreenState extends State<TripRouteScreen> {
     super.initState();
     controller = MapController(
       initMapWithUserPosition: UserTrackingOption(enableTracking: true),
-      initPosition: GeoPoint(latitude: -26.8274, longitude: -65.2078),
     );
     timer = Timer.periodic(Duration(seconds: 3), (Timer t) => drawMap());
   }

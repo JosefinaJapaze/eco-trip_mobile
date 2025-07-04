@@ -11,6 +11,7 @@ import 'package:ecotrip/stores/language/language_store.dart';
 import 'package:ecotrip/stores/theme/theme_store.dart';
 import 'package:ecotrip/ui/join_trip/store/join_trip_store.dart';
 import 'package:ecotrip/ui/login/store/login_store.dart';
+import 'package:ecotrip/ui/my_trips/store/my_trips_store.dart';
 import 'package:ecotrip/ui/new_trip/store/new_trip_store.dart';
 import 'package:ecotrip/ui/register/store/register_store.dart';
 import 'package:ecotrip/ui/register/store/validation_step_store.dart';
@@ -59,4 +60,5 @@ Future<void> setupLocator() async {
   getIt.registerSingleton(
       ValidationStepStore(getIt<RegisterApi>(), getIt<Repository>()));
   getIt.registerSingleton(JoinTripStore(getIt<TripApi>()));
+  getIt.registerSingleton(MyTripsStore(getIt<TripApi>()));
 }

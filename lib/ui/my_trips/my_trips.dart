@@ -1,5 +1,10 @@
+import 'package:ecotrip/di/components/service_locator.dart';
+import 'package:ecotrip/ui/my_trips/store/my_trips_store.dart';
 import 'package:ecotrip/widgets/base_app_bar.dart';
+import 'package:ecotrip/widgets/progress_indicator_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
 
 import '../../models/trip/trip.dart';
 
@@ -9,14 +14,20 @@ class MyTripsScreen extends StatefulWidget {
 }
 
 class _MyTripsScreenState extends State<MyTripsScreen> {
-
-  late List<Widget> cards;
+  late MyTripsStore _tripStore;
 
   bool displayFrequent = false;
 
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _tripStore = getIt<MyTripsStore>();
+    _tripStore.fetchTrips();
   }
 
   @override
@@ -27,18 +38,38 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
     );
   }
 
-  // body methods:--------------------------------------------------------------Widget _buildBody() {
   Widget _buildBody() {
-    return SingleChildScrollView(
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            _buildTripOptions(),
-            ..._buildTripHistory(),
-          ],
+    return Stack(
+      children: [
+        SingleChildScrollView(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                _buildTripOptions(),
+                Observer(
+                  builder: (context) {
+                    if (_tripStore.isLoading) {
+                      return Container();
+                    }
+                    return Column(
+                      children: _buildTripHistory(),
+                    );
+                  },
+                )
+              ],
+            ),
+          ),
         ),
-      ),
+        Observer(
+          builder: (context) {
+            return Visibility(
+              visible: _tripStore.isLoading,
+              child: CustomProgressIndicatorWidget(),
+            );
+          },
+        )
+      ],
     );
   }
 
@@ -76,30 +107,33 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
                   color: Colors.white,
                   fontSize: displayFrequent ? 16 : 14,
                 ),
-              ))
+              ),
+              )
         ]),
       ),
     );
   }
 
   List<Widget> _buildTripHistory() {
-    //if (_tripStore.tripList == null || _tripStore.tripList!.trips == null) {
-      //return <Widget>[
-        //Text("No se poseen viajes programados actualmente."
-            //"Puedes crear o unirte a un viaje desde la pestaña Nuevo Viaje")
-      //];
-    //}
+    if (_tripStore.tripsFuture.status == FutureStatus.rejected ||
+        _tripStore.tripsFuture.value == null ||
+        _tripStore.tripsFuture.value!.isEmpty) {
+      return <Widget>[
+        Text("No se poseen viajes programados actualmente."
+            "Puedes crear o unirte a un viaje desde la pestaña Nuevo Viaje")
+      ];
+    }
 
-    cards = <Widget>[];
-    //_tripStore.tripList!.trips!.forEach((element) {
-      //if (element.type == "frequent" && displayFrequent) {
-        //cards.add(_buildTripHistoryCard(element));
-      //}
+    final List<Widget> cards = <Widget>[];
+    _tripStore.tripsFuture.value!.forEach((element) {
+      if (element.type == "frequent" && displayFrequent) {
+        cards.add(_buildTripHistoryCard(element));
+      }
 
-      //if (element.type == "programmed" && !displayFrequent) {
-        //cards.add(_buildTripHistoryCard(element));
-      //}
-    //});
+      if (element.type == "scheduled" && !displayFrequent) {
+        cards.add(_buildTripHistoryCard(element));
+      }
+    });
 
     return cards;
   }
@@ -146,9 +180,11 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
                             Icons.call_made,
                             color: Colors.black,
                           ),
-                          Text(
-                            'Calle 13, Barrio B, Localidad 1',
-                            style: TextStyle(color: Colors.black),
+                          Flexible(
+                            child: Text(
+                              trip.addressFrom?.address ?? 'N/A',
+                              style: TextStyle(color: Colors.black),
+                            ),
                           ),
                         ],
                       ),
@@ -161,9 +197,11 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
                             Icons.call_received,
                             color: Colors.black,
                           ),
-                          Text(
-                            'Calle 7, Barrio 2, Localidad 1',
-                            style: TextStyle(color: Colors.black),
+                          Flexible(
+                            child: Text(
+                              trip.addressTo?.address ?? 'N/A',
+                              style: TextStyle(color: Colors.black),
+                            ),
                           ),
                         ],
                       ),
@@ -188,8 +226,10 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
                   child: Column(
                     children: [
                       TextButton(
-                          onPressed: () =>
-                              {Navigator.of(context).pushNamed("/trip_route")},
+                          onPressed: () => {
+                                Navigator.of(context).pushNamed("/trip_route",
+                                    arguments: trip)
+                              },
                           style: ButtonStyle(
                               backgroundColor: WidgetStateProperty.resolveWith(
                                   (states) => Colors.black),

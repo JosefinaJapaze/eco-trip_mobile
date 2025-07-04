@@ -95,7 +95,9 @@ class Trip {
     ),
     scheduledTripParams: ScheduledTripParams(
       startDate: json["StartDate"] != null ? DateTime.parse(json["StartDate"]) : null,
-      startTime: json["TimeOfDay"],
+      startTime: json["TimeOfDay"] is String && json["TimeOfDay"].isNotEmpty
+          ? parseTimeOfDay(json["TimeOfDay"])
+          : null,
     ),
   );
 
@@ -110,4 +112,11 @@ class Trip {
     "frequentTripParams": frequentTripParams?.toMap(),
     "scheduledTripParams": scheduledTripParams?.toMap(),
   };
+}
+
+int parseTimeOfDay(String timeOfDay) {
+  final parts = timeOfDay.split(":");
+  final hours = int.parse(parts[0]);
+  final minutes = int.parse(parts[1]);
+  return hours * 100 + minutes;
 }
