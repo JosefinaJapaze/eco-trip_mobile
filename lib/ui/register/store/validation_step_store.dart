@@ -268,7 +268,6 @@ abstract class _ValidationStepStore with Store {
     } catch (e) {
       setCurrentStepSuccess(false);
       errorStore.errorMessage = 'Error al intentar subir el archivo';
-      print('Failed to upload file: $e');
       throw e;
     }
 
