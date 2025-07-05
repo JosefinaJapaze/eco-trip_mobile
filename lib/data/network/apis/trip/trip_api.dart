@@ -113,7 +113,20 @@ class TripApi {
   }
 
   Future<bool> joinTrip(String tripId) async {
-    return false;
+    return _repository.authToken.then((token) {
+      return _restClient.post(Endpoints.tripsJoin, headers: {
+        "Authorization": "Bearer $token",
+      }, body: {
+        "trip_id": tripId,
+      }).then((dynamic res) {
+        return true;
+      }).catchError((e) {
+        if (e is DioException) {
+          print("Dio exception: ${e.message}; ${e.response}");
+        }
+        return false;
+      });
+    });
   }
 
   Future<bool> insertTrip(CreateTripParams params) async {

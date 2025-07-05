@@ -52,6 +52,11 @@ abstract class _JoinTripStore with Store {
   @observable
   ObservableFuture<List<Trip>> nearbyTripsFuture = emptyNearbyTripsResponse;
 
+  // Store last fetch parameters for re-fetching
+  double? _lastLatitude;
+  double? _lastLongitude;
+  String? _lastType;
+
   @action
   Future joinTrip(String tripId) async {
     final future = _tripApi.joinTrip(tripId);
@@ -60,10 +65,15 @@ abstract class _JoinTripStore with Store {
       bool joined = await future;
       if (joined) {
         this.success = true;
+        // Re-fetch nearby trips after successful join
+        if (_lastLatitude != null && _lastLongitude != null && _lastType != null) {
+          await listNearbyTrips(_lastLatitude!, _lastLongitude!, _lastType!);
+        }
       } else {
         this.success = false;
         errorStore.errorMessage = 'Error al unirse al viaje';
       }
+      
     } catch (e) {
       this.success = false;
       errorStore.errorMessage = 'Error al unirse al viaje';
@@ -73,11 +83,20 @@ abstract class _JoinTripStore with Store {
   @action
   void clearNearbyTrips() {
     nearbyTripsFuture = emptyNearbyTripsResponse;
+    // Clear stored parameters to avoid re-fetching with wrong parameters
+    _lastLatitude = null;
+    _lastLongitude = null;
+    _lastType = null;
   }
 
   @action
   Future<List<Trip>> listNearbyTrips(
       double latitude, double longitude, String type) async {
+    // Store parameters for potential re-fetching
+    _lastLatitude = latitude;
+    _lastLongitude = longitude;
+    _lastType = type;
+    
     final future = _tripApi.listNearbyTrips(latitude, longitude, type);
     nearbyTripsFuture = ObservableFuture(future);
     try {

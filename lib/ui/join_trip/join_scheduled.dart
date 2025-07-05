@@ -122,6 +122,7 @@ class _JoinScheduledScreenState extends State<JoinScheduledScreen> {
             dayOfWeek: trip?.frequentTripParams?.dayOfWeek?.name ?? "",
             date: trip?.scheduledTripParams?.startDate ?? DateTime.now(),
           ),
+          joinTrip: (tripId) => _store.joinTrip(tripId),
         ),
       );
     }

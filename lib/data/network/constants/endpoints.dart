@@ -10,6 +10,7 @@ class Endpoints {
 
   static const String login = "/login";
   static const String trips = "/trips";
+  static const String tripsJoin = "/trips/join";
   static const String myTrips = "/my-trips";
   static const String tripsNearby = "/trips/nearby";
   static const String register = "/register";

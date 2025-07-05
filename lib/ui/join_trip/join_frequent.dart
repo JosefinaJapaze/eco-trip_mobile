@@ -122,6 +122,7 @@ class _JoinFrequentScreenState extends State<JoinFrequentScreen> {
             dayOfWeek: trip?.frequentTripParams?.dayOfWeek?.name ?? "",
             date: DateTime.now(), // For frequent trips, this won't be used for display
           ),
+          joinTrip: (tripId) => _store.joinTrip(tripId),
         ),
       );
     }

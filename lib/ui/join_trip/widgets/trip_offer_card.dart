@@ -1,3 +1,4 @@
+import 'package:ecotrip/ui/join_trip/store/join_trip_store.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -37,9 +38,9 @@ class TripOffer {
 
 class TripOfferCard extends StatelessWidget {
   final TripOffer tripOffer;
+  final Function(String) joinTrip;
 
-
-  TripOfferCard({required this.tripOffer});
+  TripOfferCard({required this.tripOffer, required this.joinTrip});
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +155,7 @@ class TripOfferCard extends StatelessWidget {
                   ),
                   child: TextButton(
                     onPressed: () {
-                      // TODO: Implement join functionality
+                      joinTrip(tripOffer.tripId.toString());
                     },
 
                     child: Text(
