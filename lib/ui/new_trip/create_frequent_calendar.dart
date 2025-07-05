@@ -35,23 +35,29 @@ class _CreateFrequentCalendarScreenState
 
 
   bool canInsertTrip() {
+    return selectedDay != null && 
+           selectedHour != null && 
+           _totalSeatsController.text.isNotEmpty && 
+           _costController.text.isNotEmpty;
+  }
+
+  void showValidationError() {
     if (selectedDay == null) {
       _showErrorMessage("Seleccione un dia");
-      return false;
+      return;
     }
     if (selectedHour == null) {
       _showErrorMessage("Seleccione una hora");
-      return false;
+      return;
     }
     if (_totalSeatsController.text.isEmpty) {
       _showErrorMessage("Ingrese el numero de asientos");
-      return false;
+      return;
     }
     if (_costController.text.isEmpty) {
       _showErrorMessage("Ingrese el costo");
-      return false;
+      return;
     }
-    return true;
   }
 
   void handleSelectedDay(DayOfWeek day) {
@@ -73,6 +79,7 @@ class _CreateFrequentCalendarScreenState
 
   void insertTrip() {
     if (!canInsertTrip()) {
+      showValidationError();
       return;
     }
     setState(() {
@@ -314,6 +321,11 @@ class _CreateFrequentCalendarScreenState
                 padding: const EdgeInsets.only(left: 10, right: 20),
                 child: TextField(
                   controller: _totalSeatsController,
+                  onChanged: (value) {
+                    setState(() {
+                      _totalSeatsError = "";
+                    });
+                  },
                   decoration: InputDecoration(
                     errorText:
                         _totalSeatsError.isEmpty ? null : _totalSeatsError,
@@ -343,6 +355,11 @@ class _CreateFrequentCalendarScreenState
                 padding: const EdgeInsets.only(left: 10, right: 20),
                 child: TextField(
                   controller: _costController,
+                  onChanged: (value) {
+                    setState(() {
+                      _costError = "";
+                    });
+                  },
                   decoration: InputDecoration(
                     errorText: _costError.isEmpty ? null : _costError,
                     errorBorder: OutlineInputBorder(
@@ -430,23 +447,25 @@ class _CreateFrequentCalendarScreenState
   }
 
   Widget _buildTextButtonFindTrips(route) {
+    bool isValid = canInsertTrip();
+    
     return Padding(
       padding: const EdgeInsets.only(top: 30),
       child: Container(
         width: 150,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: Colors.lime,
+          color: isValid ? Colors.lime : Colors.grey,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextButton(
-              onPressed: () => {insertTrip()},
+              onPressed: isValid ? () => {insertTrip()} : null,
               child: Text(
                 'CONFIRMAR',
                 style: TextStyle(
-                  color: Colors.black,
+                  color: isValid ? Colors.black : Colors.white,
                 ),
               ),
             ),

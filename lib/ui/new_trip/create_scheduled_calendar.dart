@@ -172,6 +172,11 @@ class _CreateScheduledCalendarScreenState
                 padding: const EdgeInsets.only(left: 10, right: 20),
                 child: TextField(
                   controller: _totalSeatsController,
+                  onChanged: (value) {
+                    setState(() {
+                      _totalSeatsError = "";
+                    });
+                  },
                   decoration: InputDecoration(
                     errorText:
                         _totalSeatsError.isEmpty ? null : _totalSeatsError,
@@ -201,6 +206,11 @@ class _CreateScheduledCalendarScreenState
                 padding: const EdgeInsets.only(left: 10, right: 20),
                 child: TextField(
                   controller: _costController,
+                  onChanged: (value) {
+                    setState(() {
+                      _costError = "";
+                    });
+                  },
                   decoration: InputDecoration(
                     errorText: _costError.isEmpty ? null : _costError,
                     errorBorder: OutlineInputBorder(
