@@ -1,4 +1,5 @@
-import 'package:ecotrip/ui/chats/chats.dart';
+  import 'package:ecotrip/ui/chats/chats.dart';
+import 'package:ecotrip/ui/chats/chat_page.dart';
 import 'package:ecotrip/ui/home/home.dart';
 import 'package:ecotrip/ui/login/login.dart';
 import 'package:ecotrip/ui/new_trip/new_scheduled.dart';
@@ -73,6 +74,7 @@ class Routes {
   static const String pay_request = '/pay_request';
   static const String pay_trip = '/pay_trip';
   static const String trip_route = '/trip_route';
+  static const String chat = '/chat';
 
   static final routes = <String, WidgetBuilder>{
     splash: (BuildContext context) => SplashScreen(),
@@ -88,6 +90,7 @@ class Routes {
     new_trip: (BuildContext context) => NewTripScreen(),
     my_wallet: (BuildContext context) => MyWalletScreen(),
     chats: (BuildContext context) => ChatsScreen(),
+    chat: (BuildContext context) => ChatPage(),
     new_frequent: (BuildContext context) => NewFrequentScreen(),
     join_frequent_trip: (BuildContext context) => JoinFrequentScreen(),
     join_frequent_trip_map: (BuildContext context) => JoinFrequentMapScreen(),

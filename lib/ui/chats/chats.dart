@@ -1,6 +1,7 @@
 import 'package:ecotrip/di/components/service_locator.dart';
 import 'package:ecotrip/models/chat/chat.dart';
 import 'package:ecotrip/ui/chats/store/chats_store.dart';
+import 'package:ecotrip/utils/routes/routes.dart';
 import 'package:ecotrip/widgets/base_app_bar.dart';
 import 'package:ecotrip/widgets/progress_indicator_widget.dart';
 import 'package:flutter/material.dart';
@@ -129,6 +130,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
           onTap: () {
             // Navigate to chat detail screen
             // Navigator.of(context).pushNamed("/chat_detail", arguments: chat);
+            Navigator.of(context).pushNamed(Routes.chat, arguments: chat);
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text("Abrir chat del viaje #${chat.tripId}"),

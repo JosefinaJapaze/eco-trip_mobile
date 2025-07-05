@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import '../utils/locale/app_localization.dart';
 
 class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final String titleKey;
+  final String? titleKey;
+  final String? title;
 
   const BaseAppBar({
     Key? key,
-    required this.titleKey,
+    this.titleKey,
+    this.title,
   }) : super(key: key);
 
   @override
@@ -33,7 +35,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
                 shape: BoxShape.circle,
               )),
         ),
-        title: Text(AppLocalizations.of(context).translate(this.titleKey)),
+        title: Text(title ?? AppLocalizations.of(context).translate(this.titleKey ?? '')),
         backgroundColor: Theme.of(context).colorScheme.secondaryContainer);
   }
 
