@@ -71,6 +71,11 @@ abstract class _JoinTripStore with Store {
   }
 
   @action
+  void clearNearbyTrips() {
+    nearbyTripsFuture = emptyNearbyTripsResponse;
+  }
+
+  @action
   Future<List<Trip>> listNearbyTrips(
       double latitude, double longitude, String type) async {
     final future = _tripApi.listNearbyTrips(latitude, longitude, type);

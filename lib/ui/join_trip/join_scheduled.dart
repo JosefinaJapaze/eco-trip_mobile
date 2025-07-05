@@ -29,6 +29,7 @@ class _JoinScheduledScreenState extends State<JoinScheduledScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     _store = getIt<JoinTripStore>();
+    _store.clearNearbyTrips(); // Clear previous data
     _checkLocationPermissionAndGetPosition();
   }
 
@@ -138,7 +139,13 @@ class _JoinScheduledScreenState extends State<JoinScheduledScreen> {
                 SizedBox(height: 20),
                 Text("Viajes disponibles actualmente:"),
                 SizedBox(height: 20),
-                ..._buildTripList(),
+                Observer(
+                  builder: (context) {
+                    return Column(
+                      children: _buildTripList(),
+                    );
+                  },
+                ),
               ],
             ),
           ),

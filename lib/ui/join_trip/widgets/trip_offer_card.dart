@@ -130,14 +130,16 @@ class TripOfferCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Fecha de viaje',
+                      tripOffer.type == "frequent" ? 'Día y hora' : 'Fecha de viaje',
                       style: TextStyle(
                         color: Colors.grey,
                         fontSize: 12,
                       ),
                     ),
                     Text(
-                      "${DateFormat('dd/MM/yyyy').format(tripOffer.date)} ${tripOffer.timeOfDay}",
+                      tripOffer.type == "frequent" 
+                        ? "${tripOffer.dayOfWeek} ${tripOffer.timeOfDay}"
+                        : "${DateFormat('dd/MM/yyyy').format(tripOffer.date)} ${tripOffer.timeOfDay}",
                       style: TextStyle(
                         fontSize: 14,
                       ),
