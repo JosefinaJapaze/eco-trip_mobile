@@ -5,6 +5,7 @@ import 'package:ecotrip/di/components/service_locator.dart';
 import 'package:ecotrip/models/trip/trip.dart';
 import 'package:ecotrip/ui/new_trip/store/new_trip_store.dart';
 import 'package:ecotrip/utils/routes/routes.dart';
+import 'package:ecotrip/utils/time/time_utils.dart' as time_utils;
 import 'package:ecotrip/widgets/base_app_bar.dart';
 import 'package:ecotrip/widgets/progress_indicator_widget.dart';
 import 'package:flutter/material.dart';
@@ -43,17 +44,7 @@ class _CreateScheduledCalendarScreenState
     _store = getIt<NewTripStore>();
   }
 
-  String intSelectedTimeToString(int time) {
-    int minute = time % 100;
-    int hour = time ~/ 100;
-    if (time < 59) {
-      return '00:${minute.toString().padLeft(2, '0')}';
-    }
-    if (time < 1000) {
-      return '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}';
-    }
-    return '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}';
-  }
+
 
   bool canInsertTrip() {
     return startDate != null && 
@@ -315,12 +306,12 @@ class _CreateScheduledCalendarScreenState
         );
         if (time != null) {
           setState(() {
-            selectedHour = int.parse("${time.hour}${time.minute}");
+            selectedHour = time_utils.parseTimeOfDay("${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}");
           });
         }
       },
       child: selectedHour != null
-          ? Text(intSelectedTimeToString(selectedHour!))
+          ? Text(time_utils.intSelectedTimeToString(selectedHour!))
           : Text('Seleccionar hora...'),
     );
   }
