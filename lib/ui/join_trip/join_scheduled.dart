@@ -3,6 +3,7 @@ import 'package:ecotrip/di/components/service_locator.dart';
 import 'package:ecotrip/ui/join_trip/store/join_trip_store.dart';
 import 'package:ecotrip/ui/join_trip/widgets/trip_offer_card.dart';
 import 'package:ecotrip/utils/routes/routes.dart';
+import 'package:ecotrip/utils/time/time_utils.dart' as time_utils;
 import 'package:ecotrip/widgets/base_app_bar.dart';
 import 'package:ecotrip/widgets/navigate_widget.dart';
 import 'package:ecotrip/widgets/progress_indicator_widget.dart';
@@ -116,7 +117,7 @@ class _JoinScheduledScreenState extends State<JoinScheduledScreen> {
             fromLon: trip?.addressFrom?.longitude ?? 0,
             fromAddress: trip?.addressFrom?.address ?? "",
             toAddress: trip?.addressTo?.address ?? "",
-            timeOfDay: trip?.scheduledTripParams?.startTime ?? "",
+            timeOfDay: time_utils.intSelectedTimeToString(trip?.scheduledTripParams?.startTime ?? 0),
             dayOfWeek: trip?.frequentTripParams?.dayOfWeek?.name ?? "",
             date: trip?.scheduledTripParams?.startDate ?? DateTime.now(),
           ),
