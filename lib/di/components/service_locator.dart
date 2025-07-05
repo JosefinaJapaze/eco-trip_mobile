@@ -1,5 +1,6 @@
 import 'package:ecotrip/data/local/datasources/trip_datasource.dart';
 import 'package:ecotrip/data/network/apis/auth/auth_api.dart';
+import 'package:ecotrip/data/network/apis/chat/chat_api.dart';
 import 'package:ecotrip/data/network/apis/user/register_api.dart';
 import 'package:ecotrip/data/network/rest_client.dart';
 import 'package:ecotrip/data/repository.dart';
@@ -9,6 +10,7 @@ import 'package:ecotrip/stores/error/error_store.dart';
 import 'package:ecotrip/stores/form/form_store.dart';
 import 'package:ecotrip/stores/language/language_store.dart';
 import 'package:ecotrip/stores/theme/theme_store.dart';
+import 'package:ecotrip/ui/chats/store/chats_store.dart';
 import 'package:ecotrip/ui/join_trip/store/join_trip_store.dart';
 import 'package:ecotrip/ui/login/store/login_store.dart';
 import 'package:ecotrip/ui/my_trips/store/my_trips_store.dart';
@@ -48,6 +50,7 @@ Future<void> setupLocator() async {
   getIt
       .registerSingleton(RegisterApi(getIt<RestClient>(), getIt<Repository>()));
   getIt.registerSingleton(AuthApi(getIt<RestClient>()));
+  getIt.registerSingleton(ChatApi(getIt<RestClient>(), getIt<Repository>()));
 
   // stores:--------------------------------------------------------------------
   getIt.registerSingleton(FormStore(getIt<AuthApi>(), getIt<Repository>()));
@@ -61,4 +64,5 @@ Future<void> setupLocator() async {
       ValidationStepStore(getIt<RegisterApi>(), getIt<Repository>()));
   getIt.registerSingleton(JoinTripStore(getIt<TripApi>()));
   getIt.registerSingleton(MyTripsStore(getIt<TripApi>()));
+  getIt.registerSingleton(ChatsStore(getIt<ChatApi>()));
 }

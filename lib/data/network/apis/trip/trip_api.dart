@@ -6,7 +6,6 @@ import 'package:ecotrip/data/network/exceptions/network_exceptions.dart';
 import 'package:ecotrip/data/network/rest_client.dart';
 import 'package:ecotrip/data/repository.dart';
 import 'package:ecotrip/models/trip/trip.dart';
-import 'package:ecotrip/models/trip/trip_list.dart';
 
 class CreateTripAddress {
   String address;

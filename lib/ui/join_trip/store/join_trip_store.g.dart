@@ -114,6 +114,17 @@ mixin _$JoinTripStore on _JoinTripStore, Store {
   }
 
   @override
+  void clearNearbyTrips() {
+    final _$actionInfo = _$_JoinTripStoreActionController.startAction(
+        name: '_JoinTripStore.clearNearbyTrips');
+    try {
+      return super.clearNearbyTrips();
+    } finally {
+      _$_JoinTripStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 success: ${success},

@@ -16,6 +16,8 @@ class Endpoints {
   static const String register = "/register";
   static const String getPresignedURL = "/submissions/generate-presigned-url";
   static const String submitUserValidation = "/submissions";
+  static const String myChats = "/my-chats";
+  static const String messages = "/chats/messages";
 }
 
 String envMustExist(String key) {

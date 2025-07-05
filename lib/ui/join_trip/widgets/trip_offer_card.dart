@@ -1,4 +1,3 @@
-import 'package:ecotrip/ui/join_trip/store/join_trip_store.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
