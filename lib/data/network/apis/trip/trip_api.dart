@@ -80,7 +80,7 @@ class TripApi {
         "Authorization": "Bearer $token",
       }).then((dynamic res) {
         var resMap = res as Map<String, dynamic>;
-        var trips = resMap["Items"] as List<dynamic>;
+        var trips = resMap["Items"] as List<dynamic>? ?? [];
         return trips.map((e) => Trip.fromMap(e)).toList();
       }).catchError((e) {
         if (e is DioException) {
@@ -101,7 +101,7 @@ class TripApi {
         "Authorization": "Bearer $token",
       }).then((dynamic res) {
         var resMap = res as Map<String, dynamic>;
-        var trips = resMap["Items"] as List<dynamic>;
+        var trips = resMap["Items"] as List<dynamic>? ?? [];
         return trips.map((e) => Trip.fromMap(e)).toList();
       }).catchError((e) {
         if (e is DioException) {
