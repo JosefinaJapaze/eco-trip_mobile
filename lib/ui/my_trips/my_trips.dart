@@ -141,117 +141,141 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
   Card _buildTripHistoryCard(Trip trip) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      margin: EdgeInsets.all(15),
-      elevation: 10,
-      color: Theme.of(context).colorScheme.tertiary,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-            child: Container(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Sin iniciar',
-                  style: TextStyle(
-                      color: Colors.green, fontWeight: FontWeight.bold),
-                ),
-              ),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(15),
-              ),
-            ),
-          ),
-          ListTile(
-            subtitle: Container(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.call_made,
-                            color: Colors.black,
-                          ),
-                          Flexible(
-                            child: Text(
-                              trip.addressFrom?.address ?? 'N/A',
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ),
-                        ],
-                      ),
+      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      elevation: 3,
+      color: Color.fromARGB(255, 242, 255, 244),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        child: Column(
+          children: [
+            // Status and cost section
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Text(
+                    'Sin iniciar',
+                    style: TextStyle(
+                      color: Colors.green,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.call_received,
-                            color: Colors.black,
-                          ),
-                          Flexible(
-                            child: Text(
-                              trip.addressTo?.address ?? 'N/A',
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ),
-                        ],
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      "\$${trip.cost}",
+                      style: TextStyle(
+                        color: Colors.indigo,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
                       ),
                     ),
                   ],
                 ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  '\$${trip.cost}',
-                  style: TextStyle(
-                      color: Colors.indigo, fontWeight: FontWeight.bold),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Column(
-                    children: [
-                      TextButton(
-                          onPressed: () => {
-                                Navigator.of(context).pushNamed("/trip_route",
-                                    arguments: trip)
-                              },
-                          style: ButtonStyle(
-                              backgroundColor: WidgetStateProperty.resolveWith(
-                                  (states) => Colors.black),
-                              shape: WidgetStateProperty.all(StadiumBorder())),
-                          child: Text(
-                            'Recorrido',
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          )),
-                      Text(
-                        '02/05/2022',
-                        style: TextStyle(
-                            color: Colors.black45, fontWeight: FontWeight.bold),
-                      )
-                    ],
-                  ),
-                )
               ],
             ),
-          )
-        ],
+
+            SizedBox(height: 15),
+
+            // Route visualization
+            Row(
+              children: [
+                SizedBox(width: 10),
+                Column(
+                  children: [
+                    Icon(Icons.circle, color: Colors.lime, size: 12),
+                    Container(
+                      height: 30,
+                      width: 2,
+                      color: Colors.grey,
+                    ),
+                    Icon(Icons.circle, color: Colors.yellow, size: 12),
+                  ],
+                ),
+                SizedBox(width: 15),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        trip.addressFrom?.address ?? 'N/A',
+                        style: TextStyle(fontSize: 12),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      SizedBox(height: 20),
+                      Text(
+                        trip.addressTo?.address ?? 'N/A',
+                        style: TextStyle(fontSize: 12),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+
+            SizedBox(height: 15),
+
+            // Date and action button section
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        trip.type == "frequent" ? 'Día y hora' : 'Fecha de viaje',
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                        ),
+                      ),
+                      Text(
+                        trip.type == "frequent" 
+                          ? "Frecuente" // You might want to show actual day/time if available
+                          : "02/05/2022", // Replace with actual date from trip
+                        style: TextStyle(
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pushNamed("/trip_route", arguments: trip);
+                      },
+                      child: Text(
+                        'Recorrido',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
