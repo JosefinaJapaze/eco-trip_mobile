@@ -122,10 +122,14 @@ abstract class _ValidationStepStore with Store {
     switch (step) {
       case ValidationStep.first:
         currentStep = ValidationStep.first;
+        // Reset all state when starting a new validation process
+        userType = 'driver'; // Reset to default
         firstStepSuccess = false;
         secondStepSuccess = false;
         thirdStepSuccess = false;
         fourthStepSuccess = false;
+        success = false;
+        errorStore.errorMessage = '';
         break;
       case ValidationStep.second:
         currentStep = ValidationStep.second;

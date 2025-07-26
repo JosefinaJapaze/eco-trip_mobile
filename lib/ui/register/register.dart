@@ -183,6 +183,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         isObscure: true);
   }
 
+
+
   Widget _buildTextField(
       String hint, TextEditingController? controller, String error,
       {bool isObscure = false, TextInputFormatter? inputFormatter}) {
@@ -242,10 +244,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
           password: _passwordController.text,
           firstName: _nameController.text,
           lastName: _lastNameController.text,
-          gender: genderFromString(_genderController.text) ?? Gender.male,
+          gender: _genderController.text == "Masculino" ? Gender.male : Gender.female,
           birthDate: DateTime.now(), // TODO: parse age to date
           phone: int.parse(_phoneNumberController.text),
-          userType: "passenger",
+          userType: "passenger", // This will be updated during validation step
         ));
       },
       child: Text(
