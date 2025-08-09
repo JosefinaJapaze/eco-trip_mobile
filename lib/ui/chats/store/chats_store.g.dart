@@ -60,7 +60,7 @@ mixin _$ChatsStore on _ChatsStore, Store {
       AsyncAction('_ChatsStore.sendMessage', context: context);
 
   @override
-  Future<bool> sendMessage(String chatId, String message) {
+  Future<bool> sendMessage(int chatId, String message) {
     return _$sendMessageAsyncAction
         .run(() => super.sendMessage(chatId, message));
   }

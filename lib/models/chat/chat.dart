@@ -78,3 +78,79 @@ class Chat {
     "last_message_time": lastMessageTime?.toIso8601String(),
   };
 } 
+
+class ChatInfo {
+  int? id;
+  int? tripId;
+  DateTime? createdAt;
+  List<ChatParticipant>? participants;
+  int? messagesCount;
+  List<ChatMessage>? messages;
+
+  ChatInfo({
+    this.id,
+    this.tripId,
+    this.createdAt,
+    this.participants,
+    this.messagesCount,
+    this.messages,
+  });
+
+  factory ChatInfo.fromMap(Map<String, dynamic> json) => ChatInfo(
+    id: json["id"],
+    tripId: json["trip_id"],
+    createdAt: json["created_at"] != null 
+        ? DateTime.parse(json["created_at"]) 
+        : null,
+    participants: json["participants"] != null 
+        ? (json["participants"] as List<dynamic>).map((e) => ChatParticipant.fromMap(e)).toList()
+        : null,
+    messagesCount: json["messages_count"],
+    messages: json["messages"] != null 
+        ? (json["messages"] as List<dynamic>).map((e) => ChatMessage.fromMap(e)).toList()
+        : null,
+  );
+
+  Map<String, dynamic> toMap() => {
+    "id": id,
+    "trip_id": tripId,
+    "created_at": createdAt?.toIso8601String(),
+    "participants": participants?.map((e) => e.toMap()).toList(),
+    "messages_count": messagesCount,
+    "messages": messages?.map((e) => e.toMap()).toList(),
+  };
+}
+
+class ChatMessage {
+  int? id;
+  int? senderId;
+  int? chatId;
+  String? message;
+  DateTime? createdAt;
+
+  ChatMessage({
+    this.id,
+    this.senderId,
+    this.chatId,
+    this.message,
+    this.createdAt,
+  });
+
+  factory ChatMessage.fromMap(Map<String, dynamic> json) => ChatMessage(
+    id: json["id"],
+    senderId: json["sender_id"],
+    chatId: json["chat_id"],
+    message: json["message"],
+    createdAt: json["created_at"] != null 
+        ? DateTime.parse(json["created_at"]) 
+        : null,
+  );
+
+  Map<String, dynamic> toMap() => {
+    "id": id,
+    "sender_id": senderId,
+    "chat_id": chatId,
+    "message": message,
+    "created_at": createdAt?.toIso8601String(),
+  };
+}

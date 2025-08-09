@@ -27,7 +27,7 @@ class ChatApi {
     });
   }
 
-  Future<bool> sendMessage(String chatId, String message) async {
+  Future<bool> sendMessage(int chatId, String message) async {
     return _repository.authToken.then((token) {
       return _restClient.post(Endpoints.messages, headers: {
         "Authorization": "Bearer $token",
@@ -41,6 +41,21 @@ class ChatApi {
           print("Dio exception: ${e.message}; ${e.response}");
         }
         return false;
+      });
+    });
+  }
+
+  Future<ChatInfo> getChatInfo(int chatId) async {
+    return _repository.authToken.then((token) {
+      return _restClient.get(Endpoints.chats + "?chat_id=$chatId", headers: {
+          "Authorization": "Bearer $token",
+      }).then((dynamic res) {
+        return ChatInfo.fromMap(res);
+      }).catchError((e) {
+        if (e is DioException) {
+          print("Dio exception: ${e.message}; ${e.response}");
+        }
+        throw NetworkException(message: e.toString());
       });
     });
   }

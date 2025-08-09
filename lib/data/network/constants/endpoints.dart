@@ -18,6 +18,7 @@ class Endpoints {
   static const String submitUserValidation = "/submissions";
   static const String myChats = "/my-chats";
   static const String messages = "/chats/messages";
+  static const String chats = "/chats";
 }
 
 String envMustExist(String key) {

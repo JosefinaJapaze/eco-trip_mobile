@@ -131,12 +131,6 @@ class _ChatsScreenState extends State<ChatsScreen> {
             // Navigate to chat detail screen
             // Navigator.of(context).pushNamed("/chat_detail", arguments: chat);
             Navigator.of(context).pushNamed(Routes.chat, arguments: chat);
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text("Abrir chat del viaje #${chat.tripId}"),
-                duration: Duration(seconds: 2),
-              ),
-            );
           },
           borderRadius: BorderRadius.circular(12),
           child: Padding(
