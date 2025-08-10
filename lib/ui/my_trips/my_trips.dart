@@ -245,7 +245,9 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
                       Text(
                         trip.type == "frequent" 
                           ? "Frecuente" // You might want to show actual day/time if available
-                          : "02/05/2022", // Replace with actual date from trip
+                          : (trip.scheduledTripParams?.startDate != null
+                              ? trip.scheduledTripParams!.startDate!.toString().split(' ').first
+                              : 'N/A'),
                         style: TextStyle(
                           fontSize: 14,
                         ),
