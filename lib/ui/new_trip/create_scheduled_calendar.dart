@@ -44,13 +44,11 @@ class _CreateScheduledCalendarScreenState
     _store = getIt<NewTripStore>();
   }
 
-
-
   bool canInsertTrip() {
-    return startDate != null && 
-           selectedHour != null && 
-           _totalSeatsController.text.isNotEmpty && 
-           _costController.text.isNotEmpty;
+    return startDate != null &&
+        selectedHour != null &&
+        _totalSeatsController.text.isNotEmpty &&
+        _costController.text.isNotEmpty;
   }
 
   void showValidationError() {
@@ -232,13 +230,28 @@ class _CreateScheduledCalendarScreenState
             ],
           ),
         ),
+
+        // 👇 Observer que redirige a la pantalla de éxito y muestra errores
         Observer(
           builder: (context) {
-            return _store.success
-                ? navigate(context)
-                : _showErrorMessage(_store.errorStore.errorMessage);
+            if (_store.success) {
+              Future.microtask(() {
+                Navigator.of(context).pushReplacementNamed(Routes.trip_success);
+              });
+            }
+            if (_store.errorStore.errorMessage.isNotEmpty) {
+              Future.microtask(() {
+                FlushbarHelper.createError(
+                  message: _store.errorStore.errorMessage,
+                  title: "Error",
+                  duration: Duration(seconds: 3),
+                ).show(context);
+              });
+            }
+            return SizedBox.shrink();
           },
         ),
+
         Observer(
           builder: (context) {
             return Visibility(
@@ -252,8 +265,8 @@ class _CreateScheduledCalendarScreenState
   }
 
   Widget _buildTextButtonFindTrips(route) {
-    bool isValid = canInsertTrip();
-    
+    final isValid = canInsertTrip();
+
     return Padding(
       padding: const EdgeInsets.only(top: 30),
       child: Container(
@@ -316,7 +329,10 @@ class _CreateScheduledCalendarScreenState
         );
         if (time != null) {
           setState(() {
-            selectedHour = time_utils.parseTimeOfDay("${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}");
+            // 👇 sin tocar tu lógica de hora
+            selectedHour = time_utils.parseTimeOfDay(
+              "${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}",
+            );
           });
         }
       },

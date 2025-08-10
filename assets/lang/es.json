@@ -23,5 +23,6 @@
   "new_scheduled_title" : "Viajes programados",
   "join_frequent_trip_title" : "Viajes frecuentes",
   "join_scheduled_trip_title" : "Viajes programados",
-  "trip_route" : "Recorrido del viaje"
+  "trip_route" : "Recorrido del viaje",
+  "created_trip_success": "Viaje creado"
 }

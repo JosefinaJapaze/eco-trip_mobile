@@ -1,4 +1,4 @@
-  import 'package:ecotrip/ui/chats/chats.dart';
+import 'package:ecotrip/ui/chats/chats.dart';
 import 'package:ecotrip/ui/chats/chat_page.dart';
 import 'package:ecotrip/ui/home/home.dart';
 import 'package:ecotrip/ui/login/login.dart';
@@ -31,12 +31,14 @@ import 'package:ecotrip/ui/register/validate_data_step_three.dart';
 import 'package:ecotrip/ui/register/validate_data_step_two.dart';
 import 'package:ecotrip/ui/splash/splash.dart';
 import 'package:ecotrip/ui/my_trips/my_trips.dart';
+import 'package:ecotrip/ui/new_trip/create_trip_success.dart';
+
 import 'package:flutter/material.dart';
 
 class Routes {
   Routes._();
 
-  //static variables
+  // static variables
   static const String splash = '/splash';
   static const String login = '/login';
   static const String register = '/register';
@@ -53,70 +55,59 @@ class Routes {
   static const String new_frequent = '/new_frequent';
   static const String join_frequent_trip = '/join_frequent_trip';
   static const String join_frequent_trip_map = '/join_frequent_trip_map';
-  static const String join_frequent_trip_calendar =
-      '/join_frequent_trip_calendar';
+  static const String join_frequent_trip_calendar = '/join_frequent_trip_calendar';
   static const String join_frequent_trip_matchs = '/join_frequent_trip_matchs';
   static const String create_frequent_trip_map = '/create_frequent_trip_map';
-  static const String create_frequent_trip_calendar =
-      '/create_frequent_trip_calendar';
+  static const String create_frequent_trip_calendar = '/create_frequent_trip_calendar';
   static const String join_request = '/join_request';
   static const String create_request = '/create_request';
   static const String new_scheduled = '/new_scheduled';
   static const String join_scheduled_trip = '/join_scheduled_trip';
   static const String join_scheduled_trip_map = '/join_scheduled_trip_map';
-  static const String join_scheduled_trip_calendar =
-      '/join_scheduled_trip_calendar';
-  static const String join_scheduled_trip_matchs =
-      '/join_scheduled_trip_matchs';
+  static const String join_scheduled_trip_calendar = '/join_scheduled_trip_calendar';
+  static const String join_scheduled_trip_matchs = '/join_scheduled_trip_matchs';
   static const String create_scheduled_trip_map = '/create_scheduled_trip_map';
-  static const String create_scheduled_trip_calendar =
-      '/create_scheduled_trip_calendar';
+  static const String create_scheduled_trip_calendar = '/create_scheduled_trip_calendar';
   static const String pay_request = '/pay_request';
   static const String pay_trip = '/pay_trip';
   static const String trip_route = '/trip_route';
   static const String chat = '/chat';
+  static const String trip_success = '/trip_success';
 
   static final routes = <String, WidgetBuilder>{
-    splash: (BuildContext context) => SplashScreen(),
-    login: (BuildContext context) => LoginScreen(),
-    register: (BuildContext context) => RegisterScreen(),
-    validate_data_step_one: (BuildContext context) => ValidateDataStepOne(),
-    validate_data_step_two: (BuildContext context) => ValidateDataStepTwo(),
-    validate_data_step_three: (BuildContext context) => ValidateDataStepThree(),
-    validate_data_step_four: (BuildContext context) => ValidateDataStepFour(),
-    register_success: (BuildContext context) => RegisterSuccessScreen(),
-    home: (BuildContext context) => HomeScreen(),
-    my_trips: (BuildContext context) => MyTripsScreen(),
-    new_trip: (BuildContext context) => NewTripScreen(),
-    my_wallet: (BuildContext context) => MyWalletScreen(),
-    chats: (BuildContext context) => ChatsScreen(),
-    chat: (BuildContext context) => ChatPage(),
-    new_frequent: (BuildContext context) => NewFrequentScreen(),
-    join_frequent_trip: (BuildContext context) => JoinFrequentScreen(),
-    join_frequent_trip_map: (BuildContext context) => JoinFrequentMapScreen(),
-    join_frequent_trip_calendar: (BuildContext context) =>
-        JoinFrequentCalendarScreen(),
-    join_frequent_trip_matchs: (BuildContext context) =>
-        JoinFrequentMatchsScreen(),
-    create_frequent_trip_map: (BuildContext context) =>
-        CreateFrequentMapScreen(),
-    create_frequent_trip_calendar: (BuildContext context) =>
-        CreateFrequentCalendarScreen(),
-    new_scheduled: (BuildContext context) => NewScheduledScreen(),
-    join_scheduled_trip: (BuildContext context) => JoinScheduledScreen(),
-    join_scheduled_trip_map: (BuildContext context) => JoinScheduledMapScreen(),
-    join_scheduled_trip_calendar: (BuildContext context) =>
-        JoinScheduledCalendarScreen(),
-    join_scheduled_trip_matchs: (BuildContext context) =>
-        JoinScheduledMatchsScreen(),
-    create_scheduled_trip_map: (BuildContext context) =>
-        CreateScheduledMapScreen(),
-    create_scheduled_trip_calendar: (BuildContext context) =>
-        CreateScheduledCalendarScreen(),
-    join_request: (BuildContext context) => JoinRequestScreen(),
-    pay_request: (BuildContext context) => PayRequestScreen(),
-    create_request: (BuildContext context) => CreateRequestScreen(),
-    pay_trip: (BuildContext context) => PayTripScreen(),
-    trip_route: (BuildContext context) => TripRouteScreen()
+    splash: (_) => SplashScreen(),
+    login: (_) => LoginScreen(),
+    register: (_) => RegisterScreen(),
+    validate_data_step_one: (_) => ValidateDataStepOne(),
+    validate_data_step_two: (_) => ValidateDataStepTwo(),
+    validate_data_step_three: (_) => ValidateDataStepThree(),
+    validate_data_step_four: (_) => ValidateDataStepFour(),
+    register_success: (_) => RegisterSuccessScreen(),
+    home: (_) => HomeScreen(),
+    my_trips: (_) => MyTripsScreen(),
+    new_trip: (_) => NewTripScreen(),
+    my_wallet: (_) => MyWalletScreen(),
+    chats: (_) => ChatsScreen(),
+    chat: (_) => ChatPage(),
+    new_frequent: (_) => NewFrequentScreen(),
+    join_frequent_trip: (_) => JoinFrequentScreen(),
+    join_frequent_trip_map: (_) => JoinFrequentMapScreen(),
+    join_frequent_trip_calendar: (_) => JoinFrequentCalendarScreen(),
+    join_frequent_trip_matchs: (_) => JoinFrequentMatchsScreen(),
+    create_frequent_trip_map: (_) => CreateFrequentMapScreen(),
+    create_frequent_trip_calendar: (_) => CreateFrequentCalendarScreen(),
+    new_scheduled: (_) => NewScheduledScreen(),
+    join_scheduled_trip: (_) => JoinScheduledScreen(),
+    join_scheduled_trip_map: (_) => JoinScheduledMapScreen(),
+    join_scheduled_trip_calendar: (_) => JoinScheduledCalendarScreen(),
+    join_scheduled_trip_matchs: (_) => JoinScheduledMatchsScreen(),
+    create_scheduled_trip_map: (_) => CreateScheduledMapScreen(),
+    create_scheduled_trip_calendar: (_) => CreateScheduledCalendarScreen(),
+    join_request: (_) => JoinRequestScreen(),
+    create_request: (_) => CreateRequestScreen(),
+    pay_request: (_) => PayRequestScreen(),
+    pay_trip: (_) => PayTripScreen(),
+    trip_route: (_) => TripRouteScreen(),
+    trip_success: (_) => const TripSuccessScreen(),
   };
 }
