@@ -119,8 +119,15 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
         _tripStore.tripsFuture.value == null ||
         _tripStore.tripsFuture.value!.isEmpty) {
       return <Widget>[
-        Text("No se poseen viajes programados actualmente."
-            "Puedes crear o unirte a un viaje desde la pestaña Nuevo Viaje")
+        Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Center(
+            child: Text(
+              "No se poseen viajes programados actualmente. Puedes crear o unirte a un viaje desde la pestaña Nuevo Viaje",
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
       ];
     }
 
