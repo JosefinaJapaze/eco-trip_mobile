@@ -131,8 +131,8 @@ class _CreateFrequentCalendarScreenState
   Widget build(BuildContext context) {
     final Map<String, dynamic> args =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    geoPointDestination = args['origin'];
-    geoPointOrigin = args['destination'];
+    geoPointOrigin = args['origin'];
+    geoPointDestination = args['destination'];
     return Scaffold(
       appBar: BaseAppBar(titleKey: 'join_frequent_trip_title'),
       body: _buildBody(),
