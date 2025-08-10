@@ -96,19 +96,19 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
                 ),
               )),
           TextButton(
-              onPressed: () => {
-                    setState(() {
-                      displayFrequent = true;
-                    })
-                  },
-              child: Text(
-                'Viajes frecuentes',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: displayFrequent ? 16 : 14,
-                ),
+            onPressed: () => {
+              setState(() {
+                displayFrequent = true;
+              })
+            },
+            child: Text(
+              'Viajes frecuentes',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: displayFrequent ? 16 : 14,
               ),
-              )
+            ),
+          )
         ]),
       ),
     );
@@ -243,18 +243,23 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        trip.type == "frequent" ? 'Día y hora' : 'Fecha de viaje',
+                        trip.type == "frequent"
+                            ? 'Día y hora'
+                            : 'Fecha de viaje',
                         style: TextStyle(
                           color: Colors.grey,
                           fontSize: 12,
                         ),
                       ),
                       Text(
-                        trip.type == "frequent" 
-                          ? "Frecuente" // You might want to show actual day/time if available
-                          : (trip.scheduledTripParams?.startDate != null
-                              ? trip.scheduledTripParams!.startDate!.toString().split(' ').first
-                              : 'N/A'),
+                        trip.type == "frequent"
+                            ? "Frecuente" // You might want to show actual day/time if available
+                            : (trip.scheduledTripParams?.startDate != null
+                                ? trip.scheduledTripParams!.startDate!
+                                    .toString()
+                                    .split(' ')
+                                    .first
+                                : 'N/A'),
                         style: TextStyle(
                           fontSize: 14,
                         ),
@@ -269,7 +274,8 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
                     ),
                     child: TextButton(
                       onPressed: () {
-                        Navigator.of(context).pushNamed("/trip_route", arguments: trip);
+                        Navigator.of(context)
+                            .pushNamed("/trip_route", arguments: trip);
                       },
                       child: Text(
                         'Recorrido',

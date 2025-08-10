@@ -90,8 +90,15 @@ class Trip {
       longitude: json["ToLon"],
     ),
     frequentTripParams: FrequentTripParams(
-      dayOfWeek: json["DayOfWeek"] != null ? json["DayOfWeek"] != "" ? DayOfWeek.values.firstWhere((e) => e.toString() == json["DayOfWeek"]) : null : null,
-      startTime: json["StartTime"],
+      dayOfWeek: json["DayOfWeek"] != null && json["DayOfWeek"] != ""
+          ? DayOfWeek.values.firstWhere(
+              (e) => e.name.toLowerCase() == json["DayOfWeek"].toLowerCase(),
+              orElse: () => DayOfWeek.LUNES,
+            )
+          : null,
+      startTime: json["TimeOfDay"] is String && json["TimeOfDay"].isNotEmpty
+          ? parseTimeOfDay(json["TimeOfDay"])
+          : null,
     ),
     scheduledTripParams: ScheduledTripParams(
       startDate: json["StartDate"] != null ? DateTime.parse(json["StartDate"]) : null,
