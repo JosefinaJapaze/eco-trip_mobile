@@ -6,7 +6,7 @@ name: ecotrip
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 1.6.0+1
+version: 1.7.0+1
 
 environment:
   sdk: ^3.5.4

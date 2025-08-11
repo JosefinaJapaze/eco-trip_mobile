@@ -96,7 +96,7 @@ class RestClient {
     final client = Dio();
     client.options.baseUrl = Endpoints.host + Endpoints.baseUrl;
     client.options.headers = {
-      'X-App-Version': '1.6.0',
+      'X-App-Version': '1.7.0',
     };
 
     if (dotenv.env['ENV'] == 'dev') {
