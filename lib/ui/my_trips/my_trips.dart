@@ -261,7 +261,7 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
                                 ? trip.scheduledTripParams!.startDate!
                                     .toString()
                                     .split(' ')
-                                    .first
+                                    .first + " " + intSelectedTimeToString(trip.scheduledTripParams!.startTime!)
                                 : 'N/A'),
                         style: TextStyle(
                           fontSize: 14,
