@@ -1,5 +1,6 @@
 import 'package:ecotrip/di/components/service_locator.dart';
 import 'package:ecotrip/ui/my_trips/store/my_trips_store.dart';
+import 'package:ecotrip/utils/time/time_utils.dart';
 import 'package:ecotrip/widgets/base_app_bar.dart';
 import 'package:ecotrip/widgets/progress_indicator_widget.dart';
 import 'package:flutter/material.dart';
@@ -253,7 +254,9 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
                       ),
                       Text(
                         trip.type == "frequent"
-                            ? "Frecuente" // You might want to show actual day/time if available
+                            ? (trip.frequentTripParams?.dayOfWeek != null
+                                ? trip.frequentTripParams!.dayOfWeek!.name.toLowerCase() + " " + intSelectedTimeToString(trip.frequentTripParams!.startTime!)
+                                : 'N/A')
                             : (trip.scheduledTripParams?.startDate != null
                                 ? trip.scheduledTripParams!.startDate!
                                     .toString()
